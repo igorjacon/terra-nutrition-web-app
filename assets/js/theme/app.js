@@ -1,7 +1,7 @@
 /*
 Template Name: Velzon - Admin & Dashboard Template
 Author: Themesbrand
-Version: 2.4.0
+Version: 3.0.0
 Website: https://Themesbrand.com/
 Contact: Themesbrand@gmail.com
 File: Main Js File
@@ -18,64 +18,64 @@ File: Main Js File
 	var default_lang = "en"; // set Default Language
 	var language = localStorage.getItem("language");
 
-	function initLanguage() {
-		// Set new language
-		(language === null) ? setLanguage(default_lang) : setLanguage(language);
-		var languages = document.getElementsByClassName("language");
-		languages && Array.from(languages).forEach(function (dropdown) {
-			dropdown.addEventListener("click", function (event) {
-				setLanguage(dropdown.getAttribute("data-lang"));
-			});
-		});
-	}
-
-	function setLanguage(lang) {
-		if (document.getElementById("header-lang-img")) {
-			if (lang == "en") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/us.svg";
-			} else if (lang == "sp") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/spain.svg";
-			} else if (lang == "gr") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/germany.svg";
-			} else if (lang == "it") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/italy.svg";
-			} else if (lang == "ru") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/russia.svg";
-			} else if (lang == "ch") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/china.svg";
-			} else if (lang == "fr") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/french.svg";
-			} else if (lang == "ar") {
-				document.getElementById("header-lang-img").src = domain + "build/images/flags/ae.svg";
-			}
-			localStorage.setItem("language", lang);
-			language = localStorage.getItem("language");
-			getLanguage();
-		}
-	}
-
-	// Multi language setting
-	function getLanguage() {
-		language == null ? setLanguage(default_lang) : false;
-		var request = new XMLHttpRequest();
-		// Instantiating the request object
-		request.open("GET", domain + "build/lang/" + language + ".json");
-		// Defining event listener for readystatechange event
-		request.onreadystatechange = function () {
-			// Check if the request is compete and was successful
-			if (this.readyState === 4 && this.status === 200) {
-				var data = JSON.parse(this.responseText);
-				Object.keys(data).forEach(function (key) {
-					var elements = document.querySelectorAll("[data-key='" + key + "']");
-					Array.from(elements).forEach(function (elem) {
-						elem.textContent = data[key];
-					});
-				});
-			}
-		};
-		// Sending the request to the server
-		request.send();
-	}
+	// function initLanguage() {
+	// 	// Set new language
+	// 	(language === null) ? setLanguage(default_lang) : setLanguage(language);
+	// 	var languages = document.getElementsByClassName("language");
+	// 	languages && Array.from(languages).forEach(function (dropdown) {
+	// 		dropdown.addEventListener("click", function (event) {
+	// 			setLanguage(dropdown.getAttribute("data-lang"));
+	// 		});
+	// 	});
+	// }
+	//
+	// function setLanguage(lang) {
+	// 	if (document.getElementById("header-lang-img")) {
+	// 		if (lang == "en") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/us.svg";
+	// 		} else if (lang == "sp") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/spain.svg";
+	// 		} else if (lang == "gr") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/germany.svg";
+	// 		} else if (lang == "it") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/italy.svg";
+	// 		} else if (lang == "ru") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/russia.svg";
+	// 		} else if (lang == "ch") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/china.svg";
+	// 		} else if (lang == "fr") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/french.svg";
+	// 		} else if (lang == "ar") {
+	// 			document.getElementById("header-lang-img").src = domain + "images/flags/ae.svg";
+	// 		}
+	// 		localStorage.setItem("language", lang);
+	// 		language = localStorage.getItem("language");
+	// 		getLanguage();
+	// 	}
+	// }
+	//
+	// // Multi language setting
+	// function getLanguage() {
+	// 	language == null ? setLanguage(default_lang) : false;
+	// 	var request = new XMLHttpRequest();
+	// 	// Instantiating the request object
+	// 	request.open("GET", domain + "lang/" + language + ".json");
+	// 	// Defining event listener for readystatechange event
+	// 	request.onreadystatechange = function () {
+	// 		// Check if the request is compete and was successful
+	// 		if (this.readyState === 4 && this.status === 200) {
+	// 			var data = JSON.parse(this.responseText);
+	// 			Object.keys(data).forEach(function (key) {
+	// 				var elements = document.querySelectorAll("[data-key='" + key + "']");
+	// 				Array.from(elements).forEach(function (elem) {
+	// 					elem.textContent = data[key];
+	// 				});
+	// 			});
+	// 		}
+	// 	};
+	// 	// Sending the request to the server
+	// 	request.send();
+	// }
 
 	function pluginData() {
 		/**
@@ -351,7 +351,7 @@ File: Main Js File
 					e.stopPropagation();
 					var childCollapses = collapse.querySelectorAll(".collapse");
 					Array.from(childCollapses).forEach(function (childCollapse) {
-						childCollapseInstance = bootstrap.Collapse.getInstance(childCollapse);
+						let childCollapseInstance = bootstrap.Collapse.getInstance(childCollapse);
 						childCollapseInstance.hide();
 					});
 				});
@@ -372,7 +372,7 @@ File: Main Js File
 				document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
 			}
 			var ul = document.createElement("ul");
-			ul.innerHTML = '<a href="#" class="logo"><img src="buld/images/logo-sm.png" alt="" height="22"></a>';
+			ul.innerHTML = '<a href="#" class="logo"><img src="images/logo-sm.png" alt="" height="22"></a>';
 			Array.from(document.getElementById("navbar-nav").querySelectorAll(".menu-link")).forEach(function (item) {
 				ul.className = "twocolumn-iconview";
 				var li = document.createElement("li");
@@ -417,42 +417,42 @@ File: Main Js File
 				}
 			}
 			// add all sidebar menu icons
-			// document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
+			document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
 
 			// show submenu on sidebar menu click
-			// Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
-			// 	var currentPath = location.pathname == "/" ? "/" : location.pathname.substring(1);
-			// 	currentPath = (currentPath == "/") ? "/" : currentPath.substring(currentPath.lastIndexOf("/") + 1);
-			// 	element.addEventListener("click", function (e) {
-			// 		if (!(currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")))
-			// 			document.body.classList.contains("twocolumn-panel") ? document.body.classList.remove("twocolumn-panel") : "";
-			// 		document.getElementById("navbar-nav").classList.remove("twocolumn-nav-hide");
-			// 		document.querySelector(".hamburger-icon").classList.remove("open");
-			// 		if ((e.target && e.target.matches("a.nav-icon")) || (e.target && e.target.matches("i"))) {
-			// 			if (document.querySelector("#two-column-menu ul .nav-icon.active") !== null)
-			// 				document.querySelector("#two-column-menu ul .nav-icon.active").classList.remove("active");
-			// 			e.target.matches("i") ? e.target.closest("a").classList.add("active") : e.target.classList.add("active");
-			//
-			// 			var twoColumnItem = document.getElementsByClassName("twocolumn-item-show");
-			//
-			// 			twoColumnItem.length > 0 ? twoColumnItem[0].classList.remove("twocolumn-item-show") : "";
-			//
-			// 			var currentMenu = e.target.matches("i") ? e.target.closest("a") : e.target;
-			// 			var childMenusId = currentMenu.getAttribute("href").slice(1);
-			// 			if (document.getElementById(childMenusId))
-			// 				document.getElementById(childMenusId).parentElement.classList.add("twocolumn-item-show");
-			// 		}
-			// 	});
-			//
-			// 	// add active class to the sidebar menu icon who has direct link
-			// 	if (currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")) {
-			// 		element.classList.add("active");
-			// 		document.getElementById("navbar-nav").classList.add("twocolumn-nav-hide");
-			// 		if (document.querySelector(".hamburger-icon")) {
-			// 			document.querySelector(".hamburger-icon").classList.add("open");
-			// 		}
-			// 	}
-			// });
+			Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
+				var currentPath = location.pathname == "/" ? "/" : location.pathname.substring(1);
+				currentPath = (currentPath == "/") ? "/" : currentPath.substring(currentPath.lastIndexOf("/") + 1);
+				element.addEventListener("click", function (e) {
+					if (!(currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")))
+						document.body.classList.contains("twocolumn-panel") ? document.body.classList.remove("twocolumn-panel") : "";
+					document.getElementById("navbar-nav").classList.remove("twocolumn-nav-hide");
+					document.querySelector(".hamburger-icon").classList.remove("open");
+					if ((e.target && e.target.matches("a.nav-icon")) || (e.target && e.target.matches("i"))) {
+						if (document.querySelector("#two-column-menu ul .nav-icon.active") !== null)
+							document.querySelector("#two-column-menu ul .nav-icon.active").classList.remove("active");
+						e.target.matches("i") ? e.target.closest("a").classList.add("active") : e.target.classList.add("active");
+
+						var twoColumnItem = document.getElementsByClassName("twocolumn-item-show");
+
+						twoColumnItem.length > 0 ? twoColumnItem[0].classList.remove("twocolumn-item-show") : "";
+
+						var currentMenu = e.target.matches("i") ? e.target.closest("a") : e.target;
+						var childMenusId = currentMenu.getAttribute("href").slice(1);
+						if (document.getElementById(childMenusId))
+							document.getElementById(childMenusId).parentElement.classList.add("twocolumn-item-show");
+					}
+				});
+
+				// add active class to the sidebar menu icon who has direct link
+				if (currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")) {
+					element.classList.add("active");
+					document.getElementById("navbar-nav").classList.add("twocolumn-nav-hide");
+					if (document.querySelector(".hamburger-icon")) {
+						document.querySelector(".hamburger-icon").classList.add("open");
+					}
+				}
+			});
 
 			var currentLayout = document.documentElement.getAttribute("data-layout");
 			if (currentLayout !== "horizontal") {
@@ -606,7 +606,7 @@ File: Main Js File
 		 * Vertical layout menu scroll add
 		 */
 		if (document.documentElement.getAttribute("data-layout") == "vertical" || document.documentElement.getAttribute("data-layout") == "semibox") {
-			// document.getElementById("two-column-menu").innerHTML = "";
+			document.getElementById("two-column-menu").innerHTML = "";
 			if (document.querySelector(".navbar-menu")) {
 				document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
 			}
@@ -770,7 +770,7 @@ File: Main Js File
 				document.body.classList.remove("vertical-sidebar-enable");
 				document.documentElement.getAttribute("data-sidebar-size") == "sm" ?
 					document.documentElement.setAttribute("data-sidebar-size", "") :
-					document.documentElement.setAttribute("data-sidebar-size", "sm");				
+					document.documentElement.setAttribute("data-sidebar-size", "sm");
 			} else if (windowSize > 1025) {
 				document.body.classList.remove("vertical-sidebar-enable");
 				document.documentElement.getAttribute("data-sidebar-size") == "lg" ?
@@ -856,13 +856,13 @@ File: Main Js File
 		var defaultValues = JSON.parse(isValues);
 		var windowSize = document.documentElement.clientWidth;
 
-		// if (defaultValues["data-layout"] == "twocolumn" && windowSize < 767) {
-		// 	Array.from(document.getElementById("two-column-menu").querySelectorAll("li")).forEach(function (item) {
-		// 		item.addEventListener("click", function (e) {
-		// 			document.body.classList.remove("twocolumn-panel");
-		// 		});
-		// 	});
-		// }
+		if (defaultValues["data-layout"] == "twocolumn" && windowSize < 767) {
+			Array.from(document.getElementById("two-column-menu").querySelectorAll("li")).forEach(function (item) {
+				item.addEventListener("click", function (e) {
+					document.body.classList.remove("twocolumn-panel");
+				});
+			});
+		}
 	}
 
 	// page topbar class added
@@ -880,9 +880,9 @@ File: Main Js File
 		var currentPath = location.pathname == "/" ? "/" : location.pathname.substring(1);
 		currentPath = (currentPath == "/") ? "/" : currentPath.substring(currentPath.lastIndexOf("/") + 1);
 		if (currentPath) {
-			// if (document.body.className == "twocolumn-panel") {
-			// 	document.getElementById("two-column-menu").querySelector('[href="' + currentPath + '"]').classList.add("active");
-			// }
+			if (document.body.className == "twocolumn-panel") {
+				document.getElementById("two-column-menu").querySelector('[href="' + currentPath + '"]').classList.add("active");
+			}
 			// navbar-nav
 			var a = document.getElementById("navbar-nav").querySelector('[href="' + currentPath + '"]');
 			if (a) {
@@ -896,17 +896,17 @@ File: Main Js File
 						var menuIdSub = parentCollapseDiv.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").getAttribute("id");
 						parentCollapseDiv.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show");
 						parentCollapseDiv.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.remove("twocolumn-item-show");
-						// if (document.getElementById("two-column-menu").querySelector('[href="#' + menuIdSub + '"]'))
-						// 	document.getElementById("two-column-menu").querySelector('[href="#' + menuIdSub + '"]').classList.add("active");
+						if (document.getElementById("two-column-menu").querySelector('[href="#' + menuIdSub + '"]'))
+							document.getElementById("two-column-menu").querySelector('[href="#' + menuIdSub + '"]').classList.add("active");
 					}
 					var menuId = parentCollapseDiv.parentElement.closest(".collapse.menu-dropdown").getAttribute("id");
-					// if (document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]'))
-					// 	document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]').classList.add("active");
+					if (document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]'))
+						document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]').classList.add("active");
 				} else {
 					a.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show");
 					var menuId = parentCollapseDiv.getAttribute("id");
-					// if (document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]'))
-					// 	document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]').classList.add("active");
+					if (document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]'))
+						document.getElementById("two-column-menu").querySelector('[href="#' + menuId + '"]').classList.add("active");
 				}
 			} else {
 				document.body.classList.add("twocolumn-panel");
@@ -1030,10 +1030,10 @@ File: Main Js File
 						if (!emptyNotificationElem) {
 							elem.innerHTML += '<div class="empty-notification-elem">\
 							<div class="w-25 w-sm-50 pt-3 mx-auto">\
-								<img src="'+ domain + 'build/images/svg/bell.svg" class="img-fluid" alt="user-pic">\
+								<img src="'+ domain + 'images/svg/bell.svg" class="img-fluid" alt="user-pic">\
 							</div>\
 							<div class="text-center pb-5 mt-2">\
-								<h6 class="fs-18 fw-semibold lh-base">Hey! You do not have any notifications </h6>\
+								<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\
 							</div>\
 						</div>'
 						}
@@ -1057,94 +1057,27 @@ File: Main Js File
 					document.getElementById("select-content").innerHTML = checkedCount
 				});
 
-				// var notificationDropdown = document.getElementById('notificationDropdown')
-				// notificationDropdown.addEventListener('hide.bs.dropdown', function (event) {
-				// 	element.checked = false;
-				// 	document.querySelectorAll('.notification-item').forEach(function (item) {
-				// 		item.classList.remove("active");
-				// 	})
-				// 	document.getElementById('notification-actions').style.display = '';
-				// });
+				var notificationDropdown = document.getElementById('notificationDropdown')
+				notificationDropdown.addEventListener('hide.bs.dropdown', function (event) {
+					element.checked = false;
+					document.querySelectorAll('.notification-item').forEach(function (item) {
+						item.classList.remove("active");
+					})
+					document.getElementById('notification-actions').style.display = '';
+				});
 			});
 
-			if (document.getElementById('all-notifications-check')) {
-				var selectAllNotificationsAll = document.getElementById('all-notifications-check');
-				selectAllNotificationsAll.addEventListener("change", function (event) {
-					document.querySelectorAll('#all .notification-check input').forEach(function (el) {
-						el.checked = selectAllNotificationsAll.checked;
-						el.closest(".notification-item").classList.toggle("active");
-
-						var checkedCount = document.querySelectorAll('.notification-check input:checked').length;
-
-						if (el.closest(".notification-item").classList.contains("active")) {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						} else {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						}
-						document.getElementById("select-content").innerHTML = checkedCount;
-					})
-				});
-			}
-
-			if (document.getElementById('notification-check')) {
-				var selectAllNotificationsNotif = document.getElementById('notification-check');
-				selectAllNotificationsNotif.addEventListener("change", function (event) {
-					document.querySelectorAll('#notifications .notification-check input').forEach(function (el) {
-						el.checked = selectAllNotificationsNotif.checked;
-						el.closest(".notification-item").classList.toggle("active");
-
-						var checkedCount = document.querySelectorAll('.notification-check input:checked').length;
-
-						if (el.closest(".notification-item").classList.contains("active")) {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						} else {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						}
-						document.getElementById("select-content").innerHTML = checkedCount;
-					})
-				});
-			}
-
-			if (document.getElementById('action-item-check')) {
-				var selectAllNotificationsActionItems = document.getElementById('action-item-check');
-				selectAllNotificationsActionItems.addEventListener("change", function (event) {
-					document.querySelectorAll('#action-items .notification-check input').forEach(function (el) {
-						el.checked = selectAllNotificationsActionItems.checked;
-						el.closest(".notification-item").classList.toggle("active");
-
-						var checkedCount = document.querySelectorAll('.notification-check input:checked').length;
-
-						if (el.closest(".notification-item").classList.contains("active")) {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						} else {
-							(checkedCount > 0) ? document.getElementById("notification-actions").style.display = 'block' : document.getElementById("notification-actions").style.display = 'none';
-						}
-						document.getElementById("select-content").innerHTML = checkedCount;
-					})
-				});
-			}
-
 			var removeItem = document.getElementById('removeNotificationModal');
-			var itemsProcessed = 0;
 			removeItem.addEventListener('show.bs.modal', function (event) {
 				document.getElementById("delete-notification").addEventListener("click", function () {
 					Array.from(document.querySelectorAll(".notification-item")).forEach(function (element) {
 						if (element.classList.contains("active")) {
-							simpleAjax(
-								"GET",
-								element.querySelector(".hide-url").innerText
-							);
 							element.remove();
-							itemsProcessed++;
 						}
 					});
 					emptyNotification();
+
 					document.getElementById("NotificationModalbtn-close").click();
-					console.log(document.querySelectorAll(".notification-item").length);
-					console.log(itemsProcessed);
-					if (itemsProcessed >= document.querySelectorAll(".notification-item").length) {
-						window.location.reload();
-					}
 				})
 			})
 		}
@@ -1173,27 +1106,27 @@ File: Main Js File
 		var counter = document.querySelectorAll(".counter-value");
 		var speed = 250; // The lower the slower
 		counter &&
-			Array.from(counter).forEach(function (counter_value) {
-				function updateCount() {
-					var target = +counter_value.getAttribute("data-target");
-					var count = +counter_value.innerText;
-					var inc = target / speed;
-					if (inc < 1) {
-						inc = 1;
-					}
-					// Check if target is reached
-					if (count < target) {
-						// Add inc to count and output in counter_value
-						counter_value.innerText = (count + inc).toFixed(0);
-						// Call function every ms
-						setTimeout(updateCount, 1);
-					} else {
-						counter_value.innerText = numberWithCommas(target);
-					}
-					numberWithCommas(counter_value.innerText);
+		Array.from(counter).forEach(function (counter_value) {
+			function updateCount() {
+				var target = +counter_value.getAttribute("data-target");
+				var count = +counter_value.innerText;
+				var inc = target / speed;
+				if (inc < 1) {
+					inc = 1;
 				}
-				updateCount();
-			});
+				// Check if target is reached
+				if (count < target) {
+					// Add inc to count and output in counter_value
+					counter_value.innerText = (count + inc).toFixed(0);
+					// Call function every ms
+					setTimeout(updateCount, 1);
+				} else {
+					counter_value.innerText = numberWithCommas(target);
+				}
+				numberWithCommas(counter_value.innerText);
+			}
+			updateCount();
+		});
 
 		function numberWithCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1201,7 +1134,7 @@ File: Main Js File
 	}
 
 	function updateHorizontalMenus() {
-		// document.getElementById("two-column-menu").innerHTML = "";
+		document.getElementById("two-column-menu").innerHTML = "";
 		if (document.querySelector(".navbar-menu")) {
 			document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
 		}
@@ -1215,33 +1148,33 @@ File: Main Js File
 		var newMenus = "";
 		var splitItem = "";
 
-		// Array.from(menuData).forEach(function (item, index) {
-		// 	if (index + 1 === splitMenu) {
-		// 		splitItem = item;
-		// 	}
-		// 	if (index + 1 > splitMenu) {
-		// 		newMenus += item.outerHTML;
-		// 		item.remove();
-		// 	}
+		Array.from(menuData).forEach(function (item, index) {
+			if (index + 1 === splitMenu) {
+				splitItem = item;
+			}
+			if (index + 1 > splitMenu) {
+				newMenus += item.outerHTML;
+				item.remove();
+			}
 
-			// if (index + 1 === menuData.length) {
-			// 	if (splitItem.insertAdjacentHTML) {
-			// 		splitItem.insertAdjacentHTML(
-			// 			"afterend",
-			// 			'<li class="nav-item">\
-			// 			<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
-			// 				<i class="ri-briefcase-2-line"></i> ' + extraMenuName + '\
-			// 			</a>\
-			// 			<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
-			// 		</li>");
-			// 	}
-			// }
-		// });
+			if (index + 1 === menuData.length) {
+				if (splitItem.insertAdjacentHTML) {
+					splitItem.insertAdjacentHTML(
+						"afterend",
+						'<li class="nav-item">\
+						<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
+							<i class="ri-briefcase-2-line"></i> <span data-key="t-more">' + extraMenuName + '</span>\
+						</a>\
+						<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
+					</li>");
+				}
+			}
+		});
 	}
 
 	function hideShowLayoutOptions(dataLayout) {
 		if (dataLayout == "vertical") {
-			// document.getElementById("two-column-menu").innerHTML = "";
+			document.getElementById("two-column-menu").innerHTML = "";
 			if (document.querySelector(".navbar-menu")) {
 				document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
 			}
@@ -1289,7 +1222,7 @@ File: Main Js File
 				document.getElementById("sidebar-visibility").style.display = "none";
 			}
 		} else if (dataLayout == "semibox") {
-			// document.getElementById("two-column-menu").innerHTML = "";
+			document.getElementById("two-column-menu").innerHTML = "";
 			if (document.querySelector(".navbar-menu")) {
 				document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
 			}
@@ -1742,8 +1675,10 @@ File: Main Js File
 							document.documentElement.setAttribute("data-body-image", "img-1");
 
 							if (document.getElementById("theme-settings-offcanvas")) {
-								document.getElementById("sidebar-img").style.display = "none";
-								document.documentElement.removeAttribute("data-sidebar-image");
+								if (document.getElementById("sidebar-img")) {
+									document.getElementById("sidebar-img").style.display = "none";
+									document.documentElement.removeAttribute("data-sidebar-image");
+								}
 							}
 						} else if (sessionStorage.getItem("data-body-image") == "img-2") {
 							sessionStorage.setItem("data-body-image", "img-2");
@@ -1786,6 +1721,7 @@ File: Main Js File
 	}
 
 	// add change event listener on right layout setting
+	var resizeEvent = new Event('resize');
 	function getElementUsingTagname(ele, val) {
 		Array.from(document.querySelectorAll("input[name=" + ele + "]")).forEach(function (x) {
 			val == x.value ? (x.checked = true) : (x.checked = false);
@@ -1835,6 +1771,25 @@ File: Main Js File
 					}
 				}
 
+				var sidebarSections = "block";
+				if (document.documentElement.getAttribute("data-layout") == "semibox") {
+					if(document.documentElement.getAttribute("data-sidebar-visibility") == "hidden"){
+						document.documentElement.removeAttribute("data-sidebar");
+						document.documentElement.removeAttribute("data-sidebar-image");
+						document.documentElement.removeAttribute("data-sidebar-size");
+						sidebarSections = "none";
+					} else {
+						document.documentElement.setAttribute("data-sidebar", sessionStorage.getItem("data-sidebar"));
+						document.documentElement.setAttribute("data-sidebar-image", sessionStorage.getItem("data-sidebar-image"));
+						document.documentElement.setAttribute("data-sidebar-size", sessionStorage.getItem("data-sidebar-size"));
+					}
+				}
+				document.getElementById("sidebar-size").style.display = sidebarSections;
+				document.getElementById("sidebar-color").style.display = sidebarSections;
+				if (document.getElementById("sidebar-img")) {
+					document.getElementById("sidebar-img").style.display = sidebarSections;
+				}
+
 				if (ele == "data-preloader" && x.value == "enable") {
 					document.documentElement.setAttribute("data-preloader", "enable");
 					var preloader = document.getElementById("preloader");
@@ -1848,6 +1803,11 @@ File: Main Js File
 				} else if (ele == "data-preloader" && x.value == "disable") {
 					document.documentElement.setAttribute("data-preloader", "disable");
 					document.getElementById("customizerclose-btn").click();
+				}
+
+				if(ele == 'data-layout-mode') {
+					// Dispatch the resize event on the window object
+					window.dispatchEvent(resizeEvent);
 				}
 			});
 		});
@@ -1867,6 +1827,18 @@ File: Main Js File
 						document.getElementById("sidebar-color-gradient").click();
 					});
 				}
+			});
+		}
+
+		if (document.querySelectorAll("[data-bs-target='#collapseBgGradient.show']")) {
+			Array.from(document.querySelectorAll("[data-bs-target='#collapseBgGradient.show']")).forEach(function (subElem) {
+				subElem.addEventListener("click", function(){
+					var myCollapse = document.getElementById('collapseBgGradient')
+					var bsCollapse = new bootstrap.Collapse(myCollapse, {
+						toggle: false,
+					})
+					bsCollapse.hide()
+				})
 			});
 		}
 
@@ -1927,34 +1899,34 @@ File: Main Js File
 	function initFullScreen() {
 		var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
 		fullscreenBtn &&
-			fullscreenBtn.addEventListener("click", function (e) {
-				e.preventDefault();
-				document.body.classList.toggle("fullscreen-enable");
-				if (!document.fullscreenElement &&
-					/* alternative standard method */
-					!document.mozFullScreenElement &&
-					!document.webkitFullscreenElement
-				) {
-					// current working methods
-					if (document.documentElement.requestFullscreen) {
-						document.documentElement.requestFullscreen();
-					} else if (document.documentElement.mozRequestFullScreen) {
-						document.documentElement.mozRequestFullScreen();
-					} else if (document.documentElement.webkitRequestFullscreen) {
-						document.documentElement.webkitRequestFullscreen(
-							Element.ALLOW_KEYBOARD_INPUT
-						);
-					}
-				} else {
-					if (document.cancelFullScreen) {
-						document.cancelFullScreen();
-					} else if (document.mozCancelFullScreen) {
-						document.mozCancelFullScreen();
-					} else if (document.webkitCancelFullScreen) {
-						document.webkitCancelFullScreen();
-					}
+		fullscreenBtn.addEventListener("click", function (e) {
+			e.preventDefault();
+			document.body.classList.toggle("fullscreen-enable");
+			if (!document.fullscreenElement &&
+				/* alternative standard method */
+				!document.mozFullScreenElement &&
+				!document.webkitFullscreenElement
+			) {
+				// current working methods
+				if (document.documentElement.requestFullscreen) {
+					document.documentElement.requestFullscreen();
+				} else if (document.documentElement.mozRequestFullScreen) {
+					document.documentElement.mozRequestFullScreen();
+				} else if (document.documentElement.webkitRequestFullscreen) {
+					document.documentElement.webkitRequestFullscreen(
+						Element.ALLOW_KEYBOARD_INPUT
+					);
 				}
-			});
+			} else {
+				if (document.cancelFullScreen) {
+					document.cancelFullScreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitCancelFullScreen) {
+					document.webkitCancelFullScreen();
+				}
+			}
+		});
 
 		document.addEventListener("fullscreenchange", exitHandler);
 		document.addEventListener("webkitfullscreenchange", exitHandler);
@@ -1983,6 +1955,8 @@ File: Main Js File
 				html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
 					setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
 					setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
+				// Dispatch the resize event on the window object
+				window.dispatchEvent(resizeEvent);
 			});
 		}
 	}
@@ -2010,7 +1984,7 @@ File: Main Js File
 		initComponents();
 		resetLayout();
 		pluginData();
-		initLanguage();
+		// initLanguage();
 		isCollapseMenu();
 		initMenuItemScroll();
 	}
