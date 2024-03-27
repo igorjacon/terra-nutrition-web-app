@@ -1,0 +1,7 @@
+body, html {
+    background: #eff3f6;
+    font-family: Poppins, sans-serif;
+}
+#preloader {
+    background-color: rgba(239, 243, 246, 0.5);
+}

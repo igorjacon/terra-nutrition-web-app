@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}horizontal{% endblock %}
+
+{% block title %}{{ 'ui.seo.title.auth_code'|trans }} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="auth-page-wrapper pt-5 m-t-40">
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h3 class="text-center mb-3">
+{#                                    <a href="{{ path('main_homepage') }}" class="logo logo-admin">#}
+{#                                        <img src="{{ vich_uploader_asset(site_settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">#}
+{#                                    </a>#}
+                                    <img src="{{ asset('images/logo.png') }}" width="200" alt="logo">
+                                </h3>
+                                <h4 class="text-muted text-center font-18"><b>{{ 'ui.title.auth_code'|trans }}</b></h4>
+                                <form action="{{ path("2fa_login_check") }}" method="post">
+                                    <div class="alert alert-info alert-dismissible">
+                                        <button type="button" class="btn btn-sm btn-ghost-secondary btn-icon close" data-dismiss="alert">
+                                            <i class="las la-times"></i>
+                                        </button>
+                                        {{ 'ui.auth_code.help'|trans }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="_auth_code">{{ 'form.label.auth_code'|trans({}, 'form') }}</label>
+                                        <input id="_auth_code" type="text" class="form-control" autocomplete="off" autofocus="autofocus" name="{{ authCodeParameterName }}"/>
+                                    </div>
+
+                                    {% if displayTrustedOption %}
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <div class="form-check align-items-center d-flex gap-1">
+                                                    <input type="checkbox" class="form-check-input" id="auth_code_trusted" name="{{ trustedParameterName }}">
+                                                    <label class="form-check-label" for="auth_code_trusted">{{ 'form.label.trusted'|trans({}, 'form') }}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="text-center row mb-3">
+                                        <div class="col-12">
+                                            <button class="btn btn-info btn-block waves-effect waves-light" type="submit">
+                                                <i class="las la-sign-in-alt"></i> {{ 'ui.button.login'|trans }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-7 m-t-20">
+                                            <a href="{{ path('security_logout') }}" class="text-muted">
+                                                <i class="las la-chevron-circle-left"></i> {{ 'ui.button.logout'|trans }}
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-5 m-t-20 text-right">
+                                            <a href="{{ path('security_authCode') }}" class="text-muted">
+                                                <i class="las la-envelope"></i> {{ 'ui.button.resend_auth_code'|trans }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,99 @@
+<html>
+<head>
+    <style type="text/css">
+        body {
+            max-width: 960px;
+            margin: 0 auto;
+            font-family: tahoma, Arial, sans-serif;
+            font-size: 14px;
+            color: #4c4c4c;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        p a {
+            color: #ac2125;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            font-size: 14px;
+            font-family: tahoma, Arial, sans-serif;
+        }
+
+        h1 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #ac2125;
+            font-size: 25px;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        ul, ol {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            align-self: center;
+            margin-bottom: 0;
+            background-color: #fafafa;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<table cellpadding="10" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+        <td colspan="3" align="center" style="max-width:960px;">
+            <table cellpadding="40">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <a href="{{ domain }}">
+                            {% block logo %}
+                                <img style="max-width: 500px" src="{{ asset('images/logo.png') }}">
+                            {% endblock %}
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td align="center">
+            <table border="0" cellpadding="10">
+                <tr>
+                    <td style="margin-bottom: 40px;">
+                        {% block body %}{% endblock %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td></td>
+    </tr>
+    <tr style="vertical-align: middle">
+        <td colspan="3" style="background: #ffffff;">
+            <small class="text-muted">&copy; Terra Nutri Health & Wellness {{ "now"|date('Y') }}</small>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

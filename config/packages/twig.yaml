@@ -1,0 +1,12 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    file_name_pattern: '*.twig'
+
+    globals:
+        locales: "%locales%"
+        domain: "%domain%"
+        supportEmail: '%supportEmail%'
+
+when@test:
+    twig:
+        strict_variables: true

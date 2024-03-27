@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|split('_')[0] }}" data-layout="{% block layout %}vertical{% endblock%}" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-preloader="enable">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %} - Terra</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="robots" content="noindex, nofollow">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+{#        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>#}
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            <!-- App js -->
+            {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != '2fa_login' %}
+                {{ importmap('theme') }}
+            {% endif %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        </div>
+        <div id="layout-wrapper" class="mb-5">
+{#            {% if app.user and app.request.attributes.get('_route') != '2fa_login' %}#}
+{#                {{ include('includes/header.html.twig') }}#}
+{#            {% endif %}#}
+{#            {{ include('_default/_flash_message.html.twig') }}#}
+
+            <div class="main-content">
+                {% block body %}{% endblock %}
+{#                {{ include('includes/footer.html.twig') }}#}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+translation:
+    locales: ["en", "fr", "pt"]
+    webui:
+        enabled: true
+    auto_add_missing_translations:
+        config_name: 'default'
+    configs:
+        app:
+            dirs: ["%kernel.project_dir%", "%kernel.project_dir%/src"]
+            output_dir: "%kernel.project_dir%/translations"
+            excluded_names: ["*TestCase.php", "*Test.php"]
+            excluded_dirs: [cache, data, logs, vendor]
+            remote_storage: ["php_translation.adapter.loco"]
+
+translation_adapter_loco:
+    projects:
+        messages:
+            api_key: 'pOz31LGsJwsrE9yLrcvYdv5ZBvmLbHIXL'
+        form:
+            api_key: 'ROjA-oTvY__CQvH241G96I2-m_arvXwHp'
