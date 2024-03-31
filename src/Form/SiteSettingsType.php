@@ -27,19 +27,13 @@ class SiteSettingsType extends AbstractType
                 'allow_delete' => false,
                 'download_uri' => false,
                 'image_uri' => false,
-                'translation_domain' => 'form',
-                'attr' => [
-                    'placeholder' => $builder->getData() ? $builder->getData()->getLogo() : null
-                ]
+                'translation_domain' => 'form'
             ])
             ->add('favicon', FileType::class, [
                 'label' => 'form.label.favicon',
                 'required' => true,
                 'data_class' => null,
-                'help' => 'form.help.settings.favicon',
-                'attr' => [
-                    'placeholder' => $builder->getData() ? $builder->getData()->getFavicon() : null
-                ]
+                'help' => 'form.help.settings.favicon'
             ])
         ;
     }

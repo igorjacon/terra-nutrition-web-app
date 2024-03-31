@@ -10,6 +10,7 @@ use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
@@ -31,52 +32,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
-    private ?string $username = null;
-
-    /** @var string */
-    #[ORM\Column(unique: true, nullable: true)]
-    private ?string $email;
-
-    /** @var bool */
-    #[ORM\Column(type: 'boolean')]
-    protected bool $enabled = true;
-
-    /** @var list<string> The user roles */
-    #[ORM\Column]
-    private array $roles = [];
-
-    /** @var string The hashed password */
-    #[ORM\Column]
-    private ?string $password = null;
-
-    /** @var \DateTime */
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTime $lastLoginAt;
-
-    /** @var string */
-    #[ORM\Column(unique: true, nullable: true)]
-    private ?string $confirmationToken = null;
-
-    /** @var \DateTime */
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTime $passwordRequestedAt;
-
-    /** @var int */
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $trustedVersion;
-
-    /** @var int */
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $authCode;
-
-    /** @var string */
     #[ORM\Column]
     private ?string $firstName;
 
-    /** @var string */
     #[ORM\Column]
     private ?string $lastName;
+
+    #[ORM\Column(length: 18, nullable: true)]
+    #[Assert\Length(max: 18)]
+    private ?string $phoneNumber;
+
+    #[ORM\Column(length: 180)]
+    private ?string $username = null;
+
+    #[ORM\Column(unique: true, nullable: true)]
+    private ?string $email;
+
+    #[ORM\Column(type: 'boolean')]
+    protected bool $enabled = true;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Embedded(class: Address::class, columnPrefix: false)]
+    private $address;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $lastLoginAt;
+
+    #[ORM\Column(unique: true, nullable: true)]
+    private ?string $confirmationToken = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $passwordRequestedAt;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $trustedVersion;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $authCode;
+
+    #[ORM\OneToOne(targetEntity: Professional::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?Professional $professional = null;
 
     public function __construct()
     {
@@ -368,5 +368,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     public function setEmailAuthCode(string $authCode): void
     {
         $this->authCode = $authCode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string|null $phoneNumber
+     */
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @return Professional|null
+     */
+    public function getProfessional(): ?Professional
+    {
+        return $this->professional;
+    }
+
+    /**
+     * @param Professional|null $professional
+     */
+    public function setProfessional(?Professional $professional): void
+    {
+        $this->professional = $professional;
+        $professional?->setUser($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address): void
+    {
+        $this->address = $address;
     }
 }

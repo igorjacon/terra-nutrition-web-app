@@ -72,7 +72,7 @@ class SystemConfigurationController extends AbstractController
 
             return $this->redirectToRoute('admin_system_configuration');
         }
-        return $this->render('system_configuration/index.html.twig', [
+        return $this->render('admin/system_configuration.twig', [
             'form' => $form->createView(),
         ]);
     }

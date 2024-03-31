@@ -2,6 +2,8 @@
 
 {% block title %}{{ 'ui.settings'|trans }}{% endblock %}
 
+{% set settings = settings_manager.get() %}
+
 {% block body %}
 <div class="page-content">
     <div class="container-fluid">
@@ -11,7 +13,7 @@
                     <h4 class="mb-sm-0">{{ 'ui.settings'|trans }}</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="#">{{ 'Terra Nutri' }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ settings.name }}</a></li>
                             <li class="breadcrumb-item active">{{ 'ui.settings'|trans }}</li>
                         </ol>
                     </div>
@@ -35,8 +37,8 @@
                     </div>
                 </div>
                 {{ form_row(form.favicon) }}
-                <button class="btn btn-info waves-effect waves-light">
-                    <i class="las la-save"></i> {{ "ui.button.save"|trans }}
+                <button class="btn btn-primary btn-label waves-effect waves-light">
+                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
                 </button>
                 {{ form_end(form) }}
             </div>

@@ -1,4 +1,12 @@
 :root {
+  --vz-primary: #98B66E;
+  --vz-secondary: #A86DB5;
+  --vz-success: #6DB574;
+  --vz-info: #6DB59D;
+  --vz-warning: #F9D876;
+  --vz-danger: #dc3545;
+  --vz-light: #C5E5A5;
+  --vz-dark: #343a40;
   --vz-card-logo-dark: block;
   --vz-card-logo-light: none;
   --vz-vertical-menu-width: 250px;
