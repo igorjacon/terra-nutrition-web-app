@@ -1,0 +1,215 @@
+:root {
+  --vz-card-logo-dark: block;
+  --vz-card-logo-light: none;
+  --vz-vertical-menu-width: 250px;
+  --vz-vertical-menu-width-md: 180px;
+  --vz-vertical-menu-width-sm: 70px;
+  --vz-header-bg: #fff;
+  --vz-header-border: #e9ebec;
+  --vz-header-item-color: #495057;
+  --vz-header-item-bg: rgba(53, 119, 241, 0.12);
+  --vz-header-item-sub-color: #878a99;
+  --vz-topbar-search-bg: #f3f3f9;
+  --vz-topbar-search-color: #495057;
+  --vz-topbar-user-bg: #f3f3f9;
+  --vz-page-title-box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+  --vz-page-title-border: none;
+  --vz-topnav-bg: #fff;
+  --vz-topnav-item-color: #6d7080;
+  --vz-topnav-item-active-color: #405189;
+  --vz-twocolumn-menu-iconview-bg: #fff;
+  --vz-twocolumn-menu-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --vz-boxed-layout-width: 1300px;
+  --vz-boxed-body-bg: #e5e5f2;
+  --vz-semibox-width: 110px;
+  --vz-footer-bg: #fff;
+  --vz-footer-color: #98a6ad;
+  --vz-input-bg-custom: #fff;
+  --vz-input-border-custom: #ced4da;
+}
+:root[data-topbar=dark] {
+  --vz-header-bg: #405189;
+  --vz-header-item-color: rgba(255, 255, 255, 0.85);
+  --vz-header-item-bg: #495c99;
+  --vz-header-item-sub-color: #b0c4d9;
+  --vz-topbar-user-bg: #52639c;
+  --vz-topbar-search-bg: rgba(255, 255, 255, 0.05);
+  --vz-topbar-search-color: #fff;
+  --vz-header-border: #405189;
+}
+
+:root {
+  --vz-vertical-menu-bg: #fff;
+  --vz-vertical-menu-border: #fff;
+  --vz-vertical-menu-item-color: #6d7080;
+  --vz-vertical-menu-item-bg: rgba(64, 81, 137, 0.15);
+  --vz-vertical-menu-item-hover-color: #405189;
+  --vz-vertical-menu-item-active-color: #405189;
+  --vz-vertical-menu-item-active-bg: rgba(64, 81, 137, 0.15);
+  --vz-vertical-menu-sub-item-color: #7c7f90;
+  --vz-vertical-menu-sub-item-hover-color: #405189;
+  --vz-vertical-menu-sub-item-active-color: #405189;
+  --vz-vertical-menu-title-color: #919da9;
+  --vz-vertical-menu-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --vz-vertical-menu-dropdown-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --ivory: #EDE7D0;
+}
+:root[data-sidebar=dark] {
+  --vz-vertical-menu-bg: #2F3625;
+  --vz-vertical-menu-border: #3B472A;
+  --vz-vertical-menu-item-color: #97B56D;
+  --vz-vertical-menu-item-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-item-hover-color: #EDE7D0;
+  --vz-vertical-menu-item-active-color: #EDE7D0;
+  --vz-vertical-menu-item-active-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-sub-item-color: #738B53;
+  --vz-vertical-menu-sub-item-hover-color: #90AD68;
+  --vz-vertical-menu-sub-item-active-color: #90AD68;
+  --vz-vertical-menu-title-color: #B6D2A5;
+  --vz-twocolumn-menu-iconview-bg: #EDE7D0; /* Ivory color */
+  --vz-vertical-menu-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --vz-vertical-menu-dropdown-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+}
+
+:root:is([data-sidebar=gradient], [data-sidebar=gradient-2], [data-sidebar=gradient-3], [data-sidebar=gradient-4]) {
+  --vz-vertical-menu-item-color: rgba(255, 255, 255, 0.5);
+  --vz-vertical-menu-item-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-item-hover-color: #fff;
+  --vz-vertical-menu-item-active-color: #fff;
+  --vz-vertical-menu-item-active-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-sub-item-color: rgba(255, 255, 255, 0.5);
+  --vz-vertical-menu-sub-item-hover-color: #fff;
+  --vz-vertical-menu-sub-item-active-color: #fff;
+  --vz-vertical-menu-title-color: rgba(255, 255, 255, 0.5);
+  --vz-vertical-menu-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --vz-vertical-menu-dropdown-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+}
+:root[data-sidebar=gradient] {
+  --vz-vertical-menu-bg: linear-gradient(to right, var(--vz-primary), var(--vz-success));
+  --vz-vertical-menu-border: var(--vz-success);
+  --vz-twocolumn-menu-iconview-bg: var(--vz-primary);
+}
+:root[data-sidebar=gradient-2] {
+  --vz-vertical-menu-bg: linear-gradient(to right, var(--vz-info), var(--vz-secondary));
+  --vz-vertical-menu-border: var(--vz-secondary);
+  --vz-twocolumn-menu-iconview-bg: var(--vz-info);
+}
+:root[data-sidebar=gradient-3] {
+  --vz-vertical-menu-bg: linear-gradient(to right, var(--vz-info), var(--vz-success));
+  --vz-vertical-menu-border: var(--vz-success);
+  --vz-twocolumn-menu-iconview-bg: var(--vz-info);
+}
+:root[data-sidebar=gradient-4] {
+  --vz-vertical-menu-bg: linear-gradient(to right, #1a1d21, var(--vz-primary));
+  --vz-vertical-menu-border: var(--vz-primary);
+  --vz-twocolumn-menu-iconview-bg: #1a1d21;
+}
+
+[data-bs-theme=dark] {
+  --vz-light: #282b2e;
+  --vz-light-rgb: 40, 43, 46;
+  --vz-light-text-emphasis: #535659;
+  --vz-light-bg-subtle: #25282c;
+  --vz-light-border-subtle: #35383c;
+  --vz-dark: #313437;
+  --vz-dark-rgb: 49, 52, 55;
+  --vz-dark-text-emphasis: #5f6164;
+  --vz-dark-bg-subtle: #313437;
+  --vz-dark-border-subtle: #3c3f42;
+  --vz-card-logo-dark: none;
+  --vz-card-logo-light: block;
+  --vz-footer-bg: #212529;
+  --vz-footer-color: #878a99;
+  --vz-topnav-bg: #272b30;
+  --vz-topnav-item-color: #878a99;
+  --vz-topnav-item-active-color: #fff;
+  --vz-page-title-box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+  --vz-page-title-border: none;
+  --vz-twocolumn-menu-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+  --vz-boxed-body-bg: #111316;
+  --vz-input-bg-custom: #262a2f;
+  --vz-input-border-custom: #2a2f34;
+}
+[data-bs-theme=dark] .table-light {
+  --vz-table-color: white;
+  --vz-table-bg: var(--vz-light);
+  --vz-table-border-color: var(--vz-border-color);
+  --vz-table-striped-bg: var(--vz-light);
+  --vz-table-striped-color: white;
+  --vz-table-active-bg: var(--vz-light);
+  --vz-table-active-color: white;
+  --vz-table-hover-bg: var(--vz-light);
+  --vz-table-hover-color: white;
+}
+[data-bs-theme=dark] .btn-light,
+[data-bs-theme=dark] .btn-outline-light {
+  --vz-btn-color: #8d8e90;
+  --vz-btn-active-color: #fff;
+  --vz-btn-hover-color: #fff;
+}
+[data-bs-theme=dark] .btn-outline-dark,
+[data-bs-theme=dark] .btn-soft-dark, [data-bs-theme=dark] .btn-ghost-dark {
+  --vz-btn-color: #fff;
+}
+[data-bs-theme=dark] .btn-ghost-dark {
+  --vz-btn-active-color: #fff;
+  --vz-btn-hover-color: #fff;
+}
+[data-bs-theme=dark] .dropdown-menu {
+  --vz-dropdown-bg: #292e33;
+  --vz-dropdown-link-color: #adb5bd;
+  --vz-dropdown-link-hover-color: #b9bfc4;
+  --vz-dropdown-link-hover-bg: #2f343a;
+  --vz-dropdown-border-width: 1px;
+  --vz-dropdown-link-active-color: #adb5bd;
+  --vz-dropdown-link-active-bg: #2f343a;
+}
+
+[data-bs-theme=dark] {
+  --vz-header-bg: #292e32;
+  --vz-header-border: #292e32;
+  --vz-header-item-color: #e9ecef;
+  --vz-header-item-bg: #31363c;
+  --vz-header-item-sub-color: #878a99;
+  --vz-topbar-user-bg: #31373c;
+  --vz-topbar-search-bg: #202328;
+  --vz-topbar-search-color: #fff;
+}
+[data-bs-theme=dark][data-topbar=dark] {
+  --vz-header-bg: #405189;
+  --vz-header-border: #405189;
+  --vz-header-item-color: rgba(255, 255, 255, 0.85);
+  --vz-header-item-bg: #495c99;
+  --vz-header-item-sub-color: #b0c4d9;
+  --vz-topbar-user-bg: #52639c;
+  --vz-topbar-search-bg: rgba(255, 255, 255, 0.05);
+  --vz-topbar-search-color: #fff;
+}
+
+[data-bs-theme=dark] {
+  --vz-vertical-menu-bg: #fff;
+  --vz-vertical-menu-border: #fff;
+  --vz-vertical-menu-item-color: #6d7080;
+  --vz-vertical-menu-item-bg: rgba(64, 81, 137, 0.15);
+  --vz-vertical-menu-item-hover-color: #405189;
+  --vz-vertical-menu-item-active-color: #405189;
+  --vz-vertical-menu-item-active-bg: rgba(64, 81, 137, 0.15);
+  --vz-vertical-menu-sub-item-color: #7c7f90;
+  --vz-vertical-menu-sub-item-hover-color: #405189;
+  --vz-vertical-menu-sub-item-active-color: #405189;
+  --vz-vertical-menu-title-color: #919da9;
+}
+[data-bs-theme=dark][data-sidebar=dark] {
+  --vz-vertical-menu-bg: #2F3625;
+  --vz-vertical-menu-border: #212529;
+  --vz-vertical-menu-item-color: #97B56D;
+  --vz-vertical-menu-item-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-item-hover-color: #fff;
+  --vz-vertical-menu-item-active-color: #fff;
+  --vz-vertical-menu-item-active-bg: rgba(255, 255, 255, 0.15);
+  --vz-vertical-menu-sub-item-color: #7c7f90;
+  --vz-vertical-menu-sub-item-hover-color: #fff;
+  --vz-vertical-menu-sub-item-active-color: #fff;
+  --vz-vertical-menu-title-color: #5f6270;
+  --vz-twocolumn-menu-iconview-bg: #292e32;
+}

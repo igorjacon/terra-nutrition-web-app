@@ -1,3 +1,4 @@
+{% set settings = settings_manager.get() %}
 <div id="page-topbar">
     <div class="layout-width">
         <div class="navbar-header">
@@ -6,19 +7,21 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="{{ path('homepage') }}" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ asset('images/logo.png') }}" class="logo-small" height="22" alt="logo">
+                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_small') }}" class="logo-small">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('images/logo.png') }}" class="logo-large" height="22" alt="logo">
+                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_large') }}" class="logo-large">
+                            <span class="site-name">{{ settings.name }}</span>
                         </span>
                     </a>
 
                     <a href="{{ path('homepage') }}" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('images/logo.png') }}" class="logo-small" height="22" alt="logo">
+                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_small') }}" class="logo-small">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('images/logo.png') }}" class="logo-large" height="22" alt="logo">
+                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_large') }}" class="logo-large">
+                            <span class="site-name">{{ settings.name }}</span>
                         </span>
                     </a>
                 </div>

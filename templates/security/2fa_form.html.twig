@@ -4,6 +4,7 @@
 
 {% block title %}{{ 'ui.seo.title.auth_code'|trans }} {{ parent() }}{% endblock %}
 
+{% set settings = settings_manager.get() %}
 {% block body %}
     <div class="auth-page-wrapper pt-5 m-t-40">
         <div class="auth-page-content">
@@ -13,10 +14,13 @@
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h3 class="text-center mb-3">
-{#                                    <a href="{{ path('main_homepage') }}" class="logo logo-admin">#}
-{#                                        <img src="{{ vich_uploader_asset(site_settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">#}
-{#                                    </a>#}
-                                    <img src="{{ asset('images/logo.png') }}" width="200" alt="logo">
+                                    {% if settings.logo %}
+                                        <a href="{{ path('homepage') }}" class="logo logo-admin">
+                                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">
+                                        </a>
+                                    {% else %}
+                                        <img src="{{ asset('images/logo.png') }}" width="200" alt="logo">
+                                    {% endif %}
                                 </h3>
                                 <h4 class="text-muted text-center font-18"><b>{{ 'ui.title.auth_code'|trans }}</b></h4>
                                 <form action="{{ path("2fa_login_check") }}" method="post">

@@ -5,3 +5,15 @@ body, html {
 #preloader {
     background-color: rgba(239, 243, 246, 0.5);
 }
+img {
+    /* This rule is very important, please don't ignore this */
+    max-width: 100%;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.site-name {
+    color: var(--ivory);
+    text-transform: uppercase;
+    font-size: 1.25em;
+}

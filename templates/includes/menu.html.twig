@@ -1,24 +1,25 @@
+{% set settings = settings_manager.get() %}
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="/" class="logo logo-dark">
+        <a href="{{ path('homepage') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('images/logo.png') }}" height="22" alt="logo">
+                <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_small') }}" class="logo">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('images/logo.png') }}" height="22" alt="logo">
-                {{ 'Terra Nutri' }}
+                <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_large') }}" class="logo">
+                {% if settings.displayName %}<span class="site-name">{{ settings.name }}</span>{% endif %}
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="/" class="logo logo-light">
+        <a href="{{ path('homepage') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset('images/logo.png') }}" height="22" alt="logo">
+                <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_small') }}" class="logo">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('images/logo.png') }}" height="22" alt="logo">
-                {{ 'Terra Nutri' }}
+                <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('logo_small') }}" class="logo">
+                {% if settings.displayName %}<span class="site-name">{{ settings.name }}</span>{% endif %}
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -29,15 +30,19 @@
     <div id="scrollbar">
         <div class="container-fluid">
 
-            <div id="two-column-menu">
-            </div>
+            <div id="two-column-menu"></div>
 
             <ul class="navbar-nav" id="navbar-nav">
-                <li class="menu-title"><span>Menu</span></li>
-                <li class="menu-title"><i class="ri-more-fill"></i><span>Pages</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ path('admin_dashboard') }}">
+                        <i class="ri-dashboard-3-line"></i><span>{{ 'Dashboard' }}</span>
+                    </a>
+                </li>
+
+                <li class="menu-title"><i class="ri-more-fill"></i><span>{{ 'My Content' }}</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#diet-plans" data-bs-toggle="collapse" role="button">
-                        <i class="mdi mdi-silverware-fork-knife"></i> <span>{{ 'Diet Plan' }}</span>
+                        <i class="mdi mdi-silverware-fork-knife"></i> <span>{{ 'Diet Plans' }}</span>
                     </a>
                     <div class="collapse menu-dropdown" id="diet-plans">
                         <ul class="nav nav-sm flex-column">
@@ -53,11 +58,16 @@
                         </ul>
                     </div>
                 </li>
-                <li class="menu-title"><span>Components</span></li>
 
+                <li class="menu-title"><i class="ri-more-fill"></i><span>Settings</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#">
-                        <i class="ri-honour-line"></i><span>Widgets</span>
+                        <i class="ri-group-line"></i><span>User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ path('admin_system_configuration') }}">
+                        <i class="ri-settings-3-line"></i><span>System Configuration</span>
                     </a>
                 </li>
             </ul>

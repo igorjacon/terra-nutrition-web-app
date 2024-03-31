@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale|split('_')[0] }}" data-layout="{% block layout %}vertical{% endblock%}"  data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-preloader="disable">
+<html lang="{{ app.request.locale|split('_')[0] }}"
+      data-layout="{% block layout %}vertical{% endblock%}"
+      data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+      data-preloader="disable">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %} - Terra</title>
@@ -22,7 +25,6 @@
             {% if app.user and app.request.attributes.get('_route') != '2fa_login' %}
                 {{ include('includes/header.html.twig') }}
             {% endif %}
-{#            {{ include('_default/_flash_message.html.twig') }}#}
 
             <div class="main-content">
                 {% block body %}{% endblock %}
@@ -31,16 +33,14 @@
         </div>
 
         {% block javascripts %}
-            <script>
-                var domain = "{{ domain }}";
-            </script>
-            <script src="{{ asset('js/theme/bootstrap.bundle.min.js') }}"></script>
-            <script src="{{ asset('js/theme/simplebar.min.js') }}"></script>
-            <script src="{{ asset('js/theme/waves.min.js') }}"></script>
-            <script src="{{ asset('js/theme/feather.min.js') }}"></script>
-            <script src="{{ asset('js/theme/lord-icon-2.1.0.js') }}"></script>
+            <script type="text/javascript">var domain = "{{ domain }}";</script>
+            <script type="text/javascript" src="{{ asset('js/theme/bootstrap.bundle.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/theme/simplebar.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/theme/waves.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/theme/feather.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/theme/lord-icon-2.1.0.js') }}"></script>
             {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != '2fa_login' %}
-                <script src="{{ asset('js/theme/app.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('js/theme/app.js') }}"></script>
             {% endif %}
         {% endblock %}
     </body>

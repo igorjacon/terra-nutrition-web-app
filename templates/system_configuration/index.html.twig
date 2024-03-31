@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'ui.settings'|trans }}{% endblock %}
+
+{% block body %}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">{{ 'ui.settings'|trans }}</h4>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="#">{{ 'Terra Nutri' }}</a></li>
+                            <li class="breadcrumb-item active">{{ 'ui.settings'|trans }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.displayName) }}
+                <div class="row align-items-center">
+                    {% if form.vars.data.logo is not empty %}
+                        <div class="col-auto">
+                            <img src="{{ vich_uploader_asset(form.vars.data, 'logoFile')|imagine_filter('small_logo') }}" alt="{{ form.name.vars.value }}">
+                        </div>
+                    {% endif %}
+                    <div class="col">
+                        {{ form_row(form.logoFile) }}
+                    </div>
+                </div>
+                {{ form_row(form.favicon) }}
+                <button class="btn btn-info waves-effect waves-light">
+                    <i class="las la-save"></i> {{ "ui.button.save"|trans }}
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

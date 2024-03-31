@@ -2,7 +2,12 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     file_name_pattern: '*.twig'
 
+    form_themes:
+        - '_form/layout.html.twig'
+        - '_form/fields.html.twig'
+        - '_form/vertical_fields.html.twig'
     globals:
+        settings_manager: '@App\Manager\SiteSettingsManager'
         locales: "%locales%"
         domain: "%domain%"
         supportEmail: '%supportEmail%'

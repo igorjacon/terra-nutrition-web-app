@@ -1,9 +1,9 @@
 import './js/theme/layout.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/bootstrap.min.css';
 import './styles/icons.min.css';
 import './styles/app.min.css';
+import './styles/variables.css';
 import './styles/custom.css';
-import './styles/velzon.min.css';
 import $ from 'jquery';
 import './bootstrap.js';
 

@@ -4,6 +4,7 @@
 
 {% block title %}{{ 'ui.seo.title.login'|trans }} {{ parent() }}{% endblock %}
 
+{% set settings = settings_manager.get() %}
 {% block body %}
     <div class="auth-page-wrapper pt-5 m-t-40">
         <div class="auth-page-content">
@@ -14,10 +15,11 @@
                             <div class="card-body">
                                 <h3 class="text-center mt-0 m-b-15">
                                     <a href="{{ path('homepage') }}" class="logo logo-admin">
-{#                                        {% if site_settings.logo %}#}
-{#                                            <img src="{{ vich_uploader_asset(site_settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">#}
-{#                                        {% endif %}#}
-                                        <img src="{{ asset('images/logo.png') }}" width="200" alt="logo">
+                                        {% if settings.logo %}
+                                            <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">
+                                        {% else %}
+                                            <img src="{{ asset('images/logo.png') }}" width="200" alt="logo">
+                                        {% endif %}
                                     </a>
                                 </h3>
                                 <h4 class="text-muted text-center font-18"><b>{{ 'ui.title.login'|trans }}</b></h4>

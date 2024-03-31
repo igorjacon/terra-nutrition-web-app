@@ -1,0 +1,88 @@
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+
+    # define your filter sets under this option
+    filter_sets:
+        cache: ~
+
+        # an example thumbnail transformation definition
+        # https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html#create-thumbnails
+        squared_thumbnail:
+
+            # set your image quality defaults
+            jpeg_quality:          85
+            png_compression_level: 8
+
+            # setup the filter steps to apply for this transformation
+            filters:
+
+                # auto rotate the image using EXIF metadata
+                auto_rotate: ~
+
+                # strip the image of all metadata
+                strip: ~
+
+                # scale and square the image to the given dimensions
+                thumbnail:
+                    size:          [253, 253]
+                    mode:          outbound
+                    allow_upscale: true
+
+                # create border by placing image on larger black background
+                background:
+                    size:     [256, 256]
+                    position: center
+                    color:    '#fff'
+
+        # Used on login/reset_password/auth pages
+        small_logo:
+            # set your image quality defaults
+            jpeg_quality:          85
+            png_compression_level: 8
+
+            filters:
+                relative_resize:
+                    heighten: 60
+
+        # Used in email templates
+        email_logo:
+            # set your image quality defaults
+            jpeg_quality:          85
+            png_compression_level: 8
+
+            filters:
+                relative_resize:
+                    heighten: 120
+
+        # Used on navigation & footer
+        logo_small:
+            # set your image quality defaults
+            jpeg_quality:          85
+            png_compression_level: 8
+
+            filters:
+                relative_resize:
+                    heighten: 38
+
+        # Used on navigation
+        logo_large:
+            # set your image quality defaults
+            jpeg_quality:          85
+            png_compression_level: 8
+
+            filters:
+                relative_resize:
+                    heighten: 42
+
+        # Favicon, used in site settings page
+        favicon:
+            # set your image quality defaults
+            quality:              85
+            png_compression_level: 8
+
+            filters:
+                thumbnail  : { size : [64, 64], mode : outbound }
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                background: { size: [68, 68], position: center, color: '#ffffff' }

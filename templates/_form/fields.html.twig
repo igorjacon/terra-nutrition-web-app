@@ -1,0 +1,150 @@
+{#
+Each field type is rendered by a template fragment, which is determined
+by the name of your form type class (DateTimePickerType -> date_time_picker)
+and the suffix "_widget". This can be controlled by overriding getBlockPrefix()
+in DateTimePickerType.
+See https://symfony.com/doc/current/cookbook/form/create_custom_field_type.html#creating-a-template-for-the-field
+#}
+
+{% block date_picker_widget %}
+    {% block date_time_picker_widget %}
+        <div class="input-group date">
+            {{ block('datetime_widget') }}
+            <div class="input-group-append b-0">
+            <span class="input-group-text">
+                <i class="mdi mdi-calendar-month"></i>
+            </span>
+            </div>
+        </div>
+    {% endblock date_time_picker_widget %}
+{% endblock date_picker_widget %}
+
+{% block tags_input_widget %}
+    <div class="input-group">
+        {{ form_widget(form, {'attr': {'data-toggle': 'tagsinput', 'data-tags': tags|json_encode}}) }}
+        <div class="input-group-append b-0">
+            <span class="input-group-text">
+                <i class="ri ri-price-tag-3-line fs-5"></i>
+            </span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block checkbox_row %}
+    <div class="form-group row">
+        <div class="{{ block('form_label_class') }}"></div>
+        <div class="{{ block('form_group_class') }}">
+            {{- form_widget(form, {parent_label_class : 'checkbox-custom'}) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{% endblock checkbox_row %}
+
+{% block picture_row %}
+    <div class="form-group">
+        <div class="offset-md-2">
+            {% if picture_path is not null and picture_path != '' %}
+                <img src="{{ asset(constant('\\App\\Utils\\FileUploader::UPLOAD_PATH') ~ picture_path) }}"
+                     class="img-thumbnail m-b-10" width="225px"/>
+            {% endif %}
+
+            <{{ element|default('div') }} class="custom-file">
+                {{- form_label(form) -}}
+                {{- form_widget(form) -}}
+            </{{ element|default('div') }}>
+        </div>
+    </div>
+{% endblock picture_row %}
+
+{% block money_widget -%}
+    {%- set prepend = not (money_pattern starts with '{{') -%}
+    {%- set append = not (money_pattern ends with '}}') -%}
+    {%- if prepend or append -%}
+        <div class="input-group flex-nowrap{{ group_class|default('') }}">
+            {{- block('form_widget_simple') -}}
+            <div class="input-group-append">
+                <span class="input-group-text">{{ money_pattern|form_encode_currency }}</span>
+            </div>
+        </div>
+    {%- else -%}
+        {{- block('form_widget_simple') -}}
+    {%- endif -%}
+{%- endblock money_widget %}
+
+{%- block button_widget -%}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- elseif label is same as(false) -%}
+            {% set translation_domain = false %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {% if icon_before is defined and icon_before is not null %}
+            <i class="{{ icon_before }}"></i>
+        {% endif %}
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+        {% if icon_after is defined and icon_after is not null %}
+            <i class="{{ icon_after }}"></i>
+        {% endif %}
+    </button>
+{%- endblock button_widget -%}
+
+{% block vich_image_widget %}
+    <div class="vich-image">
+        {% if image_uri %}
+            <div class="col-auto">
+                <a href="{{ image_uri }}"><img src="{{ image_uri }}" alt=""/></a>
+            </div>
+        {% endif %}
+
+        {{ form_widget(form.file) }}
+        {% if form.delete is defined %}
+            {{ form_row(form.delete) }}
+        {% endif %}
+
+        {% if download_uri %}
+            <a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block color_widget %}
+    <div class="input-group colorpicker-component">
+        {{ block('form_widget_simple') }}
+        <div class="input-group-text">
+            <div class="input-group-addon">
+                <i></i>
+            </div>
+        </div>
+    </div>
+{% endblock color_widget %}
+
+{% block number_widget -%}
+    {%- set append = attr['data-append']|default() -%}
+    {%- if append -%}
+        <div class="input-group">
+            {{- block('form_widget_simple') -}}
+            <div class="input-group-append">
+                <span class="input-group-text">{{ append }}</span>
+            </div>
+        </div>
+    {%- else -%}
+        {{- block('form_widget_simple') -}}
+    {%- endif -%}
+{%- endblock number_widget %}
+
+{% block _form_save_widget %}
+    <button type="{{ type|default('submit') }}"
+            {{ block('button_attributes') }}
+            class="{{ attr.class|default('btn btn-label btn-info right float-end') }}">
+        <i class="las la-arrow-right label-icon"></i>
+        {{- label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+    </button>
+{% endblock _form_save_widget %}
