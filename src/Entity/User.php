@@ -3,16 +3,22 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[Vich\Uploadable]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
 {
@@ -38,9 +44,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Column]
     private ?string $lastName;
 
-    #[ORM\Column(length: 18, nullable: true)]
-    #[Assert\Length(max: 18)]
-    private ?string $phoneNumber;
+    #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private $phones;
 
     #[ORM\Column(length: 180)]
     private ?string $username = null;
@@ -51,13 +56,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Column(type: 'boolean')]
     protected bool $enabled = true;
 
+    // NOTE: This is not a mapped field of entity metadata, just a simple property.
+    #[Vich\UploadableField(mapping: 'user_files', fileNameProperty: 'profileImg')]
+    private $profileFile;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profileImg = null;
+
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Embedded(class: Address::class, columnPrefix: false)]
+    #[ORM\OneToOne(targetEntity: Address::class)]
     private $address;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -83,6 +95,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->trustedVersion = 1;
+        $this->phones = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -93,6 +106,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string|null $firstName
+     */
+    public function setFirstName(?string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string|null $lastName
+     */
+    public function setLastName(?string $lastName): void
+    {
+        $this->lastName = $lastName;
     }
 
     public function getUsername(): ?string
@@ -140,35 +185,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     }
 
     /**
-     * @return string|null
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|null|UploadedFile $file
      */
-    public function getFirstName(): ?string
+    public function setProfileFile(?File $file = null): void
     {
-        return $this->firstName;
+        $this->profileFile = $file;
+
+        if (null !== $file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     /**
-     * @param string|null $firstName
+     * @return File|UploadedFile
      */
-    public function setFirstName(?string $firstName): void
+    public function getProfileFile(): ?UploadedFile
     {
-        $this->firstName = $firstName;
+        return $this->profileFile;
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
-    public function getLastName(): ?string
+    public function getProfileImg(): ?string
     {
-        return $this->lastName;
+        return $this->profileImg;
     }
 
     /**
-     * @param string|null $lastName
+     * @param null|string $profilePic
      */
-    public function setLastName(?string $lastName): void
+    public function setProfileImg(?string $profilePic): void
     {
-        $this->lastName = $lastName;
+        $this->profileImg = $profilePic;
     }
 
     /**
@@ -371,19 +428,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     }
 
     /**
-     * @return string|null
+     * @return Collection<int, Phone>
      */
-    public function getPhoneNumber(): ?string
+    public function getPhones(): Collection
     {
-        return $this->phoneNumber;
+        return $this->phones;
     }
 
-    /**
-     * @param string|null $phoneNumber
-     */
-    public function setPhoneNumber(?string $phoneNumber): void
+    public function addPhone(Phone $phone): User
     {
-        $this->phoneNumber = $phoneNumber;
+        if (!$this->phones->contains($phone)) {
+            $this->phones->add($phone);
+            $phone->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): static
+    {
+        $this->phones->removeElement($phone);
+        return $this;
     }
 
     /**

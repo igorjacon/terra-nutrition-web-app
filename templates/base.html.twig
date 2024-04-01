@@ -33,12 +33,16 @@
         </div>
 
         {% block javascripts %}
-            <script type="text/javascript">var domain = "{{ domain }}";</script>
+            <script type="text/javascript">
+                var domain = "{{ domain }}";
+            </script>
             <script type="text/javascript" src="{{ asset('js/theme/bootstrap.bundle.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/theme/simplebar.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/theme/waves.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/theme/feather.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/theme/lord-icon-2.1.0.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/libs/choices.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/libs/flag-input.init.js') }}"></script>
             {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != '2fa_login' %}
                 <script type="text/javascript" src="{{ asset('js/theme/app.js') }}"></script>
             {% endif %}

@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Address;
 use App\Entity\Location;
+use App\Entity\Phone;
 use App\Entity\Professional;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -29,21 +30,29 @@ class ProfessionalFixtures extends Fixture
                 'password' => 'Password01',
                 'roles' => [User::ROLES_ALLOWED[User::ROLE_NUTRITIONIST]],
                 'active' => true,
-                'phone' => '(04) 80187-909',
+                'phone' => [
+                    'prefix' => '+61',
+                    'number' => '80187-909',
+                    'flag' => '/build/images/flags/au.svg'
+                ],
                 'jobTitle' => "Nutritionist",
                 'website' => 'https://www.terranutri.net/',
                 'tax_number' => '346.005.308-96',
                 'locations' => [
                     [
                         'name' => 'Terra Nutrition & Wellness',
-                        'phone' => '(04) 80187-909',
+                        'phone' => [
+                            'prefix' => '+61',
+                            'number' => '(04) 80187-909',
+                            'flag' => '/build/images/flags/au.svg'
+                        ],
                         'address' => [
                             'line_one' => 'Unit 4 - 20 Bay Street - Tweed Heads - 2485',
                             'line_two' => 'Coolangatta',
                             'city' => 'Gold Coast',
                             'zip_code' => '4225',
                             'state' => 'QLD',
-                            'country' => 'Australia'
+                            'country' => 'AU'
                         ]
                     ]
                 ]
@@ -55,21 +64,29 @@ class ProfessionalFixtures extends Fixture
                 'email' => 'joe.doe@example.com',
                 'roles' => [User::ROLES_ALLOWED[User::ROLE_NUTRITIONIST]],
                 'active' => true,
-                'phone' => '+1 32334-909',
+                'phone' => [
+                    'prefix' => '+1',
+                    'number' => '32334-909',
+                    'flag' => '/build/images/flags/us.svg'
+                ],
                 'jobTitle' => "Nutritionist",
                 'website' => 'https://www.example.com/',
                 'tax_number' => 'L3433',
                 'locations' => [
                     [
                         'name' => 'Health & Fitness',
-                        'phone' => '+1 93934 3234',
+                        'phone' => [
+                            'prefix' => '+1',
+                            'number' => '93934 3234',
+                            'flag' => '/build/images/flags/us.svg'
+                        ],
                         'address' => [
                             'line_one' => '64 Franklin Roosevelt',
                             'line_two' => '',
                             'city' => 'New York City',
                             'zip_code' => '51004',
                             'state' => 'NYC',
-                            'country' => 'USA'
+                            'country' => 'US'
                         ]
                     ]
                 ]
@@ -88,10 +105,13 @@ class ProfessionalFixtures extends Fixture
             $user->setUsername($data['email']);
             $user->setRoles($data['roles']);
             $user->setEnabled($data['active']);
-            $user->setPhoneNumber($data['phone']);
+            $phone = new Phone();
+            $phone->setPrefix($data['phone']['prefix']);
+            $phone->setNumber($data['phone']['number']);
+            $phone->setFlag($data['phone']['flag']);
+            $user->addPhone($phone);
             // Professional
             $professional = new Professional();
-            $professional->setUpdatedAt(new \DateTime());
             $professional->setJobTitle($data['jobTitle']);
             $professional->setWebsite($data['website']);
             $professional->setTaxNumber($data['tax_number']);
@@ -99,7 +119,11 @@ class ProfessionalFixtures extends Fixture
             foreach ($data['locations'] as $locData) {
                 $location = new Location();
                 $location->setName($locData['name']);
-                $location->setPhoneNumber($locData['phone']);
+                $phone = new Phone();
+                $phone->setPrefix($locData['phone']['prefix']);
+                $phone->setNumber($locData['phone']['number']);
+                $phone->setFlag($locData['phone']['flag']);
+                $location->setPhone($phone);
                 $address = new Address();
                 $address->setLineOne($locData['address']['line_one']);
                 $address->setLineTwo($locData['address']['line_two']);

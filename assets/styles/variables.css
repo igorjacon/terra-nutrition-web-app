@@ -5,7 +5,11 @@
   --vz-info: #6DB59D;
   --vz-warning: #F9D876;
   --vz-danger: #dc3545;
-  --vz-light: #C5E5A5;
+  --vz-light: #F9D876;
+  --vz-light-green: #C5E5A5;
+  --vz-light-text-emphasis: #FBE39D;
+  --vz-primary-text-emphasis: #57693F;
+  --vz-secondary-text-emphasis: #F9D876;
   --vz-dark: #343a40;
   --vz-card-logo-dark: block;
   --vz-card-logo-light: none;

@@ -61,6 +61,12 @@ php bin/console translation:download
 php bin/console lexik:jwt:generate-keypair
 ```
 
+#### Install and deploy static assets
+```
+npm install
+npm run build
+```
+
 #### To run the app
 ```
 symfony server:start

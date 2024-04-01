@@ -17,11 +17,10 @@ class Location
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 18, nullable: true)]
-    #[Assert\Length(max: 18)]
-    private ?string $phoneNumber;
+    #[ORM\OneToOne(targetEntity: Phone::class, cascade: ['persist', 'remove'])]
+    private $phone;
 
-    #[ORM\Embedded(class: Address::class, columnPrefix: false)]
+    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     private $address;
 
     #[ORM\ManyToOne(targetEntity: Professional::class, inversedBy: 'locations')]
@@ -52,19 +51,19 @@ class Location
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getPhoneNumber(): ?string
+    public function getPhone()
     {
-        return $this->phoneNumber;
+        return $this->phone;
     }
 
     /**
-     * @param string|null $phoneNumber
+     * @param mixed $phone
      */
-    public function setPhoneNumber(?string $phoneNumber): void
+    public function setPhone($phone): void
     {
-        $this->phoneNumber = $phoneNumber;
+        $this->phone = $phone;
     }
 
     /**
