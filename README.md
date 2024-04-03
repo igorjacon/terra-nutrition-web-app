@@ -98,6 +98,41 @@ JWT_PASSPHRASE=51853cfcc95434d73ceeffc9e3e79abb33ce935477b313e1baab00af4fb7d7e6
 ###< lexik/jwt-authentication-bundle ###
 ```
 
+#### services.yaml
+```markdown
+parameters:
+    maintenance: false
+    locale: en
+    locales: [en, fr, pt]
+    companyName: 'Terra Nutri'
+    domain: 'http://localhost/'
+    supportEmail: igorjacon90@gmail.com
+    email_sender: { noreply@tms.peterandclark.com: iTms }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+        bind:
+            '$emailSender': '%email_sender%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Migrations/'
+            - '../src/Kernel.php'
+
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [controller.service_arguments]
+```
 
 #### To run the app
 ```
