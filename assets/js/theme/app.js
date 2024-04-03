@@ -1418,26 +1418,26 @@ File: Main Js File
 						break;
 				}
 
-				switch (isLayoutAttributes["data-layout-mode"]) {
+				switch (isLayoutAttributes["data-bs-theme"]) {
 					case "light":
-						getElementUsingTagname("data-layout-mode", "light");
-						document.documentElement.setAttribute("data-layout-mode", "light");
-						sessionStorage.setItem("data-layout-mode", "light");
+						getElementUsingTagname("data-bs-theme", "light");
+						document.documentElement.setAttribute("data-bs-theme", "light");
+						sessionStorage.setItem("data-bs-theme", "light");
 						break;
 					case "dark":
-						getElementUsingTagname("data-layout-mode", "dark");
-						document.documentElement.setAttribute("data-layout-mode", "dark");
-						sessionStorage.setItem("data-layout-mode", "dark");
+						getElementUsingTagname("data-bs-theme", "dark");
+						document.documentElement.setAttribute("data-bs-theme", "dark");
+						sessionStorage.setItem("data-bs-theme", "dark");
 						break;
 					default:
-						if (sessionStorage.getItem("data-layout-mode") && sessionStorage.getItem("data-layout-mode") == "dark") {
-							sessionStorage.setItem("data-layout-mode", "dark");
-							document.documentElement.setAttribute("data-layout-mode", "dark");
-							getElementUsingTagname("data-layout-mode", "dark");
+						if (sessionStorage.getItem("data-bs-theme") && sessionStorage.getItem("data-bs-theme") == "dark") {
+							sessionStorage.setItem("data-bs-theme", "dark");
+							document.documentElement.setAttribute("data-bs-theme", "dark");
+							getElementUsingTagname("data-bs-theme", "dark");
 						} else {
-							sessionStorage.setItem("data-layout-mode", "light");
-							document.documentElement.setAttribute("data-layout-mode", "light");
-							getElementUsingTagname("data-layout-mode", "light");
+							sessionStorage.setItem("data-bs-theme", "light");
+							document.documentElement.setAttribute("data-bs-theme", "light");
+							getElementUsingTagname("data-bs-theme", "light");
 						}
 						break;
 				}
@@ -1805,7 +1805,7 @@ File: Main Js File
 					document.getElementById("customizerclose-btn").click();
 				}
 
-				if(ele == 'data-layout-mode') {
+				if(ele == 'data-bs-theme') {
 					// Dispatch the resize event on the window object
 					window.dispatchEvent(resizeEvent);
 				}
@@ -1883,7 +1883,7 @@ File: Main Js File
 			var isLayoutAttributes = {};
 			isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
 			isLayoutAttributes["data-sidebar-size"] = sessionStorage.getItem("data-sidebar-size");
-			isLayoutAttributes["data-layout-mode"] = sessionStorage.getItem("data-layout-mode");
+			isLayoutAttributes["data-bs-theme"] = sessionStorage.getItem("data-bs-theme");
 			isLayoutAttributes["data-layout-width"] = sessionStorage.getItem("data-layout-width");
 			isLayoutAttributes["data-sidebar"] = sessionStorage.getItem("data-sidebar");
 			isLayoutAttributes['data-sidebar-image'] = sessionStorage.getItem('data-sidebar-image');
@@ -1942,6 +1942,7 @@ File: Main Js File
 	function setLayoutMode(mode, modeType, modeTypeId, html) {
 		var isModeTypeId = document.getElementById(modeTypeId);
 		html.setAttribute(mode, modeType);
+		sessionStorage.setItem(mode, modeType);
 		if (isModeTypeId) {
 			document.getElementById(modeTypeId).click();
 		}
@@ -1952,9 +1953,9 @@ File: Main Js File
 		var lightDarkBtn = document.querySelectorAll(".light-dark-mode");
 		if (lightDarkBtn && lightDarkBtn.length) {
 			lightDarkBtn[0].addEventListener("click", function (event) {
-				html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
-					setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
-					setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
+				html.hasAttribute("data-bs-theme") && html.getAttribute("data-bs-theme") == "dark" ?
+					setLayoutMode("data-bs-theme", "light", "layout-mode-light", html) :
+					setLayoutMode("data-bs-theme", "dark", "layout-mode-dark", html);
 				// Dispatch the resize event on the window object
 				window.dispatchEvent(resizeEvent);
 			});

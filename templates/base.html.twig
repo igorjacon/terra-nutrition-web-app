@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|split('_')[0] }}"
       data-layout="{% block layout %}vertical{% endblock%}"
+      data-bs-theme="light"
       data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
       data-preloader="disable">
     <head>
@@ -14,6 +15,7 @@
         {% endblock %}
 
         {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/theme/layout.js') }}"></script>
             {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script type="text/javascript">
                 var domain = "{{ domain }}";

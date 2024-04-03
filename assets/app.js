@@ -1,4 +1,4 @@
-import './js/theme/layout.js';
+// import './js/theme/layout.js';
 import './styles/bootstrap.min.css';
 import './styles/choices.min.css';
 import './styles/icons.min.css';
