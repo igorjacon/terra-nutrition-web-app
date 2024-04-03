@@ -68,30 +68,75 @@ npm install
 npm run build
 ```
 
+#### if missing .env file, copy these contents
+```markdown
+###> symfony/framework-bundle ###
+APP_ENV=dev
+APP_SECRET=2438217bd3d50ab54f8c54836f5fb0ad
+###< symfony/framework-bundle ###
+
+###> doctrine/doctrine-bundle ###
+DATABASE_URL=mysql://root:password@127.0.0.1:3306/terra_nutri
+###< doctrine/doctrine-bundle ###
+
+###> php-translation/loco-adapter ###
+LOCO_PROJECT_API_KEY=
+###< php-translation/loco-adapter ###
+
+###> symfony/mailer ###
+# MAILER_DSN=null://null
+MAILER_DSN=smtp://noreply%40tms.peterandclark.com:r2swGZg2v23khHBjjC2TF%40ZJ8C9z9Ne@smtp.office365.com:587
+###< symfony/mailer ###
+
+###> nelmio/cors-bundle ###
+CORS_ALLOW_ORIGIN=^.*$
+###< nelmio/cors-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+JWT_PASSPHRASE=51853cfcc95434d73ceeffc9e3e79abb33ce935477b313e1baab00af4fb7d7e6
+###< lexik/jwt-authentication-bundle ###
+```
+
+#### services.yaml
+```markdown
+parameters:
+    maintenance: false
+    locale: en
+    locales: [en, fr, pt]
+    companyName: 'Terra Nutri'
+    domain: 'http://localhost/'
+    supportEmail: igorjacon90@gmail.com
+    email_sender: { noreply@tms.peterandclark.com: iTms }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+        bind:
+            '$emailSender': '%email_sender%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Migrations/'
+            - '../src/Kernel.php'
+
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [controller.service_arguments]
+```
+
 #### To run the app
 ```
 symfony server:start
-```
-
-```markdown
-<Directory /terra_nutrition_web_app/public/>
-        Options Indexes FollowSymLinks Includes ExecCGI
-        AllowOverride All
-        Require all granted
-        Allow from all
-
-        <IfModule mod_rewrite.c>
-            Options -MultiViews
-            RewriteEngine On
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteRule ^(.*)$ index.php [QSA,L]
-        </IfModule>
-    </Directory>
-
-    <Directory /terra_nutrition_web_app/public/bundles/>
-        <IfModule mod_rewrite.c>
-            RewriteEngine Off
-        </IfModule>
-    </Directory>
 ```
 #### open a browser and go to http://localhost
