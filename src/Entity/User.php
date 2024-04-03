@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource]
+#[ApiResource(operations: [new Get(), new GetCollection()])]
 #[Vich\Uploadable]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface

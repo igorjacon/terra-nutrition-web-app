@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +13,7 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ApiResource]
 class Customer
 {
     use TimestampableEntity, BlameableEntity;
@@ -19,9 +22,6 @@ class Customer
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'customer', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private $user;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $age = null;
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $height = null;
@@ -80,18 +80,6 @@ class Customer
     public function setUser($user): void
     {
         $this->user = $user;
-    }
-
-    public function getAge(): ?int
-    {
-        return $this->age;
-    }
-
-    public function setAge(?int $age): static
-    {
-        $this->age = $age;
-
-        return $this;
     }
 
     public function getHeight(): ?string

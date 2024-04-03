@@ -24,16 +24,16 @@ api_platform:
     event_listeners_backward_compatibility_layer: false
     keep_legacy_inflector: false
 
-#    swagger:
-#        versions: [3]
-#        api_keys:
-#            JWT:
-#                name: Authorization
-#                type: header
-#    enable_swagger_ui: false
-#    enable_re_doc: false
-#    openapi:
-#        contact:
-#            name: Peter & Clark
-#            url: https://www.peterandclark.com
-#            email: support@peterandclark.com
+    swagger:
+        versions: [3]
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+    enable_swagger_ui: false
+    enable_re_doc: false
+    openapi:
+        contact:
+            name: Terra Nutrition & Health
+            url: https://www.terranutri.net
+            email: igorjacon90@gmail.com
