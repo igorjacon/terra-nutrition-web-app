@@ -15,9 +15,9 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $locale = $request->get('code', 'en');
-        if(null !== $user->getLocale()) {
-            $request->getSession()->set('_locale',strtolower($locale));
-        }
+//        if(null !== $user->getLocale()) {
+//        }
+        $request->getSession()->set('_locale', strtolower($locale));
 
         return $this->redirect($request->headers->get('referer'));
     }

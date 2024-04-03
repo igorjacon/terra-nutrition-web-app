@@ -68,6 +68,12 @@ npm install
 npm run build
 ```
 
+#### Extra Configurations
+To enable container on Locale subscriber
+```markdown
+Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+```
+
 #### To run the app
 ```
 symfony server:start
