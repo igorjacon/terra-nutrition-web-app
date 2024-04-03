@@ -8,4 +8,4 @@ when@dev:
         mailer:
             dsn: '%env(MAILER_DSN)%'
             envelope:
-                recipients: ['igor.jacon@peterandclark.com']
+                recipients: ['%supportEmail%']
