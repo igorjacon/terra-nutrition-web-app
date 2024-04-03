@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Location;
 use App\Entity\Professional;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -13,7 +14,9 @@ class ProfessionalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', UserType::class)
+            ->add('user', UserType::class, [
+                'role' => $options['role']
+            ])
             ->add('website')
             ->add('jobTitle')
             ->add('taxNumber')
@@ -21,6 +24,7 @@ class ProfessionalType extends AbstractType
                 'entry_type' => LocationType::class,
                 'label' => false,
                 'by_reference' => false,
+                'default' => [new Location()]
             ])
         ;
     }
@@ -29,7 +33,8 @@ class ProfessionalType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Professional::class,
-            'translation_domain' => 'form'
+            'translation_domain' => 'form',
+            'role' => null
         ]);
     }
 }

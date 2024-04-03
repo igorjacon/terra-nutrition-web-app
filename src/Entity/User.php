@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource]
 #[Vich\Uploadable]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
@@ -66,10 +68,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
-    #[ORM\OneToOne(targetEntity: Address::class)]
+    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     private $address;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -87,8 +89,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Column(type: 'integer', nullable: true)]
     private $authCode;
 
-    #[ORM\OneToOne(targetEntity: Professional::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: Professional::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Professional $professional = null;
+
+    #[ORM\OneToOne(targetEntity: Customer::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Customer $customer = null;
 
     public function __construct()
     {
@@ -481,5 +486,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     public function setAddress($address): void
     {
         $this->address = $address;
+    }
+
+    /**
+     * @return Customer|null
+     */
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer|null $customer
+     */
+    public function setCustomer(?Customer $customer): void
+    {
+        $this->customer = $customer;
+        $customer?->setUser($this);
     }
 }

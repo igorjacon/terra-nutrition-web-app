@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Phone;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -24,6 +26,7 @@ class UserType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
+                'default' => [new Phone()]
             ])
             ->add('username')
             ->add('email')
@@ -40,6 +43,7 @@ class UserType extends AbstractType
                 'choices' => User::ROLES_ALLOWED,
                 'multiple' => true,
                 'expanded' => true,
+                'default' => $options['role'] ? [User::ROLES_ALLOWED[$options['role']]] : [],
                 'choice_label' => function ($key, $value) {
                     return 'form.choice.' . $value;
                 },
@@ -56,7 +60,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'translation_domain' => 'form'
+            'translation_domain' => 'form',
+            'role' => null
         ]);
     }
 }

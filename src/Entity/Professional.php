@@ -35,6 +35,11 @@ class Professional
         $this->locations = new ArrayCollection();
     }
 
+    public function getId(): int
+    {
+        return $this->user->getId();
+    }
+
     public function getUser()
     {
         return $this->user;
@@ -43,11 +48,6 @@ class Professional
     public function setUser($user): void
     {
         $this->user = $user;
-    }
-
-    public function getId(): int
-    {
-        return $this->user->getId();
     }
 
     public function getWebsite(): ?string

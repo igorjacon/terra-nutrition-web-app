@@ -3,7 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Professional;
+use App\Entity\User;
 use App\Form\ProfessionalType;
+use App\Repository\CustomerRepository;
 use App\Repository\ProfessionalRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +36,30 @@ class UserManagementController extends AbstractController
         ]);
     }
 
+    #[Route('/professional/new', name: 'new_professional', methods: ['GET', 'POST'])]
+    public function newProfessional(Request $request): Response
+    {
+        $professional = new Professional();
+        $form = $this->createForm(ProfessionalType::class, $professional, [
+            'role' => User::ROLE_NUTRITIONIST
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $em = $this->doctrine->getManager();
+            $em->persist($professional);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_management_professionals');
+        }
+
+        return $this->render('admin/professionals/form.html.twig', [
+            'form' => $form->createView(),
+            'title' => $this->translator->trans('ui.new_professional')
+        ]);
+    }
+
     #[Route('/professional/edit/{id}', name: 'edit_professional', methods: ['GET', 'POST'])]
     public function editProfessional(Request $request, Professional $professional): Response
     {
@@ -51,6 +77,16 @@ class UserManagementController extends AbstractController
         return $this->render('admin/professionals/form.html.twig', [
             'form' => $form->createView(),
             'title' => $this->translator->trans('ui.edit_professional')
+        ]);
+    }
+
+    #[Route('/customers', name: 'customers')]
+    public function customers(CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAll();
+        return $this->render('admin/customers/index.html.twig', [
+            'customers' => $customers,
+            'title' => $this->translator->trans('ui.customers')
         ]);
     }
 }

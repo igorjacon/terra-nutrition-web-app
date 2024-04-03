@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item">{{ 'ui.user_management'|trans }}</li>
-    <li class="breadcrumb-item active">{{ 'ui.professionals'|trans }}</li>
+    <li class="breadcrumb-item active">{{ 'ui.customers'|trans }}</li>
 {% endblock %}
 
 {% block content %}
@@ -14,14 +14,14 @@
                 <div class="card-header border-bottom-dashed">
                     <div class="row g-4 align-items-center">
                         <div class="col-sm">
-                            <h5 class="card-title mb-0">{{ 'ui.professional_list'|trans }}</h5>
+                            <h5 class="card-title mb-0">{{ 'ui.customer_list'|trans }}</h5>
                         </div>
                         <div class="col-sm-auto">
                             <div class="d-flex flex-wrap align-items-start gap-2">
-                                <a href="{{ path('admin_user_management_new_professional') }}" class="btn btn-primary btn-label right">
+                                <button type="button" class="btn btn-primary btn-label right">
                                     <i class="ri-user-add-line label-icon"></i>
-                                    {{ 'ui.button.new_professional'|trans }}
-                                </a>
+                                    {{ 'ui.button.new_customer'|trans }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -39,42 +39,44 @@
                             <th>{{ 'ui.name'|trans }}</th>
                             <th>{{ 'ui.email'|trans }}</th>
                             <th>{{ 'ui.phone'|trans }}</th>
-                            <th>{{ 'ui.website'|trans }}</th>
+                            <th>{{ 'ui.dob'|trans }}</th>
                             <th>{{ 'ui.active'|trans }}</th>
                             <th>{{ 'ui.action'|trans }}</th>
                             </thead>
                             <tbody>
-                            {% for professional in professionals %}
+                            {% for customer in customers %}
                                 <tr>
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
-                                            {% if professional.user.profileImg %}
+                                            {% if customer.user.profileImg %}
                                                 <div class="flex-shrink-0">
-                                                        <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(professional.user, 'profileFile') }}" alt="{{ professional.user }}">
+                                                    <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(customer.user, 'profileFile') }}" alt="{{ customer.user.firstName }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="flex-shrink-0">
+                                                    <img class="avatar-xs rounded-circle" src="{{ asset('images/users/avatar-'~(random(9)+1)~'.jpg') }}" alt="{{ customer.user.firstName }}">
                                                 </div>
                                             {% endif %}
                                             <div class="flex-grow-1">
-                                                {{ professional.user }}
+                                                {{ customer }}
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ professional.user.email }}</td>
-                                    <td>{{ professional.user.phones|first }}</td>
+                                    <td>{{ customer.user.email }}</td>
+                                    <td>{{ customer.user.phones|first }}</td>
                                     <td>
-                                        {% if professional.website %}
-                                            <a target="_blank" href="{{ professional.website }}">{{ professional.website }}</a>
-                                        {% endif %}
+                                        {{ customer.dob }}
                                     </td>
                                     <td>
-                                        {% if professional.user.enabled %}
+                                        {% if customer.user.enabled %}
                                             <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>
                                         {% else %}
                                             <span class="badge bg-danger-subtle text-danger">{{ 'ui.disabled'|trans }}</span>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm btn-light"
-                                           href="{{ path('admin_user_management_edit_professional', {'id': professional.id}) }}">
+                                        <a class="btn btn-sm btn-light">
+{#                                           href="{{ path('admin_user_management_edit_professional', {'id': professional.id}) }}">#}
                                             {{ 'ui.details'|trans }}
                                         </a>
                                     </td>

@@ -8,10 +8,11 @@ use App\Entity\Phone;
 use App\Entity\Professional;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class ProfessionalFixtures extends Fixture
+class ProfessionalFixtures extends Fixture implements FixtureGroupInterface
 {
     private UserPasswordHasherInterface $hasher;
 
@@ -95,11 +96,8 @@ class ProfessionalFixtures extends Fixture
 
         foreach ($professionals as $data) {
             $user = new User();
-            $user->setCreatedAt(new \DateTime());
-            $user->setUpdatedAt(new \DateTime());
             $user->setFirstName($data['first_name']);
             $user->setLastName($data['last_name']);
-            $user->setPassword($data['password']);
             $user->setPassword($this->hasher->hashPassword($user, $data['password']));
             $user->setEmail($data['email']);
             $user->setUsername($data['email']);
@@ -139,5 +137,10 @@ class ProfessionalFixtures extends Fixture
             $manager->persist($user);
         }
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['professionals'];
     }
 }
