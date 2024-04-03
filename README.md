@@ -72,4 +72,26 @@ npm run build
 ```
 symfony server:start
 ```
+
+```markdown
+<Directory /terra_nutrition_web_app/public/>
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Require all granted
+        Allow from all
+
+        <IfModule mod_rewrite.c>
+            Options -MultiViews
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ index.php [QSA,L]
+        </IfModule>
+    </Directory>
+
+    <Directory /terra_nutrition_web_app/public/bundles/>
+        <IfModule mod_rewrite.c>
+            RewriteEngine Off
+        </IfModule>
+    </Directory>
+```
 #### open a browser and go to http://localhost
