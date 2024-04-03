@@ -67,6 +67,38 @@ npm install
 npm run build
 ```
 
+#### if missing .env file, copy these contents
+```markdown
+###> symfony/framework-bundle ###
+APP_ENV=dev
+APP_SECRET=2438217bd3d50ab54f8c54836f5fb0ad
+###< symfony/framework-bundle ###
+
+###> doctrine/doctrine-bundle ###
+DATABASE_URL=mysql://root:password@127.0.0.1:3306/terra_nutri
+###< doctrine/doctrine-bundle ###
+
+###> php-translation/loco-adapter ###
+LOCO_PROJECT_API_KEY=
+###< php-translation/loco-adapter ###
+
+###> symfony/mailer ###
+# MAILER_DSN=null://null
+MAILER_DSN=smtp://noreply%40tms.peterandclark.com:r2swGZg2v23khHBjjC2TF%40ZJ8C9z9Ne@smtp.office365.com:587
+###< symfony/mailer ###
+
+###> nelmio/cors-bundle ###
+CORS_ALLOW_ORIGIN=^.*$
+###< nelmio/cors-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+JWT_PASSPHRASE=51853cfcc95434d73ceeffc9e3e79abb33ce935477b313e1baab00af4fb7d7e6
+###< lexik/jwt-authentication-bundle ###
+```
+
+
 #### To run the app
 ```
 symfony server:start
