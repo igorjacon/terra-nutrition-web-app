@@ -44,6 +44,7 @@ Grant write permissions to the "upload" directory
 #### Create database
 ```
 php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
 ```
 
 #### Upload data fixtures
