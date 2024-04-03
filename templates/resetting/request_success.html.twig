@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}horizontal{% endblock %}
+
+{% block title %}{{ 'ui.seo.title.request'|trans }} {{ parent() }}{% endblock %}
+
+{% set settings = settings_manager.get() %}
+
+{% block body %}
+    <div class="auth-page-wrapper pt-5 m-t-40">
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h3 class="text-center mt-0 m-b-15">
+                                    <a href="{{ path('homepage') }}" class="logo logo-admin">
+                                        <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">
+                                    </a>
+                                </h3>
+                                <h4 class="text-muted text-center font-18"><b>{{ 'ui.title.reset_password'|trans }}</b></h4>
+                                <div class="p-3">
+                                    <p class="text-center">{{ 'ui.reset_password_success_message'|trans }}</p>
+                                    <p class="text-center mt-2">{{ 'ui.reset_password_help_message'|trans({'%mail%' : '<a href="mailto:' ~ supportEmail ~ '">' ~ supportEmail ~ '</a>'})|raw }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

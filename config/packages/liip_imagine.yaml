@@ -43,7 +43,7 @@ liip_imagine:
 
             filters:
                 relative_resize:
-                    heighten: 60
+                    widen: 200
 
         # Used in email templates
         email_logo:

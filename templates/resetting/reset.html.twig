@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}horizontal{% endblock %}
+
+{% block title %}{{ 'ui.resetting_password'|trans }} {{ parent() }}{% endblock %}
+
+{% set settings = settings_manager.get() %}
+
+{% block body %}
+    <div class="auth-page-wrapper pt-5 m-t-40">
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h3 class="text-center mt-0 m-b-15">
+                                    <a href="{{ path('homepage') }}" class="logo logo-admin">
+                                        <img src="{{ vich_uploader_asset(settings, 'logoFile')|imagine_filter('small_logo') }}" alt="logo">
+                                    </a>
+                                </h3>
+                                <h4 class="text-muted text-center font-18"><b>{{ 'ui.title.resetting'|trans }}</b></h4>
+                                <div class="p-3">
+                                    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                                    {{ form_errors(form) }}
+                                    <div class="row">
+                                        <div class="col">{{ form_row(form.password) }}</div>
+                                    </div>
+                                    <button type="submit" class="btn btn-info btn-label waves-effect waves-light">
+                                        <i class="las la-save label-icon" aria-hidden="true"></i> {{ "ui.button.save"|trans }}
+                                    </button>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
