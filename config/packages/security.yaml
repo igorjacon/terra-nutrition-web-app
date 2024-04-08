@@ -10,33 +10,26 @@ security:
     providers:
         database_users:
             entity: { class: App\Entity\User, property: username }
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: username
-#        api_key_user_provider:
-#            id: App\Security\ApiKeyUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js|translations)/
             security: false
-        api_login:
-            pattern: ^/api/login
+        api:
+            pattern: ^/api
             stateless: true
-            provider: database_users
+            entry_point: jwt
+            jwt: ~
             json_login:
                 check_path: /api/login_check # or api_login_check as defined in config/routes.yaml
                 username_path: username
                 password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
+                success_handler: App\Security\Http\Authentication\ApiAuthenticationSuccessHandler
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
-        api:
-            pattern: ^/api
-            stateless: true
-            provider: database_users
-            jwt: ~
+            refresh_jwt:
+                check_path: /api/token/refresh
+            logout:
+                path: api_token_invalidate
         main:
             two_factor:
                 auth_form_path: 2fa_login
@@ -71,7 +64,7 @@ security:
         # ADMIN
         - { path: '^/admin', roles: ROLE_ADMIN }
         # API
-        - { path: '^/api/login', roles: PUBLIC_ACCESS }
+        - { path: '^/api/(login|token)', roles: PUBLIC_ACCESS }
         - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }
         - { path: '^/docs', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI
         - { path: '^/api/login_check', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI

@@ -19,7 +19,11 @@ class LocaleSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
-        if (!$request->hasPreviousSession()) {
+        $url_prefix = explode('_', $request->get('_route'), 2);
+        if ($request->attributes->getBoolean('_stateless')) {
+            return;
+        }
+        if (!$request->hasPreviousSession() or $url_prefix[0] === 'api') {
             return;
         }
 
