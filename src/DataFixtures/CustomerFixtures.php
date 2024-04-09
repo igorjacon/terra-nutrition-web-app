@@ -389,7 +389,6 @@ class CustomerFixtures extends Fixture implements FixtureGroupInterface
             $user->setAddress($address);
             // Customer data
             $newCustomer = new Customer();
-            $newCustomer->setAge($customer['age']);
             $newCustomer->setHeight($customer['height']);
             $newCustomer->setWeight($customer['weight']);
             $newCustomer->setDob($customer['dob']);
