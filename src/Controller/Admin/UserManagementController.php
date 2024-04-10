@@ -46,7 +46,6 @@ class UserManagementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-
             $em = $this->doctrine->getManager();
             $em->persist($professional);
             $em->flush();
@@ -78,6 +77,25 @@ class UserManagementController extends AbstractController
             'form' => $form->createView(),
             'title' => $this->translator->trans('ui.edit_professional')
         ]);
+    }
+
+    #[Route('/professional/remove/{id}', name: 'remove_professional', methods: ['GET', 'DELETE'])]
+    public function removeProfessional(Request $request, Professional $professional): Response
+    {
+        if ($request->isMethod('GET')) {
+            return $this->render('admin/professionals/delete_form.html.twig', [
+                'professional' => $professional,
+            ]);
+        } else {
+            if ($this->isCsrfTokenValid('delete' . $professional->getId(), $request->get('_token'))) {
+                $em = $this->doctrine->getManager();
+
+                $em->remove($professional);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('admin_user_management_professionals');
+        }
     }
 
     #[Route('/customers', name: 'customers')]

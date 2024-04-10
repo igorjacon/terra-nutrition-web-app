@@ -15,7 +15,9 @@ class LocationType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('phone', PhoneType::class)
+            ->add('phone', PhoneType::class, [
+                'error_bubbling' => false
+            ])
             ->add('address', AddressType::class, [
                 'label' => false
             ])

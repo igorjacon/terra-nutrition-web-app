@@ -19,6 +19,7 @@ class Professional
     #[ORM\Id]
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'professional', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[Assert\Valid]
     private $user;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -33,6 +34,7 @@ class Professional
     private ?string $taxNumber = null;
 
     #[ORM\OneToMany(targetEntity: Location::class, mappedBy: 'professional', cascade: ['persist', 'remove'])]
+    #[Assert\Valid]
     private Collection $locations;
 
     public function __construct()

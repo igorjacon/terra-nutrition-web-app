@@ -23,9 +23,11 @@ class Phone
 
     #[ORM\Column(length: 16)]
     #[Assert\Length(max: 16)]
+    #[Assert\NotNull]
     private string $number;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotNull]
     private ?string $flag = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'phones')]

@@ -1,6 +1,6 @@
 {% block phone_widget %}
-    <div class="input-group" data-input-flag>
-        <button class="btn btn-light border" data-bs-toggle="dropdown">
+    <div class="input-group mb-3" data-input-flag>
+        <button class="btn btn-light border {{ not form.flag.vars.valid ? 'border-red' }}" data-bs-toggle="dropdown">
             <img src="{{ form.flag.vars.value ?: '' }}" height="20" class="country-flagimg rounded">
             {{ form_widget(form.flag) }}
             <span class="ms-2 country-codeno">{{ form.prefix.vars.value ?: '' }}</span>
@@ -18,8 +18,8 @@
 
 {% block _professional_user_phones_entry_row %}
     {% block _professional_locations_entry_phone_row %}
-    <div class="input-group" data-input-flag>
-        <button class="btn btn-light border" data-bs-toggle="dropdown">
+    <div class="input-group mb-3" data-input-flag>
+        <button class="btn btn-light border {{ not form.flag.vars.valid ? 'border-red' }}" data-bs-toggle="dropdown">
             <img src="{{ form.flag.vars.value ?: '' }}" height="20" class="country-flagimg rounded">
             {{ form_widget(form.flag) }}
             <span class="ms-2 country-codeno">{{ form.prefix.vars.value ?: '' }}</span>

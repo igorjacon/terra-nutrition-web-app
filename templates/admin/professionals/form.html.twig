@@ -16,6 +16,7 @@
     <div class="row">
         <div class="col-lg-8">
             {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+            {{ form_errors(form) }}
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title align-items-center d-flex mb-0">
@@ -28,10 +29,9 @@
                         <div class="col">{{ form_row(form.user.firstName) }}</div>
                         <div class="col">{{ form_row(form.user.lastName) }}</div>
                     </div>
-                    <div class="mb-3">{{ form_row(form.jobTitle) }}</div>
                     <div class="row">
+                        <div class="col">{{ form_row(form.jobTitle) }}</div>
                         <div class="col">{{ form_row(form.user.email) }}</div>
-                        <div class="col">{{ form_row(form.user.username) }}</div>
                     </div>
                     <div class="mb-3">
                         {{ form_row(form.user.phones) }}

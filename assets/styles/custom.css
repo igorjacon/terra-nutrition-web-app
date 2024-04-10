@@ -20,3 +20,9 @@ img {
 .input-group .btn {
     z-index: 1;
 }
+.choices__list--dropdown {
+    z-index: 5;
+}
+button.border-red {
+    border: 1px solid red !important;
+}

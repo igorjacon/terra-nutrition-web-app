@@ -27,7 +27,9 @@ class PhoneType extends AbstractType
                     'placeholder' => 'Enter number'
                 ]
             ])
-            ->add('flag', HiddenType::class)
+            ->add('flag', HiddenType::class, [
+                'error_bubbling' => false
+            ])
         ;
     }
 

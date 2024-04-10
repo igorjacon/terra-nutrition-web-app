@@ -15,12 +15,15 @@ class Location
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
     private ?string $name = null;
 
     #[ORM\OneToOne(targetEntity: Phone::class, cascade: ['persist', 'remove'])]
+    #[Assert\Valid]
     private $phone;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
+    #[Assert\Valid]
     private $address;
 
     #[ORM\ManyToOne(targetEntity: Professional::class, inversedBy: 'locations')]

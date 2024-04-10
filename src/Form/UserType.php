@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Phone;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,11 +27,12 @@ class UserType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
+                'error_bubbling' => false,
                 'default' => [new Phone()]
             ])
-            ->add('username')
+//            ->add('username')
             ->add('email')
-            ->add('enabled')
+            ->add('enabled', CheckboxType::class, ['default' => true])
             ->add('profileFile', VichImageType::class, [
                 'label' => 'form.label.profile_img',
                 'required' => true,

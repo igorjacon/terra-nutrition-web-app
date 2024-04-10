@@ -1,12 +1,11 @@
-// import './js/theme/layout.js';
 import './styles/bootstrap.min.css';
 import './styles/choices.min.css';
 import './styles/icons.min.css';
 import './styles/app.min.css';
 import './styles/variables.css';
 import './styles/custom.css';
-import $ from 'jquery';
 import './bootstrap.js';
+import $ from "./vendor/jquery/jquery.index";
 
 /*
  * Welcome to your app's main JavaScript file!
@@ -23,4 +22,4 @@ $(function () {
             preloader.style.visibility = "hidden";
         });
     }
-})
+});

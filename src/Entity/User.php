@@ -11,15 +11,18 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
 #[Vich\Uploadable]
+#[UniqueEntity('email')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
 {
@@ -40,18 +43,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?string $firstName;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?string $lastName;
 
     #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[Assert\Valid]
     private $phones;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotNull]
     private ?string $username = null;
 
     #[ORM\Column(unique: true, nullable: true)]
+    #[Assert\NotNull]
     private ?string $email;
 
     #[ORM\Column(type: 'boolean')]
@@ -170,6 +178,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+        $this->username = $email;
     }
 
     /**
