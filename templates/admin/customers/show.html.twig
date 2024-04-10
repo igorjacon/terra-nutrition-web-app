@@ -1,0 +1,127 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('admin_user_management_customers') }}">
+            {{ 'ui.customers'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ customer }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="card mt-n4 mx-n4">
+                <div class="bg-ivory">
+                    <div class="card-body pb-0 px-4">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-auto">
+                                        <div class="avatar-md">
+                                            <div class="avatar-title bg-white rounded-circle">
+                                                {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
+                                                {% if customer.user.profileImg %}
+                                                    {% set avatar = vich_uploader_asset(customer.user, 'profileFile') %}
+                                                {% endif %}
+                                                <img src="{{ avatar }}" alt="{{ customer.user.firstName }}" class="avatar-xs">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div>
+                                            <h4 class="fw-bold">{{ customer }}</h4>
+                                            <div class="hstack gap-3 flex-wrap">
+                                                <div>
+                                                    <i class="ri-cake-2-line align-bottom me-1"></i>
+                                                    <span class="fw-medium">{{ customer.dob|format_date('medium') }}</span>
+                                                </div>
+                                                <div class="vr"></div>
+                                                <div>
+                                                    {{ 'ui.age'|trans }}:
+                                                    {% set age = date().diff(date(customer.dob)).y %}
+                                                    <span class="fw-medium">{{ age }}</span>
+                                                </div>
+                                                <div class="vr"></div>
+                                                <div>
+                                                    {{ customer.height }}
+                                                </div>
+                                                <div class="vr"></div>
+                                                <div>
+                                                    {{ customer.weight }}
+                                                </div>
+                                                {% if customer.dietaryPreference %}
+                                                    <div class="vr"></div>
+                                                    <div>
+                                                        <i class="ri-leaf-line align-bottom me-1"></i>
+                                                        {{ customer.dietaryPreference }}
+                                                    </div>
+                                                {% endif %}
+                                                <div class="badge rounded-pill bg-{{ customer.user.enabled ? 'info' : 'danger' }} fs-12">
+                                                    {{ customer.user.enabled ? 'ui.active'|trans : 'ui.inactive'|trans }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="btn-group-sm">
+                                    <a href="#" class="btn btn-sm btn-info">
+                                        {{ 'ui.button.edit'|trans }}
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                            onclick="removeUser('{{ path('admin_user_management_remove_customer', {'id': customer.id}) }}')">
+                                        {{ 'ui.button.remove'|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs-custom border-bottom-0">
+                            <li class="nav-item">
+                                <a href="#client-diet-plans" class="nav-link active fw-semibold" data-bs-toggle="tab">
+                                    {{ 'ui.diet_plans'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#measurements" class="nav-link fw-semibold" data-bs-toggle="tab">
+                                    {{ 'ui.measurements'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#goals" class="nav-link fw-semibold" data-bs-toggle="tab">
+                                    {{ 'ui.goals'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#profile" class="nav-link fw-semibold" data-bs-toggle="tab">
+                                    {{ 'ui.personal_info'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END HEADERS --->
+
+    <!-- TAB CONTENTS -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="tab-content text-muted">
+                <div class="tab-pane fade show active" id="client-diet-plans">
+                    {{ include('admin/customers/_diet_plans.html.twig') }}
+                </div>
+                <div class="tab-pane fade" id="measurements">
+                    {{ include('admin/customers/_measurements.html.twig') }}
+                </div>
+                <div class="tab-pane fade" id="goals"></div>
+                <div class="tab-pane fade" id="profile"></div>
+            </div>
+        </div>
+        {{ include('admin/customers/_personal_information.html.twig') }}
+    </div>
+    <!-- END TAB CONTENTS -->
+{% endblock %}

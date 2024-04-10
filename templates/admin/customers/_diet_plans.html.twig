@@ -1,0 +1,45 @@
+<div class="card">
+    <div class="card-header border-bottom-dashed">
+        <div class="row g-4 align-items-center">
+            <div class="col-sm">
+                <h5 class="card-title mb-0 d-flex align-items-center">
+                    <i class="ri-restaurant-2-line fs-4 me-1"></i>
+                    {{ 'ui.diet_plans'|trans }}
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body text-center">
+        {# TODO: Iterate meal plans #}
+        {% set hasMeaPlan = false %}
+        {% if hasMeaPlan %}
+            <div class="table-responsive table-card text-start">
+                <table class="table align-middle mb-0">
+                    <thead class="text-muted table-light">
+                        <th>{{ 'ui.create_date'|trans }}</th>
+                        <th>{{ 'ui.name'|trans }}</th>
+                        <th>{{ 'ui.actions'|trans }}</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ date('now')|format_date }}</td>
+                        <td>{{ 'Generic meal plan' }}</td>
+                        <td>
+                            <div class="btn btn-sm btn-primary">{{ 'ui.details'|trans }}</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="avatar-lg mx-auto mb-3">
+                <div class="avatar-title bg-success-subtle text-success fs-48 rounded">
+                    <i class="bx bx-bowl-rice"></i>
+                </div>
+            </div>
+            <h4 class="card-title">{{ 'no_meal_plans'|trans }}</h4>
+            <p class="card-text text-muted">{{ 'add_meal_plan_text'|trans }}</p>
+            <a href="#" class="btn btn-success">{{ 'ui.button.create_meal_plan'|trans }}</a>
+        {% endif %}
+    </div>
+</div>

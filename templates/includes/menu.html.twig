@@ -33,52 +33,52 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ path('admin_dashboard') }}">
-                        <i class="ri-dashboard-3-line"></i><span>{{ 'Dashboard' }}</span>
+                        <i class="ri-dashboard-3-line"></i><span>{{ 'ui.dashboard'|trans }}</span>
                     </a>
                 </li>
 
-                <li class="menu-title"><i class="ri-more-fill"></i><span>{{ 'My Content' }}</span></li>
+                <li class="menu-title"><i class="ri-more-fill"></i><span>{{ 'ui.my_content'|trans }}</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#diet-plans" data-bs-toggle="collapse" role="button">
-                        <i class="mdi mdi-silverware-fork-knife"></i> <span>{{ 'Diet Plans' }}</span>
+                        <i class="mdi mdi-silverware-fork-knife"></i> <span>{{ 'ui.diet_plans'|trans }}</span>
                     </a>
                     <div class="collapse menu-dropdown" id="diet-plans">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">{{ 'Meal Plans' }}</a>
+                                <a href="#" class="nav-link">{{ 'ui.meal_plans'|trans }}</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">{{ 'Meals' }}</a>
+                                <a href="#" class="nav-link">{{ 'ui.meals'|trans }}</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link" >{{ 'Food Items' }}</a>
+                                <a href="#" class="nav-link" >{{ 'ui.food_items'|trans }}</a>
                             </li>
                         </ul>
                     </div>
                 </li>
 
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li class="menu-title"><i class="ri-more-fill"></i><span>Settings</span></li>
+                    <li class="menu-title"><i class="ri-more-fill"></i><span>{{ 'ui.settings'|trans }}</span></li>
                     <li class="nav-item">
                         <a class="nav-link menu-link {% if 'user/management' in app.request.pathinfo %}collapsed active{% endif %}"
                            href="#users" data-bs-toggle="collapse" role="button">
-                            <i class="ri-group-line"></i><span>{{ 'User Management' }}</span>
+                            <i class="ri-group-line"></i><span>{{ 'ui.user_management'|trans }}</span>
                         </a>
                         <div class="collapse menu-dropdown {% if 'user/management' in app.request.pathinfo %}show{% endif %}" id="users">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="{{ path('admin_user_management_customers') }}"
                                        class="nav-link {% if 'management/customer' in app.request.pathinfo %}active{% endif %}">
-                                        {{ 'Customers' }}</a>
+                                        {{ 'ui.customers'|trans }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ path('admin_user_management_professionals') }}"
                                        class="nav-link {% if 'management/professional' in app.request.pathinfo %}active{% endif %}">
-                                        {{ 'Professionals' }}
+                                        {{ 'ui.professionals'|trans }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" >{{ 'Administrators' }}</a>
+                                    <a href="#" class="nav-link" >{{ 'ui.administrators'|trans }}</a>
                                 </li>
                             </ul>
                         </div>

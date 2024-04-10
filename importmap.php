@@ -32,4 +32,7 @@ return [
     'sweetalert2' => [
         'version' => '11.10.7',
     ],
+    '@hotwired/turbo' => [
+        'version' => '7.3.0',
+    ],
 ];

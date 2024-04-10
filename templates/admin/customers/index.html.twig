@@ -75,10 +75,14 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm btn-light">
-{#                                           href="{{ path('admin_user_management_edit_professional', {'id': professional.id}) }}">#}
-                                            {{ 'ui.details'|trans }}
+                                        <a class="btn btn-sm btn-light"
+                                           href="{{ path('admin_user_management_view_customer', {'id': customer.id}) }}">
+                                            {{ 'ui.view'|trans }}
                                         </a>
+                                        <button type="button" class="btn btn-sm btn-soft-danger"
+                                                onclick="removeUser('{{ path('admin_user_management_remove_customer', {'id': customer.id}) }}')">
+                                            <i class="ri-delete-bin-5-line"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             {% endfor %}

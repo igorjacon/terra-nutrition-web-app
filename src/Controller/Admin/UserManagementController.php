@@ -2,11 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Customer;
 use App\Entity\Professional;
 use App\Entity\User;
 use App\Form\ProfessionalType;
 use App\Repository\CustomerRepository;
 use App\Repository\ProfessionalRepository;
+use Cassandra\Custom;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,5 +108,33 @@ class UserManagementController extends AbstractController
             'customers' => $customers,
             'title' => $this->translator->trans('ui.customers')
         ]);
+    }
+
+    #[Route('/customer/{id}', name: 'view_customer', methods: ['GET'])]
+    public function viewCustomer(Customer $customer): Response
+    {
+        return $this->render('admin/customers/show.html.twig', [
+            'customer' => $customer,
+            'title' => $this->translator->trans('ui.customers')
+        ]);
+    }
+
+    #[Route('/customer/remove/{id}', name: 'remove_customer', methods: ['GET', 'DELETE'])]
+    public function removeCustomer(Request $request, Customer $customer): Response
+    {
+        if ($request->isMethod('GET')) {
+            return $this->render('admin/customers/delete_form.html.twig', [
+                'customer' => $customer,
+            ]);
+        } else {
+            if ($this->isCsrfTokenValid('delete' . $customer->getId(), $request->get('_token'))) {
+                $em = $this->doctrine->getManager();
+
+                $em->remove($customer);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('admin_user_management_customers');
+        }
     }
 }

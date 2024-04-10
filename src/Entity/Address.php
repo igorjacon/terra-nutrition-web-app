@@ -38,6 +38,28 @@ class Address
     #[Assert\NotNull]
     private ?string $country = null;
 
+    public function __toString(): string
+    {
+        $address = $this->lineOne;
+        if ($this->lineTwo) {
+            $address .= ", " . $this->lineTwo;
+        }
+        if ($this->city) {
+            $address .= ", " . $this->city;
+        }
+        if ($this->state) {
+            $address .= "<br>" . $this->state;
+        }
+        if ($this->zipCode) {
+            $address .= ", " . $this->zipCode;
+        }
+        if ($this->country) {
+            $address .= ", " . $this->country;
+        }
+
+        return $address;
+    }
+
     /**
      * @return string|null
      */

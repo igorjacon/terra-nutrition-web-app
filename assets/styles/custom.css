@@ -26,3 +26,6 @@ img {
 button.border-red {
     border: 1px solid red !important;
 }
+.bg-ivory {
+    background: var(--ivory) !important;
+}

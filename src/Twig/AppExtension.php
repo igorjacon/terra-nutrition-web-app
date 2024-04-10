@@ -11,8 +11,8 @@ class AppExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            new TwigFilter('normalizeLangToFlag', array($this, 'normalizeLangToFlag')),
-            new TwigFilter('convertLanguageCodeToName', array($this, 'convertLanguageCodeToName')),
+            new TwigFilter('normalizeLangToFlag', [$this, 'normalizeLangToFlag']),
+            new TwigFilter('convertLanguageCodeToName', [$this, 'convertLanguageCodeToName']),
         );
     }
 
