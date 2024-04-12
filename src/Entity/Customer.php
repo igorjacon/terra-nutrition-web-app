@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource]
@@ -21,6 +22,7 @@ class Customer
     #[ORM\Id]
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'customer', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[Assert\Valid]
     private $user;
 
     #[ORM\Column(length: 10, nullable: true)]
@@ -29,8 +31,8 @@ class Customer
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $weight = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $dob = null;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTime $dob = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $goalWeight = null;
@@ -52,6 +54,9 @@ class Customer
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $medicalInfo = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $registrationComplete = false;
 
     #[ORM\OneToMany(targetEntity: Measurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
     private Collection $measurements;
@@ -106,12 +111,12 @@ class Customer
         return $this;
     }
 
-    public function getDob(): ?string
+    public function getDob(): ?\DateTime
     {
         return $this->dob;
     }
 
-    public function setDob(string $dob): static
+    public function setDob(?\DateTime $dob): static
     {
         $this->dob = $dob;
 
@@ -230,5 +235,21 @@ class Customer
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRegistrationComplete(): bool
+    {
+        return $this->registrationComplete;
+    }
+
+    /**
+     * @param bool $registrationComplete
+     */
+    public function setRegistrationComplete(bool $registrationComplete): void
+    {
+        $this->registrationComplete = $registrationComplete;
     }
 }

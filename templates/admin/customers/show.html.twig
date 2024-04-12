@@ -19,15 +19,11 @@
                             <div class="col">
                                 <div class="row align-items-center g-3">
                                     <div class="col-md-auto">
-                                        <div class="avatar-md">
-                                            <div class="avatar-title bg-white rounded-circle">
-                                                {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
-                                                {% if customer.user.profileImg %}
-                                                    {% set avatar = vich_uploader_asset(customer.user, 'profileFile') %}
-                                                {% endif %}
-                                                <img src="{{ avatar }}" alt="{{ customer.user.firstName }}" class="avatar-xs">
-                                            </div>
-                                        </div>
+                                        {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
+                                        {% if customer.user.profileImg %}
+                                            {% set avatar = vich_uploader_asset(customer.user, 'profileFile')|imagine_filter('squared_thumbnail') %}
+                                        {% endif %}
+                                        <img src="{{ avatar }}" alt="profile photo" class="avatar-md rounded-circle">
                                     </div>
                                     <div class="col-md">
                                         <div>
@@ -68,7 +64,7 @@
                             </div>
                             <div class="col-auto">
                                 <div class="btn-group-sm">
-                                    <a href="#" class="btn btn-sm btn-info">
+                                    <a href="{{ path('admin_user_management_edit_customer', {'id': customer.id}) }}" class="btn btn-sm btn-info">
                                         {{ 'ui.button.edit'|trans }}
                                     </a>
                                     <button type="button" class="btn btn-sm btn-danger"

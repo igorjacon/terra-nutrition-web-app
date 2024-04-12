@@ -60,6 +60,7 @@ php bin/console translation:download
 #### API configuration
 ```
 php bin/console lexik:jwt:generate-keypair
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ```
 
 #### Install and deploy static assets

@@ -186,6 +186,7 @@
   --vz-topbar-user-bg: #31373c;
   --vz-topbar-search-bg: #202328;
   --vz-topbar-search-color: #fff;
+  --ivory: #292e32;
 }
 [data-bs-theme=dark][data-topbar=dark] {
   --vz-header-bg: #405189;

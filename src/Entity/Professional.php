@@ -42,6 +42,12 @@ class Professional
         $this->locations = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->user->getFirstName() . " " . $this->user->getLastName();
+    }
+
+
     #[ApiProperty(identifier: true)]
     public function getId(): int
     {

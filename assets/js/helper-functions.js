@@ -1,6 +1,38 @@
 import $ from 'jquery';
 import swal from 'sweetalert2';
 
+// Profile Foreground Img
+if (document.querySelector("#customer_user_profileFile_file")) {
+    document.querySelector("#customer_user_profileFile_file").addEventListener("change", function () {
+        var preview = document.querySelector(".user-profile-image");
+        var file = document.querySelector(".profile-img-file-input").files[0];
+        var reader = new FileReader();
+        reader.addEventListener(
+            "load",
+            function () {
+                preview.src = reader.result;
+            },
+            false
+        );
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+var datepicker = function (target) {
+    let datetimepicker = $(target).datetimepicker({
+        format: 'L',
+        locale: window.locale,
+    });
+    $(target).on('dp.change', function (e) {
+        datetimepicker.datetimepicker('destroy');
+        $(target).unbind('dp.change');
+    });
+    $(target).datetimepicker('show');
+}
+window.datepicker = datepicker;
+
 let removeUser = function (url) {
     $.ajax({
         type: 'GET',

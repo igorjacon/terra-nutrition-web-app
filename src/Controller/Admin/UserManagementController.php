@@ -5,10 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Customer;
 use App\Entity\Professional;
 use App\Entity\User;
+use App\Form\CustomerType;
 use App\Form\ProfessionalType;
 use App\Repository\CustomerRepository;
 use App\Repository\ProfessionalRepository;
-use Cassandra\Custom;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,7 +77,7 @@ class UserManagementController extends AbstractController
 
         return $this->render('admin/professionals/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->translator->trans('ui.edit_professional')
+            'title' => $professional
         ]);
     }
 
@@ -115,7 +115,55 @@ class UserManagementController extends AbstractController
     {
         return $this->render('admin/customers/show.html.twig', [
             'customer' => $customer,
-            'title' => $this->translator->trans('ui.customers')
+            'title' => $customer
+        ]);
+    }
+
+    #[Route('/customers/new', name: 'new_customer', methods: ['GET', 'POST'])]
+    public function newCustomer(Request $request): Response
+    {
+        $user = new User();
+        $customer = new Customer();
+        $user->setCustomer($customer);
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'role' => User::ROLE_CUSTOMER
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em = $this->doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_management_customers');
+        }
+
+        return $this->render('admin/customers/form.html.twig', [
+            'title' => $this->translator->trans('ui.new_customer'),
+            'customer' => $customer,
+            'form'  => $form->createView()
+        ]);
+    }
+
+    #[Route('/customers/edit/{id}', name: 'edit_customer', methods: ['GET', 'POST'])]
+    public function editCustomer(Request $request, Customer $customer): Response
+    {
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'role' => User::ROLE_CUSTOMER
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em = $this->doctrine->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_management_customers');
+        }
+
+        return $this->render('admin/customers/form.html.twig', [
+            'title' => $customer,
+            'customer' => $customer,
+            'form'  => $form->createView()
         ]);
     }
 

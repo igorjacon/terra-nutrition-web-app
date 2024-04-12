@@ -86,7 +86,7 @@
                     <li class="nav-item">
                         <a class="nav-link menu-link {% if 'configuration' in app.request.pathinfo %}active{% endif %}"
                            href="{{ path('admin_system_configuration') }}">
-                            <i class="ri-settings-3-line"></i><span>System Configuration</span>
+                            <i class="ri-settings-3-line"></i><span>{{ 'ui.system_configuration'|trans }}</span>
                         </a>
                     </li>
                 {% endif %}

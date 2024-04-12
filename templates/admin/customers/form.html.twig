@@ -1,0 +1,147 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% form_theme form with ['_form/address_form.html.twig', '_form/phone_form.html.twig'] %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('admin_user_management_customers') }}">
+            {{ 'ui.customers'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="position-relative mx-n4 mt-n4">
+        <div class="profile-wid-bg profile-setting-img"></div>
+    </div>
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col-lg-3">
+            {# Profile Img #}
+            {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
+            {% if customer.user.profileImg %}
+                {% set avatar = vich_uploader_asset(customer.user, 'profileFile') %}
+            {% endif %}
+            <div class="card mt-n5">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                            <img src="{{ avatar }}" alt="user profile image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit"></div>
+                            {{ form_widget(form.user.profileFile, {'attr': {'class': 'profile-img-file-input'}}) }}
+                            <label for="{{ form.user.profileFile.file.vars.id }}" class="profile-photo-edit avatar-xs">
+                                <span class="avatar-title rounded-circle bg-light text-body">
+                                    <i class="ri-camera-fill"></i>
+                                </span>
+                            </label>
+                        </div>
+                        {% if customer.user.id %}
+                            <h5 class="fs-16 mb-1">{{ customer }}</h5>
+                            <p class="text-muted mb-0">{{ customer.user.username }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        <i class="ri-map-pin-user-fill me-1"></i>
+                        {{ 'ui.address'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.user.address.lineOne) }}
+                    {{ form_row(form.user.address.lineTwo) }}
+                    {{ form_row(form.user.address.city) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.user.address.zipCode) }}</div>
+                        <div class="col">{{ form_row(form.user.address.state) }}</div>
+                    </div>
+                    {{ form_row(form.user.address.country) }}
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        <i class="ri-lock-2-line me-1"></i>
+                        {{ 'ui.privacy'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.user.enabled) }}
+                    {{ form_row(form.user.roles) }}
+                    {{ form_row(form.user.authCode) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="card mt-n5">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        <i class="ri-user-2-line me-1"></i>
+                        {{ 'ui.personal_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">{{ form_row(form.user.firstName) }}</div>
+                        <div class="col">{{ form_row(form.user.lastName) }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.user.email) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.user.phones) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        <i class="ri-survey-line me-1"></i>
+                        {{ 'ui.intake_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">{{ form_row(form.height) }}</div>
+                        <div class="col">{{ form_row(form.weight) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.dob) }}</div>
+                        <div class="col">{{ form_row(form.goalWeight) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.occupation) }}</div>
+                        <div class="col">{{ form_row(form.dietaryPreference) }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.goals) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.reasonSeekProfessional) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.currExerciseRoutine) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.medicalInfo) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-label">
+                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

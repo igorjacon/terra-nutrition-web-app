@@ -1,7 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin_base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
-{% block body %}
-
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="avatar-lg mx-auto mb-3">
+                        <div class="avatar-title bg-success-subtle text-success fs-48 rounded">
+                            <i class="ri-user-add-line"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title">{{ 'Add Customer' }}</h4>
+                    <p class="card-text text-muted">{{ 'Quickly add a new customer' }}</p>
+                    <a href="{{ path('admin_user_management_new_customer') }}" class="btn btn-success">{{ 'New Customer' }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
 {% endblock %}

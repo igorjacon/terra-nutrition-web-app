@@ -17,21 +17,23 @@
 {% endblock phone_widget %}
 
 {% block _professional_user_phones_entry_row %}
-    {% block _professional_locations_entry_phone_row %}
-    <div class="input-group mb-3" data-input-flag>
-        <button class="btn btn-light border {{ not form.flag.vars.valid ? 'border-red' }}" data-bs-toggle="dropdown">
-            <img src="{{ form.flag.vars.value ?: '' }}" height="20" class="country-flagimg rounded">
-            {{ form_widget(form.flag) }}
-            <span class="ms-2 country-codeno">{{ form.prefix.vars.value ?: '' }}</span>
-            {{ form_widget(form.prefix) }}
-        </button>
-        {{ form_widget(form.number) }}
-        <div class="dropdown-menu w-100">
-            <div class="p-2 px-3 pt-1 searchlist-input">
-                <input type="text" class="form-control form-control-sm border search-countryList" placeholder="Search country name or country code..." />
+    {% block _customer_user_phones_entry_row %}
+        {% block _professional_locations_entry_phone_row %}
+            <div class="input-group mb-3" data-input-flag>
+                <button class="btn btn-light border {{ not form.flag.vars.valid ? 'border-red' }}" data-bs-toggle="dropdown">
+                    <img src="{{ form.flag.vars.value ?: '' }}" height="20" class="country-flagimg rounded">
+                    {{ form_widget(form.flag) }}
+                    <span class="ms-2 country-codeno">{{ form.prefix.vars.value ?: '' }}</span>
+                    {{ form_widget(form.prefix) }}
+                </button>
+                {{ form_widget(form.number) }}
+                <div class="dropdown-menu w-100">
+                    <div class="p-2 px-3 pt-1 searchlist-input">
+                        <input type="text" class="form-control form-control-sm border search-countryList" placeholder="Search country name or country code..." />
+                    </div>
+                    <ul class="list-unstyled dropdown-menu-list mb-0"></ul>
+                </div>
             </div>
-            <ul class="list-unstyled dropdown-menu-list mb-0"></ul>
-        </div>
-    </div>
-    {% endblock _professional_locations_entry_phone_row %}
+        {% endblock _professional_locations_entry_phone_row %}
+    {% endblock _customer_user_phones_entry_row %}
 {% endblock _professional_user_phones_entry_row %}

@@ -30,7 +30,9 @@ class UserType extends AbstractType
                 'error_bubbling' => false,
                 'default' => [new Phone()]
             ])
-//            ->add('username')
+            ->add('address', AddressType::class, [
+                'label' => false
+            ])
             ->add('email')
             ->add('enabled', CheckboxType::class, ['default' => true])
             ->add('profileFile', VichImageType::class, [
@@ -42,7 +44,7 @@ class UserType extends AbstractType
                 'translation_domain' => 'form'
             ])
             ->add('roles', ChoiceType::class, [
-                'choices' => User::ROLES_ALLOWED,
+                'choices' => $options['role'] ? [$options['role'] => User::ROLES_ALLOWED[$options['role']]] : User::ROLES_ALLOWED,
                 'multiple' => true,
                 'expanded' => true,
                 'default' => $options['role'] ? [User::ROLES_ALLOWED[$options['role']]] : [],

@@ -18,10 +18,10 @@
                         </div>
                         <div class="col-sm-auto">
                             <div class="d-flex flex-wrap align-items-start gap-2">
-                                <button type="button" class="btn btn-primary btn-label right">
+                                <a href="{{ path('admin_user_management_new_customer') }}" class="btn btn-primary btn-label right">
                                     <i class="ri-user-add-line label-icon"></i>
                                     {{ 'ui.button.new_customer'|trans }}
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                         <div class="d-flex gap-2 align-items-center">
                                             {% if customer.user.profileImg %}
                                                 <div class="flex-shrink-0">
-                                                    <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(customer.user, 'profileFile') }}" alt="{{ customer.user.firstName }}">
+                                                    <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(customer.user, 'profileFile')|imagine_filter('squared_thumbnail') }}" alt="{{ customer.user.firstName }}">
                                                 </div>
                                             {% else %}
                                                 <div class="flex-shrink-0">
@@ -65,7 +65,7 @@
                                     <td>{{ customer.user.email }}</td>
                                     <td>{{ customer.user.phones|first }}</td>
                                     <td>
-                                        {{ customer.dob }}
+                                        {{ customer.dob|format_date }}
                                     </td>
                                     <td>
                                         {% if customer.user.enabled %}
