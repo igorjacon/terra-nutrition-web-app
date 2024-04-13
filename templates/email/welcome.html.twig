@@ -1,0 +1,15 @@
+{% extends "email/base.html.twig" %}
+
+{% block body %}
+    <h1>
+        Welcome to Terra Nutri
+    </h1>
+    <p>
+        Please set your password using the link below and your username.
+    </p>
+    <span style="font:14px/1.5 Arial, sans-serif; color:#808080">
+        User name : {{ username }}
+        <br>
+        Set Password : <a href="{{ url_forgotPW }}">{{ url_forgotPW }}</a>
+    </span>
+{% endblock %}

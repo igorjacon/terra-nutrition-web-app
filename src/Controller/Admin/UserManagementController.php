@@ -9,11 +9,13 @@ use App\Form\CustomerType;
 use App\Form\ProfessionalType;
 use App\Repository\CustomerRepository;
 use App\Repository\ProfessionalRepository;
+use App\Service\Mailer;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/user/management', name: 'user_management_')]
@@ -120,7 +122,7 @@ class UserManagementController extends AbstractController
     }
 
     #[Route('/customers/new', name: 'new_customer', methods: ['GET', 'POST'])]
-    public function newCustomer(Request $request): Response
+    public function newCustomer(Request $request, Mailer $mailer): Response
     {
         $user = new User();
         $customer = new Customer();
@@ -134,6 +136,15 @@ class UserManagementController extends AbstractController
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
+
+            $mailer->sendEmail('Welcome',
+                null,
+                $user->getEmail(),
+                'email/welcome.html.twig', [
+                    'username' => $user->getUsername(),
+                    'url_forgotPW' => $this->generateUrl('resetting_request', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    ]
+            );
 
             return $this->redirectToRoute('admin_user_management_customers');
         }
