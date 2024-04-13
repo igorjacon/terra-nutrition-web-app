@@ -7,8 +7,10 @@ use App\Entity\Professional;
 use App\Entity\User;
 use App\Form\CustomerType;
 use App\Form\ProfessionalType;
+use App\Form\UserType;
 use App\Repository\CustomerRepository;
 use App\Repository\ProfessionalRepository;
+use App\Repository\UserRepository;
 use App\Service\Mailer;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +32,7 @@ class UserManagementController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/professionals', name: 'professionals')]
+    #[Route('/professionals', name: 'professionals', methods: ['GET'])]
     public function professionals(ProfessionalRepository $professionalRepository): Response
     {
         $professionals = $professionalRepository->findAll();
@@ -124,9 +126,7 @@ class UserManagementController extends AbstractController
     #[Route('/customers/new', name: 'new_customer', methods: ['GET', 'POST'])]
     public function newCustomer(Request $request, Mailer $mailer): Response
     {
-        $user = new User();
         $customer = new Customer();
-        $user->setCustomer($customer);
         $form = $this->createForm(CustomerType::class, $customer, [
             'role' => User::ROLE_CUSTOMER
         ]);
@@ -134,16 +134,17 @@ class UserManagementController extends AbstractController
 
         if ($form->isSubmitted() and $form->isValid()) {
             $em = $this->doctrine->getManager();
-            $em->persist($user);
+            $em->persist($customer);
             $em->flush();
 
+            $user = $customer->getUser();
             $mailer->sendEmail('Welcome',
                 null,
                 $user->getEmail(),
                 'email/welcome.html.twig', [
                     'username' => $user->getUsername(),
                     'url_forgotPW' => $this->generateUrl('resetting_request', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                    ]
+                ]
             );
 
             return $this->redirectToRoute('admin_user_management_customers');
@@ -194,6 +195,85 @@ class UserManagementController extends AbstractController
             }
 
             return $this->redirectToRoute('admin_user_management_customers');
+        }
+    }
+
+    #[Route('/admins', name: 'admins', methods: ['GET'])]
+    public function administrators(UserRepository $userRepository): Response
+    {
+        $admins = $userRepository->createQueryBuilder('o')
+            ->where('o.roles LIKE :adminRole')
+            ->setParameter('adminRole', '%' . User::ROLES_ALLOWED[User::ROLE_ADMIN] . '%')
+            ->getQuery()->getResult();
+
+        return $this->render('admin/administrators/index.html.twig', [
+            'admins' => $admins,
+            'title' => $this->translator->trans('ui.administrators')
+        ]);
+    }
+
+    #[Route('/admins/new', name: 'new_admin', methods: ['GET', 'POST'])]
+    public function newAdmin(Request $request): Response
+    {
+        $admin = new User();
+        $admin->addRole(User::ROLES_ALLOWED[User::ROLE_ADMIN]);
+        $form = $this->createForm(UserType::class, $admin, [
+            'role' => User::ROLE_ADMIN
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em = $this->doctrine->getManager();
+            $em->persist($admin);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_management_admins');
+        }
+
+        return $this->render('admin/administrators/form.html.twig', [
+            'form' => $form->createView(),
+            'title' => $this->translator->trans('ui.new_admin')
+        ]);
+    }
+
+    #[Route('/admin/edit/{id}', name: 'edit_admin', methods: ['GET', 'POST'])]
+    public function editAdmin(Request $request, User $admin): Response
+    {
+        $form = $this->createForm(UserType::class, $admin, [
+            'role' => User::ROLE_ADMIN
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $em = $this->doctrine->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_management_admins');
+        }
+
+        return $this->render('admin/administrators/form.html.twig', [
+            'form' => $form->createView(),
+            'title' => $admin
+        ]);
+    }
+
+    #[Route('/admins/remove/{id}', name: 'remove_admin', methods: ['GET', 'DELETE'])]
+    public function removeAdmin(Request $request, User $admin): Response
+    {
+        if ($request->isMethod('GET')) {
+            return $this->render('admin/administrators/delete_form.html.twig', [
+                'admin' => $admin,
+            ]);
+        } else {
+            if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->get('_token'))) {
+                $em = $this->doctrine->getManager();
+
+                $em->remove($admin);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('admin_user_management_admins');
         }
     }
 }

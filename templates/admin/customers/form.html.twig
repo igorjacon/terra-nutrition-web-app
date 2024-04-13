@@ -22,7 +22,7 @@
         <div class="col-lg-3">
             {# Profile Img #}
             {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
-            {% if customer.user.profileImg %}
+            {% if customer.user and customer.user.profileImg %}
                 {% set avatar = vich_uploader_asset(customer.user, 'profileFile') %}
             {% endif %}
             <div class="card mt-n5">
@@ -38,7 +38,7 @@
                                 </span>
                             </label>
                         </div>
-                        {% if customer.user.id %}
+                        {% if customer.user and customer.user.id %}
                             <h5 class="fs-16 mb-1">{{ customer }}</h5>
                             <p class="text-muted mb-0">{{ customer.user.username }}</p>
                         {% endif %}
