@@ -49,7 +49,7 @@ security:
                 path: security_logout
                 target: security_login
             entry_point: App\Security\AuthenticationEntryPoint
-#            user_checker: App\Security\AccessPortalChecker
+            user_checker: App\Security\AccessPortalChecker
             switch_user: { role: ROLE_ALLOWED_TO_SWITCH }
             provider: database_users
 
