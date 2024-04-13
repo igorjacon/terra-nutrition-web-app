@@ -99,6 +99,7 @@ See https://symfony.com/doc/current/cookbook/form/create_custom_field_type.html#
 {%- endblock button_widget -%}
 
 {% block _professional_user_profileFile_widget %}
+    {% block _user_profileFile_widget %}
     <div class="vich-image">
         {% if image_uri %}
             <div class="col-auto">
@@ -115,7 +116,8 @@ See https://symfony.com/doc/current/cookbook/form/create_custom_field_type.html#
             <a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
         {% endif %}
     </div>
-{% endblock %}
+    {% endblock _user_profileFile_widget %}
+{% endblock _professional_user_profileFile_widget %}
 
 {% block vich_image_widget %}
 {% endblock %}
@@ -153,3 +155,12 @@ See https://symfony.com/doc/current/cookbook/form/create_custom_field_type.html#
         {{- label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
     </button>
 {% endblock _form_save_widget %}
+
+{% block measurement_input_widget %}
+    <div class="input-group">
+        {{ form_widget(form.measurement) }}
+        <div class="input-group-append">
+            {{ form_widget(form.measurementType) }}
+        </div>
+    </div>
+{% endblock measurement_input_widget %}

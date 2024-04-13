@@ -3,9 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Customer;
-use App\Entity\User;
-use App\Form\Extension\DatePickerType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\Extension\MeasurementInputType;
+use App\Utils\Measurements;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,10 +17,16 @@ class CustomerType extends AbstractType
             ->add('user', UserType::class, [
                 'role' => $options['role']
             ])
-            ->add('height')
-            ->add('weight')
+            ->add('height', MeasurementInputType::class, [
+                'choices' => Measurements::HEIGHT_CHOICES
+            ])
+            ->add('weight', MeasurementInputType::class, [
+                'choices' => Measurements::WEIGHT_CHOICES
+            ])
             ->add('dob')
-            ->add('goalWeight')
+            ->add('goalWeight', MeasurementInputType::class, [
+                'choices' => Measurements::WEIGHT_CHOICES
+            ])
             ->add('occupation')
             ->add('dietaryPreference')
             ->add('goals')

@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
@@ -34,7 +36,7 @@ class UserType extends AbstractType
                 'label' => false
             ])
             ->add('email')
-            ->add('enabled', CheckboxType::class, ['default' => true])
+            ->add('enabled', CheckboxType::class)
             ->add('profileFile', VichImageType::class, [
                 'label' => 'form.label.profile_img',
                 'required' => true,
@@ -57,6 +59,15 @@ class UserType extends AbstractType
                 'label' => 'form.label.roles',
             ])
             ->add('authCode')
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                $form = $event->getForm();
+                $user = $event->getData();
+                if ($user) {
+                    $form->add('enabled', CheckboxType::class);
+                } else {
+                    $form->add('enabled', CheckboxType::class, ['default' => true]);
+                }
+            })
         ;
     }
 
