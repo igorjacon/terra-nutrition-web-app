@@ -62,6 +62,9 @@ class Customer
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $professional;
 
+    #[ORM\OneToMany(targetEntity: MealPlan::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
+    private Collection $mealPlans;
+
     #[ORM\OneToMany(targetEntity: Measurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
     private Collection $measurements;
 
@@ -69,6 +72,7 @@ class Customer
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->mealPlans = new ArrayCollection();
         $this->measurements = new ArrayCollection();
     }
 
@@ -207,6 +211,33 @@ class Customer
     public function setMedicalInfo(?string $medicalInfo): static
     {
         $this->medicalInfo = $medicalInfo;
+
+        return $this;
+    }
+
+    public function getMealPlans(): Collection
+    {
+        return $this->mealPlans;
+    }
+
+    public function addMealPlan(MealPlan $mealPlan): static
+    {
+        if (!$this->mealPlans->contains($mealPlan)) {
+            $this->mealPlans->add($mealPlan);
+            $mealPlan->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMealPlan(MealPlan $mealPlan): static
+    {
+        if ($this->mealPlans->removeElement($mealPlan)) {
+            // set the owning side to null (unless already changed)
+            if ($mealPlan->getCustomer() === $this) {
+                $mealPlan->setCustomer(null);
+            }
+        }
 
         return $this;
     }
