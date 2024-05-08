@@ -38,6 +38,9 @@
                             <thead class="text-muted table-light">
                             <th>{{ 'ui.name'|trans }}</th>
                             <th>{{ 'ui.email'|trans }}</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>{{ 'ui.professional'|trans }}</th>
+                            {% endif %}
                             <th>{{ 'ui.phone'|trans }}</th>
                             <th>{{ 'ui.dob'|trans }}</th>
                             <th>{{ 'ui.active'|trans }}</th>
@@ -63,6 +66,9 @@
                                         </div>
                                     </td>
                                     <td>{{ customer.user.email }}</td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <td>{{ customer.professional }}</td>
+                                    {% endif %}
                                     <td>{{ customer.user.phones|first }}</td>
                                     <td>
                                         {{ customer.dob|format_date }}

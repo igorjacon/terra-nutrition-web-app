@@ -62,7 +62,7 @@ security:
         - { path: '/customer/registration/*', roles: PUBLIC_ACCESS }
         - { path: '/translations', roles: PUBLIC_ACCESS }
         # ADMIN
-        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/admin', roles: ROLE_NUTRITIONIST }
         # API
         - { path: '^/api/(login|token)', roles: PUBLIC_ACCESS }
         - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }

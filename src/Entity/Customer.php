@@ -58,6 +58,10 @@ class Customer
     #[ORM\Column(type: 'boolean')]
     private bool $registrationComplete = false;
 
+    #[ORM\ManyToOne(targetEntity: Professional::class, inversedBy: 'customers')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    private $professional;
+
     #[ORM\OneToMany(targetEntity: Measurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
     private Collection $measurements;
 
@@ -251,5 +255,21 @@ class Customer
     public function setRegistrationComplete(bool $registrationComplete): void
     {
         $this->registrationComplete = $registrationComplete;
+    }
+
+    /**
+     * @return Professional|null
+     */
+    public function getProfessional(): ?Professional
+    {
+        return $this->professional;
+    }
+
+    /**
+     * @param Professional|null $professional
+     */
+    public function setProfessional(?Professional $professional): void
+    {
+        $this->professional = $professional;
     }
 }

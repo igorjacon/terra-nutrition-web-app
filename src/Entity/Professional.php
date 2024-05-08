@@ -33,12 +33,16 @@ class Professional
     #[ORM\Column(nullable: true)]
     private ?string $taxNumber = null;
 
+    #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'professional', cascade: ['persist', 'remove'])]
+    private Collection $customers;
+
     #[ORM\OneToMany(targetEntity: Location::class, mappedBy: 'professional', cascade: ['persist', 'remove'])]
     #[Assert\Valid]
     private Collection $locations;
 
     public function __construct()
     {
+        $this->customers = new ArrayCollection();
         $this->locations = new ArrayCollection();
     }
 
@@ -124,6 +128,33 @@ class Professional
             // set the owning side to null (unless already changed)
             if ($location->getProfessional() === $this) {
                 $location->setProfessional(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function AddCustomer(Customer $customer): static
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->setProfessional($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): static
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getProfessional() === $this) {
+                $customer->setProfessional(null);
             }
         }
 

@@ -13,3 +13,10 @@ admin:
     type: attribute
     prefix: /admin
     name_prefix: admin_
+
+professional:
+    resource: ../../src/Controller/Professional/*
+    type: attribute
+    prefix: /professional
+    name_prefix: professional_
+

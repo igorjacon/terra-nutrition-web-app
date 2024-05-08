@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Customer;
+use App\Entity\Professional;
 use App\Form\Extension\MeasurementInputType;
 use App\Utils\Measurements;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,6 +35,15 @@ class CustomerType extends AbstractType
             ->add('reasonSeekProfessional')
             ->add('currExerciseRoutine')
             ->add('medicalInfo')
+            ->add('professional', EntityType::class, [
+                'class' => Professional::class,
+                'required' => false,
+                'label' => 'form.label.professional',
+                'attr' => [
+                    'class' => 'form-select',
+                    'data-choices' => ''
+                ]
+            ])
         ;
     }
 
