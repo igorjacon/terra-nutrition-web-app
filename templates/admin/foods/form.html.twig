@@ -1,0 +1,67 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('professional_food_index') }}">
+            {{ 'ui.food_items'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.basic_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">{{ form_row(form.foodKey) }}</div>
+                        <div class="col">{{ form_row(form.name) }}</div>
+                    </div>
+                    {{ form_row(form.description) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.profileId) }}</div>
+                        <div class="col">{{ form_row(form.derivation) }}</div>
+                    </div>
+                    {{ form_row(form.samplingDetails) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.classification) }}</div>
+                        <div class="col">{{ form_row(form.classificationName) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.nutritional_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for field in form.foodItemDetails.children %}
+                            <div class="col-sm-6 col-md-4 col-lg-3">{{ form_row(field) }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-label">
+                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

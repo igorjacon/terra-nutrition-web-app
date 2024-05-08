@@ -75,6 +75,9 @@
             "src/Entity/RefreshToken.php"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.3.0"
+    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.20",
         "recipe": {

@@ -1,0 +1,4 @@
+<form id="deleteFood{{ foodItem.foodKey }}" method="post" action="{{ path('professional_food_remove_food', {'foodKey': foodItem.foodKey}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ foodItem.foodKey) }}">
+</form>
