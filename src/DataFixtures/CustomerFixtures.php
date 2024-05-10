@@ -391,7 +391,7 @@ class CustomerFixtures extends Fixture implements FixtureGroupInterface
             $newCustomer = new Customer();
             $newCustomer->setHeight($customer['height']);
             $newCustomer->setWeight($customer['weight']);
-            $newCustomer->setDob($customer['dob']);
+            $newCustomer->setDob(new \DateTime($customer['dob']));
             $newCustomer->setGoalWeight($customer['weightGoal']);
             $newCustomer->setOccupation($customer['occupation']);
             $newCustomer->setDietaryPreference($customer['dietaryPref']);
