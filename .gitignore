@@ -36,7 +36,6 @@ yarn-error.log
 /translations/*
 ###> liip/imagine-bundle ###
 /public/media/cache/
-/public/*
 ###< liip/imagine-bundle ###
 
 .DS_Store
