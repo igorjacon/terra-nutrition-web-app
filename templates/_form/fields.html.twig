@@ -100,22 +100,24 @@ See https://symfony.com/doc/current/cookbook/form/create_custom_field_type.html#
 
 {% block _professional_user_profileFile_widget %}
     {% block _user_profileFile_widget %}
-    <div class="vich-image">
-        {% if image_uri %}
-            <div class="col-auto">
-                <a href="{{ image_uri }}"><img src="{{ image_uri }}" alt=""/></a>
+        {% block _site_settings_logoFile_widget %}
+            <div class="vich-image">
+                {% if image_uri %}
+                    <div class="col-auto">
+                        <a href="{{ image_uri }}"><img src="{{ image_uri }}" alt=""/></a>
+                    </div>
+                {% endif %}
+
+                {{ form_widget(form.file) }}
+                {% if form.delete is defined %}
+                    {{ form_row(form.delete) }}
+                {% endif %}
+
+                {% if download_uri %}
+                    <a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+                {% endif %}
             </div>
-        {% endif %}
-
-        {{ form_widget(form.file) }}
-        {% if form.delete is defined %}
-            {{ form_row(form.delete) }}
-        {% endif %}
-
-        {% if download_uri %}
-            <a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
-        {% endif %}
-    </div>
+        {% endblock _site_settings_logoFile_widget %}
     {% endblock _user_profileFile_widget %}
 {% endblock _professional_user_profileFile_widget %}
 
