@@ -1,0 +1,27 @@
+{% block _meal_plan_days_row %}
+    <div class="row align-items-center mb-3">
+        <div class="col-sm">
+            {{ form_label(form) }}
+        </div>
+        <div class="col-sm-auto">
+            <div class="hstack gap-1 flex-wrap">
+                <button type="button" class="btn btn-sm btn-ghost-dark toggle-weekdays" data-day="all">{{ 'ui.everyday'|trans }}</button>
+                <button type="button" class="btn btn-sm btn-ghost-dark toggle-weekdays" data-day="week">{{ 'ui.weekdays'|trans }}</button>
+                <button type="button" class="btn btn-sm btn-ghost-dark toggle-weekdays" data-day="wends">{{ 'ui.weekends'|trans }}</button>
+                <button type="button" class="btn btn-sm btn-ghost-dark toggle-weekdays" data-day="none">{{ 'ui.none'|trans }}</button>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group" id="days">
+        {% for child in form.children %}
+            {{ form_widget(child) }}
+        {% endfor %}
+    </div>
+{% endblock _meal_plan_days_row %}
+
+{% block _meal_plan_days_entry_widget %}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' btn-check')|trim}) -%}
+    {%- set label_attr = label_attr|merge({class: label_attr.class|default('btn btn-outline-primary')}) -%}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {{- block('form_label') -}}
+{% endblock _meal_plan_days_entry_widget %}

@@ -31,21 +31,25 @@ class Meal
     #[Assert\NotNull]
     private ?string $type = null;
 
-    #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals')]
+    #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals', cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
     private Collection $options;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
 
-    #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'meals')]
-    private Collection $mealPlans;
-
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
         $this->options = new ArrayCollection();
-        $this->mealPlans = new ArrayCollection();
     }
+
+    public function __toString(): string
+    {
+        return $this->type;
+    }
+
 
     public function getId(): ?int
     {
@@ -108,33 +112,6 @@ class Meal
     public function setNotes(?string $notes): static
     {
         $this->notes = $notes;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, MealPlan>
-     */
-    public function getMealPlans(): Collection
-    {
-        return $this->mealPlans;
-    }
-
-    public function addMealPlan(MealPlan $mealPlan): static
-    {
-        if (!$this->mealPlans->contains($mealPlan)) {
-            $this->mealPlans->add($mealPlan);
-            $mealPlan->addMeal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMealPlan(MealPlan $mealPlan): static
-    {
-        if ($this->mealPlans->removeElement($mealPlan)) {
-            $mealPlan->removeMeal($this);
-        }
 
         return $this;
     }

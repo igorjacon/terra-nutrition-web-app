@@ -62,7 +62,10 @@
                     <div class="menu-dropdown" id="diet-plans">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">{{ 'ui.meal_plans'|trans }}</a>
+                                <a class="nav-link {% if 'professional/meal-plan' in app.request.pathinfo %}active{% endif %}"
+                                   href="{{ path('professional_meal_plan_index') }}">
+                                    {{ 'ui.meal_plans'|trans }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">{{ 'ui.meals'|trans }}</a>

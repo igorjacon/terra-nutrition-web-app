@@ -1,0 +1,78 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% form_theme form with ['_form/meal_form.html.twig', '_form/week_days.html.twig'] %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('professional_meal_plan_index') }}">
+            {{ 'ui.meal_plans'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.basic_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.days) }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.publish'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.active) }}
+                    {{ form_row(form.customers) }}
+                </div>
+            </div>
+            <div class="alert border-dashed alert-warning">
+                <h5 class="fs-14 text-warning fw-semibold">
+                    {{ 'ui.meal_plan_schedule_alert'|trans }}
+                </h5>
+                <p class="text-body mb-1">
+                    {{ 'ui.meal_plan_schedule_update'|trans }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-muted fw-medium">{{ 'ui.meals'|trans }}</h3>
+            {{ form_row(form.meals) }}
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-info btn-label" onclick="addCollection(this, '__meal__')"
+                        data-collection-id="{{ form.meals.vars.id }}">
+                    <i class="ri-add-line align-bottom label-icon"></i>
+                    {{ 'ui.new_meal'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <button class="btn btn-primary btn-label">
+                <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+            </button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

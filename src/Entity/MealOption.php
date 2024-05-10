@@ -22,7 +22,7 @@ class MealOption
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $foodItemEntries;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -36,6 +36,8 @@ class MealOption
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
         $this->foodItemEntries = new ArrayCollection();
         $this->meals = new ArrayCollection();
     }

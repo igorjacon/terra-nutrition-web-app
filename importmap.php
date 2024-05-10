@@ -35,7 +35,7 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
-    'datetimepicker' => [
-        'version' => '0.1.39',
+    'bootstrap-datetimepicker' => [
+        'path' => './assets/js/libs/bootstrap-datetimepicker.min.js',
     ],
 ];

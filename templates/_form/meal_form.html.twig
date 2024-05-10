@@ -1,0 +1,106 @@
+{% block _meal_plan_meals_entry_row %}
+    <div class="card" data-collection-item>
+        <div class="card-header">
+            {% if form.vars.data %}
+                <div class="row">
+                    <p class="text-body text-muted text-uppercase">
+                        <span class="fw-medium me-2">
+                            {{ form.vars.data.type }}
+                        </span>
+                        {{ form.vars.data.time }}
+                    </p>
+                </div>
+            {% endif %}
+            <ul class="nav nav-tabs-custom card-header-tabs nav-success border-bottom-0 align-items-center">
+                <li class="nav-item">
+                    <a href="#food-items-{{ form.vars.id }}" class="nav-link active" data-bs-toggle="tab">
+                        {{ 'ui.food_items'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rich-text-{{ form.vars.id }}" class="nav-link" data-bs-toggle="tab">
+                        {{ 'ui.free_text'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#nutrition-{{ form.vars.id }}" class="nav-link" data-bs-toggle="tab">
+                        {{ 'ui.nutritional_info'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item me-2" style="margin-left: auto">
+                    <a data-bs-toggle="collapse" href="#{{ form.vars.id }}" class="text-muted">
+                        <i class="ri-arrow-down-s-line fs-22"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body collapse{{ form.vars.data ? '' : ' show' }}" id="{{ form.vars.id }}">
+            <div class="row">
+                <div class="col-lg-3">{{ form_row(form.time) }}</div>
+                <div class="col-lg-4">{{ form_row(form.type) }}</div>
+            </div>
+            {{ form_row(form.options) }}
+        </div>
+        <div class="card-footer">
+            <div class="row align-items-center">
+                <div class="col-sm">
+                    <div class="d-flex flex-wrap my-n1 justify-content-end">
+                        <a href="javascript:void(0)" class="btn btn-ghost-danger p-1 px-2"
+                            onclick="removeCollection(this)">
+                            <i class="ri-delete-bin-fill align-bottom me-1"></i>
+                            {{ 'ui.remove'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock _meal_plan_meals_entry_row %}
+
+{% block _meal_plan_meals_entry_time_row %}
+    {{ form_label(form) }}
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <span class="input-group-text">
+            <i class="ri-time-line"></i>
+        </span>
+    </div>
+{% endblock _meal_plan_meals_entry_time_row %}
+
+{% block _meal_plan_meals_entry_options_entry_row %}
+    <div class="tab-content">
+        <div class="tab-pane active show" id="food-items-{{ form.parent.parent.vars.id }}">
+            <div class="bg-light-subtle pt-1 border-dark-subtle border-top-dashed border-bottom-dashed">
+                {{ form_row(form.foodItemEntries) }}
+                <div class="d-flex flex-wrap mb-2 justify-content-end">
+                    <a href="javascript:void(0)" onclick="addCollection(this, '__foodEntry__')" data-collection-id="{{ form.foodItemEntries.vars.id }}">
+                        <i class="ri-add-circle-line align-bottom"></i>
+                        {{ 'ui.add_food_entry'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="rich-text-{{ form.parent.parent.vars.id }}">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="tab-pane" id="nutrition-{{ form.parent.parent.vars.id }}"></div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_row(form.notes) }}</div>
+    </div>
+{% endblock _meal_plan_meals_entry_options_entry_row %}
+
+{% block _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}
+    <div class="row align-items-end" data-collection-item>
+        <div class="col-lg-7">{{ form_row(form.foodItem) }}</div>
+        <div class="col-lg-3">{{ form_row(form.measurement) }}</div>
+        <div class="col">{{ form_row(form.quantity) }}</div>
+        <div class="col-auto ps-0">
+            <div class="form-group">
+                <button type="button" class="btn btn-icon btn-soft-danger" onclick="removeCollection(this)">
+                    <i class="ri-delete-bin-5-line"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}

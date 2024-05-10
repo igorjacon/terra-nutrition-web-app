@@ -62,7 +62,7 @@ class Customer
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $professional;
 
-    #[ORM\OneToMany(targetEntity: MealPlan::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'customers')]
     private Collection $mealPlans;
 
     #[ORM\OneToMany(targetEntity: Measurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
@@ -224,7 +224,7 @@ class Customer
     {
         if (!$this->mealPlans->contains($mealPlan)) {
             $this->mealPlans->add($mealPlan);
-            $mealPlan->setCustomer($this);
+            $mealPlan->addCustomer($this);
         }
 
         return $this;
@@ -233,10 +233,7 @@ class Customer
     public function removeMealPlan(MealPlan $mealPlan): static
     {
         if ($this->mealPlans->removeElement($mealPlan)) {
-            // set the owning side to null (unless already changed)
-            if ($mealPlan->getCustomer() === $this) {
-                $mealPlan->setCustomer(null);
-            }
+            $mealPlan->removeCustomer($this);
         }
 
         return $this;

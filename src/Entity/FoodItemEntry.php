@@ -31,9 +31,16 @@ class FoodItemEntry
     #[ORM\Column(nullable: true)]
     private ?float $quantity = null;
 
-    #[ORM\ManyToOne(inversedBy: 'foodItemEntries')]
+    #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'foodItemEntries')]
     #[ORM\JoinColumn(nullable: false)]
     private ?MealOption $mealOption = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {

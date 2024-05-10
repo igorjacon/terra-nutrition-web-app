@@ -59,6 +59,12 @@ class FoodItem
     #[ORM\OneToOne(mappedBy: 'foodItem', cascade: ['persist', 'remove'])]
     private ?FoodItemDetails $foodItemDetails = null;
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+
     public function getFoodKey(): ?string
     {
         return $this->foodKey;

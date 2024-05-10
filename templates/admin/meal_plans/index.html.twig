@@ -3,8 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item">{{ 'ui.user_management'|trans }}</li>
-    <li class="breadcrumb-item active">{{ 'ui.administrators'|trans }}</li>
+    <li class="breadcrumb-item">{{ 'ui.diet_plans'|trans }}</li>
+    <li class="breadcrumb-item active">{{ 'ui.meal_plans'|trans }}</li>
 {% endblock %}
 
 {% block content %}
@@ -14,13 +14,13 @@
                 <div class="card-header border-bottom-dashed">
                     <div class="row g-4 align-items-center">
                         <div class="col-sm">
-                            <h5 class="card-title mb-0">{{ 'ui.administrators'|trans }}</h5>
+                            <h5 class="card-title mb-0">{{ 'ui.meal_plans'|trans }}</h5>
                         </div>
                         <div class="col-sm-auto">
                             <div class="d-flex flex-wrap align-items-start gap-2">
-                                <a href="{{ path('admin_user_management_new_admin') }}" class="btn btn-primary btn-label right">
-                                    <i class="ri-user-add-line label-icon"></i>
-                                    {{ 'ui.button.new_admin'|trans }}
+                                <a href="{{ path('professional_meal_plan_new') }}" class="btn btn-primary btn-label right">
+                                    <i class="ri-add-line label-icon"></i>
+                                    {{ 'ui.button.new_meal_plan'|trans }}
                                 </a>
                             </div>
                         </div>
@@ -34,45 +34,39 @@
                 {#                </div>#}
                 <div class="card-body">
                     <div class="table-responsive table-card">
-                        <table class="table align-middle mb-0">
+                        <table class="table align-middle table-striped mb-0">
                             <thead class="text-muted table-light">
-                            <th>{{ 'ui.name'|trans }}</th>
-                            <th>{{ 'ui.email'|trans }}</th>
-                            <th>{{ 'ui.phone'|trans }}</th>
+                            <th>
+                                <i class="bx bx-sort-alt-2 align-middle"></i>
+                                {{ knp_pagination_sortable(pagination, 'ui.title'|trans, 'o.title') }}
+                            </th>
+                            <th>{{ 'ui.days'|trans }}</th>
                             <th>{{ 'ui.active'|trans }}</th>
                             <th>{{ 'ui.action'|trans }}</th>
                             </thead>
                             <tbody>
-                            {% for user in admins %}
+                            {% for mealPlan in pagination %}
                                 <tr>
                                     <td>
-                                        <div class="d-flex gap-2 align-items-center">
-                                            {% if user.profileImg %}
-                                                <div class="flex-shrink-0">
-                                                    <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(user, 'profileFile') }}" alt="profile pic">
-                                                </div>
-                                            {% endif %}
-                                            <div class="flex-grow-1">
-                                                {{ user }}
-                                            </div>
-                                        </div>
+                                        <a href="{{ path('professional_meal_plan_edit', {'id': mealPlan.id}) }}">
+                                            {{ mealPlan.title }}
+                                        </a>
                                     </td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.phones|first }}</td>
+                                    <td>{{ mealPlan.days|convertToWeekNames|join(', ') }}</td>
                                     <td>
-                                        {% if user.enabled %}
+                                        {% if mealPlan.active %}
                                             <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>
                                         {% else %}
-                                            <span class="badge bg-danger-subtle text-danger">{{ 'ui.disabled'|trans }}</span>
+                                            <span class="badge bg-danger-subtle text-danger">{{ 'ui.inactive'|trans }}</span>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td nowrap>
                                         <a class="btn btn-sm btn-light"
-                                           href="{{ path('admin_user_management_edit_admin', {'id': user.id}) }}">
+                                           href="{{ path('professional_meal_plan_edit', {'id': mealPlan.id}) }}">
                                             {{ 'ui.edit'|trans }}
                                         </a>
                                         <button type="button" class="btn btn-sm btn-soft-danger"
-                                                onclick="removeEntity('{{ path('admin_user_management_remove_admin', {'id': user.id}) }}')">
+                                                onclick="removeEntity('{{ path('professional_meal_plan_remove', {'id': mealPlan.id}) }}')">
                                             <i class="ri-delete-bin-5-line align-middle"></i>
                                         </button>
                                     </td>
@@ -80,6 +74,11 @@
                             {% endfor %}
                             </tbody>
                         </table>
+                        <br>
+                        {# display navigation #}
+                        <div class="d-flex justify-content-center">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ namespace App\Controller\Professional;
 use App\Entity\FoodItem;
 use App\Form\FoodItemType;
 use App\Repository\FoodItemRepository;
+use App\Utils\Pagination;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class FoodController extends AbstractController
         $pagination = $paginator->paginate(
             $foods, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            Pagination::PAGE_LIMIT /*limit per page*/
         );
         return $this->render('admin/foods/index.html.twig', [
             'pagination' => $pagination,
@@ -84,7 +85,7 @@ class FoodController extends AbstractController
     }
 
     #[Route('/food/remove/{foodKey}', name: 'remove_food', methods: ['GET', 'DELETE'])]
-    public function removeCustomer(Request $request): Response
+    public function removeFood(Request $request): Response
     {
         $foodItem = $this->foodItemRepository->findOneBy(['foodKey' => $request->get('foodKey')]);
         if ($request->isMethod('GET')) {
