@@ -41,7 +41,7 @@
                                 {{ knp_pagination_sortable(pagination, 'ui.title'|trans, 'o.title') }}
                             </th>
                             <th>{{ 'ui.days'|trans }}</th>
-                            <th>{{ 'ui.active'|trans }}</th>
+                            <th>{{ 'ui.status'|trans }}</th>
                             <th>{{ 'ui.action'|trans }}</th>
                             </thead>
                             <tbody>
@@ -52,7 +52,7 @@
                                             {{ mealPlan.title }}
                                         </a>
                                     </td>
-                                    <td>{{ mealPlan.days|convertToWeekNames|join(', ') }}</td>
+                                    <td>{{ include('includes/_meal_plan_days.html.twig') }}</td>
                                     <td>
                                         {% if mealPlan.active %}
                                             <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>

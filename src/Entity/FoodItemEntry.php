@@ -20,7 +20,7 @@ class FoodItemEntry
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: FoodItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: FoodItem::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'food_key', referencedColumnName: 'food_key', nullable: false)]
     #[Assert\NotNull]
     private ?FoodItem $foodItem = null;

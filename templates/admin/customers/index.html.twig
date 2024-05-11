@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-sm-auto">
                             <div class="d-flex flex-wrap align-items-start gap-2">
-                                <a href="{{ path('admin_user_management_new_customer') }}" class="btn btn-primary btn-label right">
+                                <a href="{{ path('professional_customer_new') }}" class="btn btn-primary btn-label right">
                                     <i class="ri-user-add-line label-icon"></i>
                                     {{ 'ui.button.new_customer'|trans }}
                                 </a>
@@ -82,14 +82,14 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-sm btn-light"
-                                           href="{{ path('admin_user_management_view_customer', {'id': customer.id}) }}">
+                                           href="{{ path('professional_customer_show', {'id': customer.id}) }}">
                                             {{ 'ui.view'|trans }}
                                         </a>
-                                        <a class="btn btn-sm btn-soft-info" href="{{ path('admin_user_management_edit_customer', {'id': customer.id}) }}">
+                                        <a class="btn btn-sm btn-soft-info" href="{{ path('professional_customer_edit', {'id': customer.id}) }}">
                                             <i class="ri-settings-3-line"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-soft-danger"
-                                                onclick="removeEntity('{{ path('admin_user_management_remove_customer', {'id': customer.id}) }}')">
+                                                onclick="removeEntity('{{ path('professional_customer_remove', {'id': customer.id}) }}')">
                                             <i class="ri-delete-bin-5-line"></i>
                                         </button>
                                     </td>

@@ -1,0 +1,7 @@
+{% if mealPlan.days|length %}
+    {% for day in mealPlan.days|convertToWeekNames %}
+        <span class="badge rounded-pill border border-success text-success">{{ day }}</span>
+    {% endfor %}
+{% else %}
+    <span class="badge rounded-pill border border-dark text-body">{{ 'ui.none'|trans }}</span>
+{% endif %}

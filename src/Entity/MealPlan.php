@@ -49,7 +49,7 @@ class MealPlan
     #[Assert\Count(min: 1)]
     private Collection $meals;
 
-    #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'mealPlans', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'mealPlans', cascade: ['persist'])]
     private Collection $customers;
 
     public function __construct()
