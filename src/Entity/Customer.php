@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CustomerRepository;
+use App\State\CustomerProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -14,7 +17,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource]
+#[ApiResource(operations: [new Get(provider: CustomerProvider::class), new GetCollection()])]
 class Customer
 {
     use TimestampableEntity, BlameableEntity;
@@ -23,6 +26,7 @@ class Customer
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'customer', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Valid]
+    #[ApiProperty(identifier: false)]
     private $user;
 
     #[ORM\Column(length: 10, nullable: true)]
@@ -81,6 +85,7 @@ class Customer
         return $this->user->getFirstName() . " " . $this->user->getLastName();
     }
 
+    #[ApiProperty(identifier: true)]
     public function getId(): int
     {
         return $this->user->getId();
