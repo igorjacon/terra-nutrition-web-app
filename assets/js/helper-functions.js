@@ -100,6 +100,33 @@ let addCollection = function (element, prototypeName = '__name__') {
 }
 window.addCollection = addCollection;
 
+let addOptionCollection = function (element, prototypeName = '__name__') {
+    let collectionId = $(element).attr('data-collection-id');
+    let prototype = $('#' + collectionId).attr('data-prototype');
+    let collectionItems = $('#' + collectionId).find('.accordion-item');
+    if (counter === 0) {
+        counter = collectionItems.length+1;
+    } else {
+        counter++;
+    }
+    let optionCounter = collectionItems.length+1;
+
+    let regex = new RegExp(prototypeName, 'g');
+    let newWidget = prototype.replace(regex, counter);
+    newWidget = newWidget.replace('/__key__/g', optionCounter);
+
+    //append widget
+    $(newWidget).appendTo('#' + collectionId);
+    $(newWidget).find('select').each(function() {
+        let id = $(this).attr('id');
+        new Choices('#'+id);
+    });
+    $('[data-toggle="time"]').datetimepicker({
+        format: 'LT'
+    });
+}
+window.addOptionCollection = addOptionCollection;
+
 let removeCollection = function(element) {
     let collectionItem = $(element).closest('[data-collection-item]');
     $(collectionItem).remove();

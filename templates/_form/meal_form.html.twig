@@ -39,7 +39,19 @@
                 <div class="col-lg-3">{{ form_row(form.time) }}</div>
                 <div class="col-lg-4">{{ form_row(form.type) }}</div>
             </div>
-            {{ form_row(form.options) }}
+            <div class="accordion" id="meal-option-{{ form.vars.id }}">
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="food-items-{{ form.vars.id }}">
+                        <div class="bg-light-subtle pt-1 border-dark-subtle border-top-dashed">
+                            {{ form_row(form.options) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="rich-text-{{ form.vars.id }}">
+{#                    {{ form_row(form.options.description) }}#}
+                </div>
+                <div class="tab-pane" id="nutrition-{{ form.vars.id }}"></div>
+            </div>
         </div>
         <div class="card-footer">
             <div class="row align-items-center">
@@ -49,6 +61,10 @@
                             onclick="removeCollection(this)">
                             <i class="ri-delete-bin-fill align-bottom me-1"></i>
                             {{ 'ui.remove'|trans }}
+                        </a>
+                        <a href="javascript:void(0)" onclick="addOptionCollection(this, '__option__')" data-collection-id="{{ form.options.vars.id }}">
+{#                            <i class="ri-add-line label-icon"></i>#}
+                            {{ 'ui.add_meal_option'|trans }}
                         </a>
                     </div>
                 </div>
@@ -68,9 +84,17 @@
 {% endblock _meal_plan_meals_entry_time_row %}
 
 {% block _meal_plan_meals_entry_options_entry_row %}
-    <div class="tab-content">
-        <div class="tab-pane active show" id="food-items-{{ form.parent.parent.vars.id }}">
-            <div class="bg-light-subtle pt-1 border-dark-subtle border-top-dashed border-bottom-dashed">
+{#    {{ dump(form.parent.children|first.vars.name) }}#}
+{#    {{ dump(form.vars.name) }}#}
+{#    {{ dump(form.vars.name) }}#}
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#{{ form.vars.id }}">
+                Option {{ form.vars.name == "0" ? 'Main' : form.vars.name }}
+            </button>
+        </h2>
+        <div class="accordion-collapse collapse show" id="{{ form.vars.id }}">
+            <div class="accordion-body">
                 {{ form_row(form.foodItemEntries) }}
                 <div class="d-flex flex-wrap mb-2 justify-content-end">
                     <a href="javascript:void(0)" onclick="addCollection(this, '__foodEntry__')" data-collection-id="{{ form.foodItemEntries.vars.id }}">
@@ -78,15 +102,11 @@
                         {{ 'ui.add_food_entry'|trans }}
                     </a>
                 </div>
+                <div class="row">
+                    <div class="col">{{ form_row(form.notes) }}</div>
+                </div>
             </div>
         </div>
-        <div class="tab-pane" id="rich-text-{{ form.parent.parent.vars.id }}">
-            {{ form_row(form.description) }}
-        </div>
-        <div class="tab-pane" id="nutrition-{{ form.parent.parent.vars.id }}"></div>
-    </div>
-    <div class="row">
-        <div class="col">{{ form_row(form.notes) }}</div>
     </div>
 {% endblock _meal_plan_meals_entry_options_entry_row %}
 

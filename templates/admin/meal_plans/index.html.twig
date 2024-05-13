@@ -40,6 +40,10 @@
                                 <i class="bx bx-sort-alt-2 align-middle"></i>
                                 {{ knp_pagination_sortable(pagination, 'ui.title'|trans, 'o.title') }}
                             </th>
+                            <th>
+                                <i class="bx bx-sort-alt-2 align-middle"></i>
+                                {{ knp_pagination_sortable(pagination, 'ui.description'|trans, 'o.description') }}
+                            </th>
                             <th>{{ 'ui.days'|trans }}</th>
                             <th>{{ 'ui.status'|trans }}</th>
                             <th>{{ 'ui.action'|trans }}</th>
@@ -52,6 +56,7 @@
                                             {{ mealPlan.title }}
                                         </a>
                                     </td>
+                                    <td>{{ mealPlan.description }}</td>
                                     <td>{{ include('includes/_meal_plan_days.html.twig') }}</td>
                                     <td>
                                         {% if mealPlan.active %}
