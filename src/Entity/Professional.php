@@ -29,6 +29,7 @@ class Professional
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'professional', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Valid]
+    #[ApiProperty(identifier: false)]
     #[Groups(['professional-read', 'customer-read'])]
     private $user;
 
@@ -63,7 +64,6 @@ class Professional
     {
         return $this->user->getFirstName() . " " . $this->user->getLastName();
     }
-
 
     #[ApiProperty(identifier: true)]
     public function getId(): int

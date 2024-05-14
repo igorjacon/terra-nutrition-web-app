@@ -58,7 +58,7 @@ class MealPlan
     #[Groups(['meal-plan-read'])]
     private ?array $days = null;
 
-    #[ORM\ManyToMany(targetEntity: Meal::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: Meal::class, inversedBy: 'mealPlans', cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
     #[Groups(['meal-plan-read'])]
     private Collection $meals;
