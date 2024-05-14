@@ -78,6 +78,11 @@ class Address
         return $address;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     /**
      * @return string|null
      */

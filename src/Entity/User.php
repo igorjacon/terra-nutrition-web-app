@@ -50,36 +50,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?int $id = null;
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?string $firstName;
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?string $lastName;
 
     #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     #[Assert\Valid]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private $phones;
 
     #[ORM\Column(length: 180)]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?string $username = null;
 
     #[ORM\Column(unique: true, nullable: true)]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?string $email;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     protected bool $enabled = true;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     private $profileFile;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private ?string $profileImg = null;
 
     #[ORM\Column]
@@ -97,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
     private ?string $password = null;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
-    #[Groups(['customer-read', 'user-read', 'professional'])]
+    #[Groups(['customer-read', 'user-read', 'professional-read'])]
     private $address;
 
     #[ORM\Column(type: 'datetime', nullable: true)]

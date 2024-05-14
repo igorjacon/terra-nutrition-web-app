@@ -113,7 +113,7 @@ let addOptionCollection = function (element, prototypeName = '__name__') {
 
     let regex = new RegExp(prototypeName, 'g');
     let newWidget = prototype.replace(regex, counter);
-    newWidget = newWidget.replace('/__key__/g', optionCounter);
+    newWidget = newWidget.replace('__key__', optionCounter);
 
     //append widget
     $(newWidget).appendTo('#' + collectionId);
