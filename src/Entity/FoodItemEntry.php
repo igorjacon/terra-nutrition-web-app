@@ -7,6 +7,7 @@ use App\Repository\FoodItemEntryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FoodItemEntryRepository::class)]
@@ -23,12 +24,15 @@ class FoodItemEntry
     #[ORM\ManyToOne(targetEntity: FoodItem::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'food_key', referencedColumnName: 'food_key', nullable: false)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read'])]
     private ?FoodItem $foodItem = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?string $measurement = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?float $quantity = null;
 
     #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'foodItemEntries')]

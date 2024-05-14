@@ -10,10 +10,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealPlanRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['meal-plan-read']],
+    denormalizationContext: ['groups' => ['meal-plan-write']],
+)]
 class MealPlan
 {
     const DAYS = [
@@ -33,20 +37,24 @@ class MealPlan
     private ?int $id = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['meal-plan-read'])]
     protected bool $active = true;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?array $days = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
+    #[Groups(['meal-plan-read'])]
     private Collection $meals;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'mealPlans', cascade: ['persist'])]

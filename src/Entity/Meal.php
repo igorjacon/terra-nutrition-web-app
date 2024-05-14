@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealRepository::class)]
@@ -25,17 +26,21 @@ class Meal
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read'])]
     private ?string $time = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read'])]
     private ?string $type = null;
 
     #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals', cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
+    #[Groups(['meal-plan-read'])]
     private Collection $options;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?string $notes = null;
 
     public function __construct()

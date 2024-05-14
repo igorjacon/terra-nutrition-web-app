@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FoodItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FoodItemRepository::class)]
@@ -17,6 +18,7 @@ class FoodItem
     #[ORM\Column(type: 'string', length: 10, nullable: false)]
     #[Assert\NotNull]
     #[Assert\Length(max: 10)]
+    #[Groups(['meal-plan-read'])]
     private ?string $foodKey = null;
 
     #[ORM\Column(nullable: true)]
@@ -27,9 +29,11 @@ class FoodItem
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -57,6 +61,7 @@ class FoodItem
     private ?string $classificationName = null;
 
     #[ORM\OneToOne(mappedBy: 'foodItem', cascade: ['persist', 'remove'])]
+    #[Groups(['meal-plan-read'])]
     private ?FoodItemDetails $foodItemDetails = null;
 
     public function __toString(): string

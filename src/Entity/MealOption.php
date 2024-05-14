@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: MealOptionRepository::class)]
 #[ApiResource]
@@ -23,12 +24,15 @@ class MealOption
     private ?int $id = null;
 
     #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['meal-plan-read'])]
     private Collection $foodItemEntries;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]

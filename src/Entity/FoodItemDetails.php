@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FoodItemDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: FoodItemDetailsRepository::class)]
 #[ApiResource]
@@ -19,9 +20,11 @@ class FoodItemDetails
     private ?int $classification = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['meal-plan-read'])]
     private ?string $foodName = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?float $energyWithFibreKj = null;
 
     #[ORM\Column(nullable: true)]
@@ -31,12 +34,14 @@ class FoodItemDetails
     private ?float $water = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?float $protein = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $nitrogen = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?float $fat = null;
 
     #[ORM\Column(nullable: true)]
@@ -139,6 +144,7 @@ class FoodItemDetails
     private ?float $vitaminB7biotin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read'])]
     private ?float $carbohydrate = null;
 
     public function getFoodItem(): ?FoodItem
