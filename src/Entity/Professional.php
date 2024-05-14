@@ -7,27 +7,39 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProfessionalRepository;
+use App\State\ProfessionalProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfessionalRepository::class)]
-#[ApiResource(operations: [new Get(), new GetCollection()])]
+#[ApiResource(
+    operations: [
+        new Get(provider: ProfessionalProvider::class),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['professional-read']],
+    denormalizationContext: ['groups' => ['professional-write']],
+)]
 class Professional
 {
     #[ORM\Id]
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'professional', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Valid]
+    #[Groups(['professional-read', 'customer-read'])]
     private $user;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
+    #[Groups(['professional-read', 'customer-read'])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
+    #[Groups(['professional-read', 'customer-read'])]
     private ?string $jobTitle = null;
 
     #[ORM\Column(nullable: true)]
@@ -38,6 +50,7 @@ class Professional
 
     #[ORM\OneToMany(targetEntity: Location::class, mappedBy: 'professional', cascade: ['persist', 'remove'])]
     #[Assert\Valid]
+    #[Groups(['professional-read', 'customer-read'])]
     private Collection $locations;
 
     public function __construct()

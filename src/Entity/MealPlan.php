@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\MealPlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealPlanRepository::class)]
 #[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
     normalizationContext: ['groups' => ['meal-plan-read']],
     denormalizationContext: ['groups' => ['meal-plan-write']],
 )]

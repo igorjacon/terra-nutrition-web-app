@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\FoodItemEntryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
@@ -11,7 +13,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FoodItemEntryRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['food-item-entry-read']],
+    denormalizationContext: ['groups' => ['food-item-entry-write']],
+)]
 class FoodItemEntry
 {
     use TimestampableEntity, BlameableEntity;
@@ -19,20 +28,21 @@ class FoodItemEntry
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: FoodItem::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'food_key', referencedColumnName: 'food_key', nullable: false)]
     #[Assert\NotNull]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
     private ?FoodItem $foodItem = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
     private ?string $measurement = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
     private ?float $quantity = null;
 
     #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'foodItemEntries')]

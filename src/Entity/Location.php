@@ -2,28 +2,44 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['location-read']],
+    denormalizationContext: ['groups' => ['location-write']],
+)]
 class Location
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['customer-read', 'professional-read', 'location-read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['customer-read', 'professional-read', 'location-read'])]
     private ?string $name = null;
 
     #[ORM\OneToOne(targetEntity: Phone::class, cascade: ['persist', 'remove'])]
     #[Assert\Valid]
+    #[Groups(['customer-read', 'professional-read', 'location-read'])]
     private $phone;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     #[Assert\Valid]
+    #[Groups(['customer-read', 'professional-read', 'location-read'])]
     private $address;
 
     #[ORM\ManyToOne(targetEntity: Professional::class, inversedBy: 'locations')]

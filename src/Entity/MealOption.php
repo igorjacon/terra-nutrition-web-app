@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\MealOptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +15,13 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: MealOptionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['meal-option-read']],
+    denormalizationContext: ['groups' => ['meal-option-write']],)]
 class MealOption
 {
     use TimestampableEntity, BlameableEntity;
@@ -21,18 +29,19 @@ class MealOption
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?int $id = null;
 
     #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private Collection $foodItemEntries;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]

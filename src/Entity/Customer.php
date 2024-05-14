@@ -14,10 +14,18 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource(operations: [new Get(provider: CustomerProvider::class), new GetCollection()])]
+#[ApiResource(
+    operations: [
+        new Get(provider: CustomerProvider::class),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['customer-read']],
+    denormalizationContext: ['groups' => ['customer-write']],
+)]
 class Customer
 {
     use TimestampableEntity, BlameableEntity;
@@ -27,43 +35,56 @@ class Customer
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Valid]
     #[ApiProperty(identifier: false)]
+    #[Groups(['customer-read'])]
     private $user;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $height = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $weight = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['customer-read'])]
     private ?\DateTime $dob = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $goalWeight = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $occupation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $dietaryPreference = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $goals = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $reasonSeekProfessional = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $currExerciseRoutine = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['customer-read'])]
     private ?string $medicalInfo = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['customer-read'])]
     private bool $registrationComplete = false;
 
     #[ORM\ManyToOne(targetEntity: Professional::class, inversedBy: 'customers')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[Groups(['customer-read'])]
     private $professional;
 
     #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'customers')]

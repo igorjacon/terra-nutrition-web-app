@@ -3,12 +3,21 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\FoodItemDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: FoodItemDetailsRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['food-item-detail-read']],
+    denormalizationContext: ['groups' => ['food-item-detail-write']],
+)]
 class FoodItemDetails
 {
     #[ORM\Id]
@@ -20,11 +29,11 @@ class FoodItemDetails
     private ?int $classification = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?string $foodName = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $energyWithFibreKj = null;
 
     #[ORM\Column(nullable: true)]
@@ -34,14 +43,14 @@ class FoodItemDetails
     private ?float $water = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $protein = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $nitrogen = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $fat = null;
 
     #[ORM\Column(nullable: true)]
@@ -78,9 +87,11 @@ class FoodItemDetails
     private ?float $totalSugar = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $calcium = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $iron = null;
 
     #[ORM\Column(nullable: true)]
@@ -105,27 +116,35 @@ class FoodItemDetails
     private ?float $sodium = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminAretinol = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB1thiamin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB2riboflavin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB3niacin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB6pyridoxine = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB12cobalamin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminC = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminE = null;
 
     #[ORM\Column(nullable: true)]
@@ -138,13 +157,15 @@ class FoodItemDetails
     private ?float $polySaturatedFattyAcids = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $zinc = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $vitaminB7biotin = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read'])]
     private ?float $carbohydrate = null;
 
     public function getFoodItem(): ?FoodItem
