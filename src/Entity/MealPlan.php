@@ -40,6 +40,7 @@ class MealPlan
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['meal-plan-read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'boolean')]
