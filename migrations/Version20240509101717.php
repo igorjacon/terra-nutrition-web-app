@@ -20,12 +20,12 @@ final class Version20240509101717 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE meal_plan ADD description LONGTEXT DEFAULT NULL');
+//        $this->addSql('ALTER TABLE meal_plan ADD description LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE meal_plan DROP description');
+//        $this->addSql('ALTER TABLE meal_plan DROP description');
     }
 }
