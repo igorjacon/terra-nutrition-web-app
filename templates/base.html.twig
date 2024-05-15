@@ -14,27 +14,15 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('js/theme/layout.js') }}"></script>
-            <script src="{{ asset('js/libs/jquery.js') }}"></script>
-            <script src="{{ asset('js/libs/moment-with-locales.js') }}"></script>
-            <script src="{{ asset('js/libs/bootstrap-datetimepicker.min.js') }}"></script>
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script type="text/javascript">
                 var domain = "{{ domain }}";
-                $(document).ready(function() {
-                    $('[data-toggle="time"]').datetimepicker({
-                        format: 'LT'
-                    });
-                });
             </script>
-            <script type="text/javascript" src="{{ asset('js/theme/bootstrap.bundle.min.js') }}" defer></script>
-            <script type="text/javascript" src="{{ asset('js/theme/simplebar.min.js') }}" defer></script>
+            <script type="text/javascript" src="{{ asset('js/theme/layout.js') }}"></script>
+            <script src="{{ asset('js/libs/moment-with-locales.js') }}"></script>
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script type="text/javascript" src="{{ asset('js/theme/waves.min.js') }}" defer></script>
             <script type="text/javascript" src="{{ asset('js/theme/feather.min.js') }}" defer></script>
             <script type="text/javascript" src="{{ asset('js/theme/lord-icon-2.1.0.js') }}" defer></script>
-            <script type="text/javascript" src="{{ asset('js/libs/choices.min.js') }}" defer></script>
-            <script type="text/javascript" src="{{ asset('js/libs/flag-input.init.js') }}" defer></script>
-            <script type="module" src="{{ asset('js/helper-functions.js') }}" defer></script>
             {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != '2fa_login' %}
                 <script type="text/javascript" src="{{ asset('js/theme/app.js') }}" defer></script>
             {% endif %}

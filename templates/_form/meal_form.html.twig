@@ -82,7 +82,7 @@
 {% block _meal_plan_meals_entry_options_entry_row %}
     <div class="accordion-item" data-collection-item>
         <h2 class="accordion-header">
-            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#{{ form.vars.id }}">
+            <button type="button" class="accordion-button{{ form.vars.data ? ' collapsed' : ''}}" data-bs-toggle="collapse" data-bs-target="#{{ form.vars.id }}">
                 {{ 'ui.option'|trans }}
                 {% if form.vars.data %}
                     {{ form.vars.name == "0" ? 'Main' : form.vars.name|number_format + 1 }}
@@ -91,7 +91,7 @@
                 {% endif %}
             </button>
         </h2>
-        <div class="accordion-collapse collapse collapsed" id="{{ form.vars.id }}">
+        <div class="accordion-collapse collapse {{ form.vars.data ? 'collapsed' : 'show'}}" id="{{ form.vars.id }}">
             <ul class="nav nav-tabs-custom align-items-center">
                 <li class="nav-item">
                     <a href="#food-items-{{ form.vars.id }}" class="nav-link active" data-bs-toggle="tab">

@@ -16,12 +16,6 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
-    '@symfony/stimulus-bundle' => [
-        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.3',
         'type' => 'css',
@@ -31,11 +25,5 @@ return [
     ],
     'sweetalert2' => [
         'version' => '11.10.7',
-    ],
-    '@hotwired/turbo' => [
-        'version' => '7.3.0',
-    ],
-    'bootstrap-datetimepicker' => [
-        'path' => './assets/js/libs/bootstrap-datetimepicker.min.js',
     ],
 ];
