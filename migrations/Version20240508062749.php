@@ -20,12 +20,12 @@ final class Version20240508062749 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-//        $this->addSql('ALTER TABLE meal_plan ADD active TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE meal_plan ADD active TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-//        $this->addSql('ALTER TABLE meal_plan DROP active');
+        $this->addSql('ALTER TABLE meal_plan DROP active');
     }
 }
