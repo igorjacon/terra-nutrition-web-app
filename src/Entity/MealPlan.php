@@ -112,7 +112,7 @@ class MealPlan
 
     public function setDays(?array $days): static
     {
-        $this->days = $days;
+        $this->days = array_values($days);
 
         return $this;
     }
