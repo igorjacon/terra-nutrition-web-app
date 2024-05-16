@@ -29,3 +29,6 @@ button.border-red {
 .bg-ivory {
     background: var(--ivory) !important;
 }
+#dob .choices__list--dropdown .choices__item {
+    padding: 10px;
+}
