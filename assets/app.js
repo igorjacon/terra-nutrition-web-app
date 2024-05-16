@@ -49,7 +49,7 @@ $(function (){
     $('.toggle-weekdays').on('click', function() {
         let value = $(this).data('day');
         let weekdays = ["1","2","3","4","5"];
-        let weekends = ["6","7"];
+        let weekends = ["6","0"];
         switch (value) {
             case 'all':
                 $('#days input[type="checkbox"]').each(function() {

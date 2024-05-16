@@ -54,10 +54,14 @@ class Professional
     #[Groups(['professional-read', 'customer-read'])]
     private Collection $locations;
 
+    #[ORM\OneToMany(targetEntity: MealPlan::class, mappedBy: 'professional')]
+    private Collection $mealPlans;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->mealPlans = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -171,6 +175,27 @@ class Professional
             }
         }
 
+        return $this;
+    }
+
+    public function getMealPlans(): Collection
+    {
+        return $this->mealPlans;
+    }
+
+    public function addMealPlan(MealPlan $mealPlan): static
+    {
+        if (!$this->mealPlans->contains($mealPlan)) {
+            $this->mealPlans->add($mealPlan);
+            $mealPlan->setProfessional($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMealPlan(MealPlan $mealPlan): static
+    {
+        $this->mealPlans->removeElement($mealPlan);
         return $this;
     }
 }

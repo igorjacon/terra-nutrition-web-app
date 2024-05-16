@@ -3,6 +3,7 @@
 namespace App\Controller\Professional;
 
 use App\Entity\MealPlan;
+use App\Entity\User;
 use App\Form\MealPlanType;
 use App\Repository\MealPlanRepository;
 use App\Utils\Pagination;
@@ -29,7 +30,14 @@ class MealPlanController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, MealPlanRepository $mealPlanRepository, PaginatorInterface $paginator): Response
     {
-        $mealPlansQuery = $mealPlanRepository->createQueryBuilder('o');
+        $professional = $this->getUser()->getProfessional();
+        if ($professional) {
+            $mealPlansQuery = $mealPlanRepository->createQueryBuilder('o')
+                ->where('o.professional = :professional')
+                ->setParameter('professional', $professional);
+        } else {
+            $mealPlansQuery = $mealPlanRepository->createQueryBuilder('o');
+        }
         $pagination = $paginator->paginate(
             $mealPlansQuery, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -44,7 +52,11 @@ class MealPlanController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function newMealPlan(Request $request): Response
     {
+        $professional = $this->getUser()->getProfessional();
         $mealPlan = new MealPlan();
+        if ($professional) {
+            $professional->addMealPlan($mealPlan);
+        }
         $form = $this->createForm(MealPlanType::class, $mealPlan);
         $form->handleRequest($request);
 

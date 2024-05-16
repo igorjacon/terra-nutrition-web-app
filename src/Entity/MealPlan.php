@@ -64,12 +64,17 @@ class MealPlan
 
     #[ORM\ManyToMany(targetEntity: Meal::class, inversedBy: 'mealPlans', cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
+    #[Assert\Valid]
     #[Groups(['meal-plan-read'])]
     #[ORM\OrderBy(["time" => "ASC"])]
     private Collection $meals;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'mealPlans', cascade: ['persist'])]
     private Collection $customers;
+
+    #[ORM\ManyToOne(targetEntity: Professional::class, cascade: ['persist'], inversedBy: 'mealPlans')]
+    #[Assert\NotNull]
+    private $professional;
 
     public function __construct()
     {
@@ -168,5 +173,21 @@ class MealPlan
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return Professional
+     */
+    public function getProfessional(): ?Professional
+    {
+        return $this->professional;
+    }
+
+    /**
+     * @param Professional $professional
+     */
+    public function setProfessional(?Professional $professional): void
+    {
+        $this->professional = $professional;
     }
 }

@@ -21,7 +21,7 @@ class MealOptionType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'prototype_name' => '__foodEntry__',
-                'by_reference' => false,
+//                'by_reference' => false,
                 'error_bubbling' => false,
             ])
             ->add('description')

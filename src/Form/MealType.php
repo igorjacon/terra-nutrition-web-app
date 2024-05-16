@@ -24,7 +24,9 @@ class MealType extends AbstractType
                     'data-toggle' => 'time'
                 ]
             ])
-            ->add('type')
+            ->add('type', TextType::class, [
+//                'error_bubbling' => false
+            ])
             ->add('options', CollectionType::class, [
                 'entry_type' => MealOptionType::class,
                 'label' => false,
@@ -32,7 +34,7 @@ class MealType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'prototype_name' => '__option__',
-                'by_reference' => false,
+//                'by_reference' => false,
                 'error_bubbling' => false,
                 'default' => [new MealOption()]
             ])
@@ -44,7 +46,8 @@ class MealType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Meal::class,
             'translation_domain' => 'form',
-            'label' => false
+            'label' => false,
+            'error_bubbling' => false
         ]);
     }
 }

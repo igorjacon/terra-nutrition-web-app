@@ -41,6 +41,9 @@
                 <div class="card-body">
                     {{ form_row(form.active) }}
                     {{ form_row(form.customers) }}
+                    {% if form.professional is defined %}
+                        {{ form_row(form.professional) }}
+                    {% endif %}
                 </div>
             </div>
             <div class="alert border-dashed alert-warning">

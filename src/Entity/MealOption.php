@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealOptionRepository::class)]
 #[ApiResource(
@@ -34,6 +35,7 @@ class MealOption
 
     #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    #[Assert\Valid]
     private Collection $foodItemEntries;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

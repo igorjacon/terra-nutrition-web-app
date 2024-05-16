@@ -127,8 +127,10 @@ class CustomerController extends AbstractController
     #[Route('/new/meal-plan/{id}', name: 'new_meal_plan', methods: ['GET', 'POST'])]
     public function newMealPlan(Request $request, Customer $customer): Response
     {
+        $professional = $this->getUser()->getProfessional();
         $mealPlan = new MealPlan();
         $mealPlan->addCustomer($customer);
+        $mealPlan->setProfessional($professional);
         $form = $this->createForm(MealPlanType::class, $mealPlan);
         $form->remove('customers');
         $form->handleRequest($request);
