@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Filter\MealPlanDayFilter;
 use App\Repository\MealPlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -57,6 +59,7 @@ class MealPlan
 
     #[ORM\Column(nullable: true)]
     #[Groups(['meal-plan-read'])]
+    #[ApiFilter(MealPlanDayFilter::class)]
     private ?array $days = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, inversedBy: 'mealPlans', cascade: ['persist', 'remove'])]
