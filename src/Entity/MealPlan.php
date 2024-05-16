@@ -35,7 +35,7 @@ class MealPlan
         4 => 'form.day.thursday',
         5 => 'form.day.friday',
         6 => 'form.day.saturday',
-        7 => 'form.day.sunday',
+        0 => 'form.day.sunday',
     ];
     use TimestampableEntity, BlameableEntity;
 
@@ -65,6 +65,7 @@ class MealPlan
     #[ORM\ManyToMany(targetEntity: Meal::class, inversedBy: 'mealPlans', cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1)]
     #[Groups(['meal-plan-read'])]
+    #[ORM\OrderBy(["time" => "ASC"])]
     private Collection $meals;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'mealPlans', cascade: ['persist'])]

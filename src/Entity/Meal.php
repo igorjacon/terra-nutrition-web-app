@@ -81,7 +81,17 @@ class Meal
 
     public function setTime(string $time): static
     {
-        $this->time = $time;
+        $timeParts = explode(":", $time);
+        $hour = (int) $timeParts[0];
+        $minutes = (int) $timeParts[1];
+        $meridian = substr($time, -2);
+
+        if ($meridian === "PM" && $hour !== 12) {
+            $hour += 12;
+        }
+
+        $formattedTime = sprintf("%02d:%02d", $hour, $minutes);
+        $this->time = $formattedTime;
 
         return $this;
     }
