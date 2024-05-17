@@ -64,11 +64,11 @@
                             </div>
                             <div class="col-auto">
                                 <div class="btn-group-sm">
-                                    <a href="{{ path('professional_customer_edit', {'id': customer.id}) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ path('admin_user_management_edit_customer', {'id': customer.id}) }}" class="btn btn-sm btn-info">
                                         {{ 'ui.button.edit'|trans }}
                                     </a>
                                     <button type="button" class="btn btn-sm btn-danger"
-                                            onclick="removeEntity('{{ path('professional_customer_remove', {'id': customer.id}) }}')">
+                                            onclick="removeEntity('{{ path('admin_user_management_remove_customer', {'id': customer.id}) }}')">
                                         {{ 'ui.button.remove'|trans }}
                                     </button>
                                 </div>

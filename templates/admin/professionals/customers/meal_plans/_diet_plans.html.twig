@@ -41,11 +41,11 @@
                             </td>
                             <td>
                                 <a class="btn btn-sm btn-primary"
-                                   href="{{ path('professional_meal_plan_edit', {'id': mealPlan.id}) }}">
+                                   href="{{ path('professional_customer_meal_plan', {'id': mealPlan.id, 'customer': customer.id}) }}">
                                     {{ 'ui.details'|trans }}
                                 </a>
                                 <button type="button" class="btn btn-sm btn-soft-danger"
-                                        onclick="removeEntity('{{ path('professional_meal_plan_remove', {'id': mealPlan.id}) }}')">
+                                        onclick="removeEntity('{{ path('professional_customer_remove_meal_plan', {'id': mealPlan.id, 'customer': customer.id}) }}')">
                                     <i class="ri-delete-bin-5-line align-middle"></i>
                                 </button>
                             </td>

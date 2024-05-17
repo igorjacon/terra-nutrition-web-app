@@ -28,6 +28,9 @@ class MeasurementInputType extends AbstractType
             ])
             ->addModelTransformer(new CallbackTransformer(
                 function ($measurement) {
+                    if ($measurement == null) {
+                        return;
+                    }
                     $measurement = explode(" ", $measurement, 2);
 
                     $result = [];

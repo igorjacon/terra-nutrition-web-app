@@ -11,11 +11,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CustomerType extends AbstractType
 {
+    private AuthorizationCheckerInterface $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $customer = $builder->getData();
         $builder
             ->add('user', UserType::class, [
                 'role' => $options['role']
@@ -38,7 +46,9 @@ class CustomerType extends AbstractType
             ->add('reasonSeekProfessional')
             ->add('currExerciseRoutine')
             ->add('medicalInfo')
-            ->add('professional', EntityType::class, [
+        ;
+        if (!$customer->getProfessional() or $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $builder->add('professional', EntityType::class, [
                 'class' => Professional::class,
                 'required' => false,
                 'label' => 'form.label.professional',
@@ -46,8 +56,8 @@ class CustomerType extends AbstractType
                     'class' => 'form-select',
                     'data-choices' => ''
                 ]
-            ])
-        ;
+            ]);
+        };
     }
 
     public function configureOptions(OptionsResolver $resolver): void

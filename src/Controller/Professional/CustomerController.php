@@ -4,6 +4,7 @@ namespace App\Controller\Professional;
 
 use App\Entity\Customer;
 use App\Entity\MealPlan;
+use App\Entity\Professional;
 use App\Entity\User;
 use App\Form\CustomerType;
 use App\Form\MealPlanType;
@@ -29,12 +30,12 @@ class CustomerController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository): Response
     {
         $professional = $this->getUser()->getProfessional();
         $customers = $customerRepository->findBy(['professional' => $professional]);
-        return $this->render('admin/customers/index.html.twig', [
+        return $this->render('admin/professionals/customers/index.html.twig', [
             'customers' => $customers,
             'title' => $this->translator->trans('ui.customers')
         ]);
@@ -43,16 +44,17 @@ class CustomerController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function viewCustomer(Customer $customer): Response
     {
-        return $this->render('admin/customers/show.html.twig', [
+        return $this->render('admin/professionals/customers/show.html.twig', [
             'customer' => $customer,
             'title' => $customer
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function newCustomer(Request $request, Mailer $mailer): Response
+    #[Route('/new/{id}', name: 'new', methods: ['GET', 'POST'])]
+    public function newCustomer(Request $request, Professional $professional, Mailer $mailer): Response
     {
         $customer = new Customer();
+        $customer->setProfessional($professional);
         $form = $this->createForm(CustomerType::class, $customer, [
             'role' => User::ROLE_CUSTOMER
         ]);
@@ -76,7 +78,7 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('professional_customer_index');
         }
 
-        return $this->render('admin/customers/form.html.twig', [
+        return $this->render('admin/professionals/customers/form.html.twig', [
             'title' => $this->translator->trans('ui.new_customer'),
             'customer' => $customer,
             'form'  => $form->createView()
@@ -98,7 +100,7 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('professional_customer_index');
         }
 
-        return $this->render('admin/customers/form.html.twig', [
+        return $this->render('admin/professionals/customers/form.html.twig', [
             'title' => $customer,
             'customer' => $customer,
             'form'  => $form->createView()
@@ -109,7 +111,7 @@ class CustomerController extends AbstractController
     public function removeCustomer(Request $request, Customer $customer): Response
     {
         if ($request->isMethod('GET')) {
-            return $this->render('admin/customers/delete_form.html.twig', [
+            return $this->render('admin/professionals/customers/delete_form.html.twig', [
                 'customer' => $customer,
             ]);
         } else {

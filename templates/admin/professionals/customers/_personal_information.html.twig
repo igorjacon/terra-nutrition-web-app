@@ -1,0 +1,50 @@
+<div class="col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            {% if customer.reasonSeekProfessional %}
+                <h6 class="text-muted text-uppercase fw-semibold mb-3">{{ 'ui.reason_for_seeking_profession'|trans }}</h6>
+                <p class="text-muted mb-4">
+                    {{ customer.reasonSeekProfessional }}
+                </p>
+            {% endif %}
+            {% if customer.currExerciseRoutine %}
+                <h6 class="text-muted text-uppercase fw-semibold mb-3">{{ 'ui.current_exercise_routine'|trans }}</h6>
+                <p class="text-muted mb-4">
+                    {{ customer.currExerciseRoutine }}
+                </p>
+            {% endif %}
+            {% if customer.medicalInfo %}
+                <h6 class="text-muted text-uppercase fw-semibold mb-3">{{ 'ui.medical_info'|trans }}</h6>
+                <p class="text-muted mb-4">
+                    {{ customer.medicalInfo }}
+                </p>
+            {% endif %}
+            <div class="table-responsive table-card">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                    <tr>
+                        <td class="fw-medium" scope="row">{{ 'ui.occupation'|trans }}</td>
+                        <td>{{ customer.occupation }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-medium" scope="row">{{ 'ui.email'|trans }}</td>
+                        <td>{{ customer.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-medium" scope="row">{{ 'ui.phone'|trans }}</td>
+                        <td>{{ customer.user.phones|first }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-medium" scope="row">{{ 'ui.address'|trans }}</td>
+                        <td>{{ customer.user.address|raw }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-medium" scope="row">{{ 'ui.member_since'|trans }}</td>
+                        <td>{{ customer.createdAt|format_date('medium') }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
