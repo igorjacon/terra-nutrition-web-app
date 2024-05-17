@@ -47,6 +47,7 @@ class MealOption
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private Collection $meals;
 
     public function __construct()

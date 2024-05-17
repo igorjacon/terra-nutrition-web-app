@@ -44,7 +44,8 @@ class Meal
     #[Groups(['meal-plan-read', 'meal-read'])]
     private $type;
 
-    #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals', cascade: ['persist'])]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     #[Assert\Count(min: 1)]
     #[Assert\Valid]
     #[Groups(['meal-plan-read', 'meal-read'])]

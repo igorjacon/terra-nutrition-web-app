@@ -46,7 +46,7 @@ class FoodItemEntry
     private ?float $quantity = null;
 
     #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'foodItemEntries')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'SET NULL')]
     private ?MealOption $mealOption = null;
 
     public function __construct()
