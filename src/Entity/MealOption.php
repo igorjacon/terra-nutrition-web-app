@@ -33,7 +33,7 @@ class MealOption
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     #[Assert\Valid]
     private Collection $foodItemEntries;
@@ -47,7 +47,6 @@ class MealOption
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private Collection $meals;
 
     public function __construct()
