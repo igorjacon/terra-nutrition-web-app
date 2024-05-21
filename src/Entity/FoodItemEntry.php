@@ -37,9 +37,10 @@ class FoodItemEntry
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
     private ?FoodItem $foodItem = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: FoodMeasurement::class, cascade: ['persist'])]
+    #[Assert\NotNull]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
-    private ?string $measurement = null;
+    private ?FoodMeasurement $measurement = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
@@ -73,12 +74,12 @@ class FoodItemEntry
         return $this;
     }
 
-    public function getMeasurement(): ?string
+    public function getMeasurement(): ?FoodMeasurement
     {
         return $this->measurement;
     }
 
-    public function setMeasurement(?string $measurement): static
+    public function setMeasurement(?FoodMeasurement $measurement): static
     {
         $this->measurement = $measurement;
 

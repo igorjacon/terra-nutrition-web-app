@@ -8,7 +8,7 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: MeasurementRepository::class)]
-class Measurement
+class CustomerMeasurement
 {
     use TimestampableEntity, BlameableEntity;
 

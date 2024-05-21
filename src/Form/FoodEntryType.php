@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\FoodItem;
 use App\Entity\FoodItemEntry;
+use App\Entity\FoodMeasurement;
 use App\Entity\MealOption;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,7 +23,14 @@ class FoodEntryType extends AbstractType
                     'data-choices' => ''
                 ]
             ])
-            ->add('measurement')
+            ->add('measurement', EntityType::class, [
+                'class' => FoodMeasurement::class,
+                'label' => 'form.label.measuring_unit',
+                'attr' => [
+                    'class' => 'form-select',
+                    'data-choices' => ''
+                ]
+            ])
             ->add('quantity')
         ;
     }

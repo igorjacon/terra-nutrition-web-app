@@ -85,7 +85,7 @@
             <button type="button" class="accordion-button{{ form.vars.data ? ' collapsed' : ''}}" data-bs-toggle="collapse" data-bs-target="#{{ form.vars.id }}">
                 {{ 'ui.option'|trans }}
                 {% if form.vars.data %}
-                    {{ form.vars.name == "0" ? 'Main' : form.vars.name|number_format + 1 }}
+                    {{ form.vars.name == "0" ? 1 : form.vars.name|number_format + 1 }}
                 {% else %}
                     __key__
                 {% endif %}

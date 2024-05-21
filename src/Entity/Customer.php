@@ -90,7 +90,7 @@ class Customer
     #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'customers')]
     private Collection $mealPlans;
 
-    #[ORM\OneToMany(targetEntity: Measurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: CustomerMeasurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
     private Collection $measurements;
 
     public function __construct()
@@ -266,14 +266,14 @@ class Customer
     }
 
     /**
-     * @return Collection<int, Measurement>
+     * @return Collection<int, CustomerMeasurement>
      */
     public function getMeasurements(): Collection
     {
         return $this->measurements;
     }
 
-    public function addMeasurement(Measurement $measurement): static
+    public function addMeasurement(CustomerMeasurement $measurement): static
     {
         if (!$this->measurements->contains($measurement)) {
             $this->measurements->add($measurement);
@@ -283,7 +283,7 @@ class Customer
         return $this;
     }
 
-    public function removeMeasurement(Measurement $measurement): static
+    public function removeMeasurement(CustomerMeasurement $measurement): static
     {
         if ($this->measurements->removeElement($measurement)) {
             // set the owning side to null (unless already changed)
