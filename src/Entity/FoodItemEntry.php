@@ -28,22 +28,22 @@ class FoodItemEntry
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'recipe-read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: FoodItem::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'food_key', referencedColumnName: 'food_key', nullable: false)]
     #[Assert\NotNull]
-    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'recipe-read'])]
     private ?FoodItem $foodItem = null;
 
     #[ORM\ManyToOne(targetEntity: FoodMeasurement::class, cascade: ['persist'])]
     #[Assert\NotNull]
-    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'recipe-read'])]
     private ?FoodMeasurement $measurement = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'recipe-read'])]
     #[Assert\NotNull]
     private ?float $quantity = null;
 

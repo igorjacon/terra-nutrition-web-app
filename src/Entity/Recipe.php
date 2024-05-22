@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +12,18 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['recipe-read']],
+    denormalizationContext: ['groups' => ['recipe-write']],
+)]
 class Recipe
 {
     use TimestampableEntity, BlameableEntity;
@@ -21,19 +31,24 @@ class Recipe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['recipe-read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recipe-read'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['recipe-read'])]
     private ?int $portion = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['recipe-read'])]
     private ?string $instructions = null;
 
     #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'recipe', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Assert\Valid]
+    #[Groups(['recipe-read'])]
     private Collection $foodItemEntries;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'recipes', cascade: ['persist'])]
