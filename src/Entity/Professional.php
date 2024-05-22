@@ -57,11 +57,15 @@ class Professional
     #[ORM\OneToMany(targetEntity: MealPlan::class, mappedBy: 'professional')]
     private Collection $mealPlans;
 
+    #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'professional')]
+    private Collection $recipes;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->mealPlans = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -196,6 +200,28 @@ class Professional
     public function removeMealPlan(MealPlan $mealPlan): static
     {
         $this->mealPlans->removeElement($mealPlan);
+        return $this;
+    }
+
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): static
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setProfessional($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        $this->recipes->removeElement($recipe);
+
         return $this;
     }
 }

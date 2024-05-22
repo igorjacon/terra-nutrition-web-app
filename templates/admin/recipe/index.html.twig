@@ -1,0 +1,95 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">{{ 'ui.diet_plans'|trans }}</li>
+    <li class="breadcrumb-item active">{{ 'ui.recipe'|trans }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header border-bottom-dashed">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-sm">
+                            <h5 class="card-title mb-0">{{ 'ui.recipes'|trans }}</h5>
+                        </div>
+                        <div class="col-sm-auto">
+                            <div class="d-flex flex-wrap align-items-start gap-2">
+                                <a href="{{ path('professional_recipe_new') }}" class="btn btn-primary btn-label right">
+                                    <i class="ri-add-line label-icon"></i>
+                                    {{ 'ui.button.new_recipe'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#                <div class="card-body border-bottom-dashed border-bottom">#}
+                {#                    <div class="row g-3">#}
+                {#                        <div class="col">Col 1</div>#}
+                {#                        <div class="col">Col 2 - Filter</div>#}
+                {#                    </div>#}
+                {#                </div>#}
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table align-middle table-striped mb-0">
+                            <thead class="text-muted table-light">
+                                <th>
+                                    <i class="bx bx-sort-alt-2 align-middle"></i>
+                                    {{ knp_pagination_sortable(pagination, 'ui.create_date'|trans, 'o.createdAt') }}
+                                </th>
+                                <th>
+                                    <i class="bx bx-sort-alt-2 align-middle"></i>
+                                    {{ knp_pagination_sortable(pagination, 'ui.name'|trans, 'o.name') }}
+                                </th>
+                                <th>
+                                    <i class="bx bx-sort-alt-2 align-middle"></i>
+                                    {{ knp_pagination_sortable(pagination, 'ui.portion'|trans, 'o.description') }}
+                                </th>
+                                <th>{{ 'ui.status'|trans }}</th>
+                                <th>{{ 'ui.action'|trans }}</th>
+                            </thead>
+                            <tbody>
+                            {% for recipe in pagination %}
+                                <tr>
+                                    <td>{{ recipe.createdAt|format_date }}</td>
+                                    <td>
+                                        <a href="{{ path('professional_recipe_edit', {'id': recipe.id}) }}">
+                                            {{ recipe.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ recipe.portion }}</td>
+                                    <td>
+{#                                        {% if recipe.active %}#}
+{#                                            <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>#}
+{#                                        {% else %}#}
+{#                                            <span class="badge bg-danger-subtle text-danger">{{ 'ui.inactive'|trans }}</span>#}
+{#                                        {% endif %}#}
+                                    </td>
+                                    <td nowrap>
+                                        <a class="btn btn-sm btn-light"
+                                           href="{{ path('professional_recipe_edit', {'id': recipe.id}) }}">
+                                            {{ 'ui.edit'|trans }}
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-soft-danger"
+                                                onclick="removeEntity('{{ path('professional_recipe_remove', {'id': recipe.id}) }}')">
+                                            <i class="ri-delete-bin-5-line align-middle"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <br>
+                        {# display navigation #}
+                        <div class="d-flex justify-content-center">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

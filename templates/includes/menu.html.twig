@@ -68,12 +68,21 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">{{ 'ui.meals'|trans }}</a>
+                                <a class="nav-link {% if 'professional/meal-option' in app.request.pathinfo %}active{% endif %}"
+                                   href="{{ path('professional_meal_option_index') }}">
+                                    {{ 'ui.meals'|trans }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if 'professional/food' in app.request.pathinfo %}active{% endif %}"
                                    href="{{ path('professional_food_index') }}">
                                     {{ 'ui.food_items'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'professional/recipe' in app.request.pathinfo %}active{% endif %}"
+                                   href="{{ path('professional_recipe_index') }}">
+                                    {{ 'ui.recipes'|trans }}
                                 </a>
                             </li>
                         </ul>

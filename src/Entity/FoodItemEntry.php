@@ -44,11 +44,14 @@ class FoodItemEntry
 
     #[ORM\Column(nullable: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read'])]
+    #[Assert\NotNull]
     private ?float $quantity = null;
 
     #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'foodItemEntries')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?MealOption $mealOption = null;
+
+    #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'foodItemEntries')]
+    private ?Recipe $recipe = null;
 
     public function __construct()
     {
@@ -56,6 +59,10 @@ class FoodItemEntry
         $this->updatedAt = new \DateTime();
     }
 
+    public function __toString(): string
+    {
+        return $this->foodItem->getName();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +113,18 @@ class FoodItemEntry
     public function setMealOption(?MealOption $mealOption): static
     {
         $this->mealOption = $mealOption;
+
+        return $this;
+    }
+
+    public function getRecipe(): ?Recipe
+    {
+        return $this->recipe;
+    }
+
+    public function setRecipe(?Recipe $recipe): static
+    {
+        $this->recipe = $recipe;
 
         return $this;
     }

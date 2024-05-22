@@ -1,0 +1,16 @@
+{% block _option_meal_foodItemEntries_entry_row %}
+    {% block _recipe_foodItemEntries_entry_row %}
+        <div class="row align-items-end" data-collection-item>
+            <div class="col-lg-7">{{ form_row(form.foodItem) }}</div>
+            <div class="col-lg-3">{{ form_row(form.measurement) }}</div>
+            <div class="col">{{ form_row(form.quantity) }}</div>
+            <div class="col-auto ps-0">
+                <div class="form-group">
+                    <button type="button" class="btn btn-icon btn-soft-danger" onclick="removeCollection(this)">
+                        <i class="ri-delete-bin-5-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endblock _recipe_foodItemEntries_entry_row %}
+{% endblock _option_meal_foodItemEntries_entry_row %}

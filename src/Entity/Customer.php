@@ -93,12 +93,16 @@ class Customer
     #[ORM\OneToMany(targetEntity: CustomerMeasurement::class, mappedBy: 'customer', cascade: ['persist', 'remove'])]
     private Collection $measurements;
 
+    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'customers')]
+    private Collection $recipes;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->mealPlans = new ArrayCollection();
         $this->measurements = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -325,5 +329,32 @@ class Customer
     public function setProfessional(?Professional $professional): void
     {
         $this->professional = $professional;
+    }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): static
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->addCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            $recipe->removeCustomer($this);
+        }
+
+        return $this;
     }
 }

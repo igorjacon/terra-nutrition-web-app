@@ -6,6 +6,7 @@ twig:
         - '_form/layout.html.twig'
         - '_form/fields.html.twig'
         - '_form/vertical_fields.html.twig'
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
     globals:
         settings_manager: '@App\Manager\SiteSettingsManager'
         locales: "%locales%"

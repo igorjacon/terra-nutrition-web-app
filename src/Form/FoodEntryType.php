@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\FoodItem;
 use App\Entity\FoodItemEntry;
 use App\Entity\FoodMeasurement;
-use App\Entity\MealOption;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

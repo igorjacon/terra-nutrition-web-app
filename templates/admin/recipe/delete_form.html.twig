@@ -1,0 +1,4 @@
+<form id="deleteRecipe{{ recipe.id }}" method="post" action="{{ path('professional_recipe_remove', {'id': recipe.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.id) }}">
+</form>
