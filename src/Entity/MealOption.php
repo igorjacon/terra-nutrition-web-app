@@ -33,7 +33,10 @@ class MealOption
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     #[Assert\Valid]
     private Collection $foodItemEntries;
@@ -49,6 +52,9 @@ class MealOption
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]
     private Collection $meals;
 
+    #[ORM\ManyToOne(targetEntity: Professional::class)]
+    private $professional;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -56,6 +62,22 @@ class MealOption
         $this->foodItemEntries = new ArrayCollection();
         $this->meals = new ArrayCollection();
     }
+
+    public function __toString(): string
+    {
+        if ($this->name) {
+            $str = $this->name;
+        } else {
+            $str = "Option " . $this->id . " -";
+            if (count($this->foodItemEntries)) {
+                foreach ($this->foodItemEntries as $foodItemEntry) {
+                    $str .= ' ' . $foodItemEntry;
+                }
+            }
+        }
+        return $str;
+    }
+
 
     public function getId(): ?int
     {
@@ -141,5 +163,37 @@ class MealOption
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfessional()
+    {
+        return $this->professional;
+    }
+
+    /**
+     * @param mixed $professional
+     */
+    public function setProfessional($professional): void
+    {
+        $this->professional = $professional;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }

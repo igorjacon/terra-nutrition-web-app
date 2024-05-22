@@ -1,0 +1,53 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% form_theme form with ['_form/food_entry.html.twig'] %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('professional_meal_option_index') }}">
+            {{ 'ui.meals'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.basic_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.foodItemEntries) }}
+                    <div class="d-flex flex-wrap mb-2 justify-content-end">
+                        <a href="javascript:void(0)" onclick="addCollection(this)" data-collection-id="{{ form.foodItemEntries.vars.id }}">
+                            <i class="ri-add-circle-line align-bottom"></i>
+                            {{ 'ui.add_food_entry'|trans }}
+                        </a>
+                    </div>
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.notes) }}
+                    {% if form.professional is defined %}
+                        {{ form_row(form.professional) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <button class="btn btn-primary btn-label">
+                <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+            </button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
