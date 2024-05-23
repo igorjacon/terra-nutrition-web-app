@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use App\Repository\MealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,14 +13,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealRepository::class)]
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection()
-    ],
-    normalizationContext: ['groups' => ['meal-read']],
-    denormalizationContext: ['groups' => ['meal-write']],
-)]
 class Meal
 {
     use TimestampableEntity, BlameableEntity;
@@ -31,27 +20,27 @@ class Meal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['meal-plan-read', 'meal-read'])]
+    #[Groups(['meal-plan-read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
-    #[Groups(['meal-plan-read', 'meal-read'])]
+    #[Groups(['meal-plan-read'])]
     private ?string $time = null;
 
     #[ORM\ManyToOne(targetEntity: MealType::class)]
     #[Assert\NotNull]
-    #[Groups(['meal-plan-read', 'meal-read'])]
+    #[Groups(['meal-plan-read'])]
     private $type;
 
     #[ORM\ManyToMany(targetEntity: MealOption::class, inversedBy: 'meals', cascade: ['persist'])]
     #[Assert\Count(min: 1)]
     #[Assert\Valid]
-    #[Groups(['meal-plan-read', 'meal-read'])]
+    #[Groups(['meal-plan-read'])]
     private Collection $options;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['meal-plan-read', 'meal-read'])]
+    #[Groups(['meal-plan-read'])]
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'meals')]

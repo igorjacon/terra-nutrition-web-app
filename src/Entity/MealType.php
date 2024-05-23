@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MealTypeRepository::class)]
@@ -21,6 +22,7 @@ class MealType
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
+    #[Groups(['meal-plan-read', 'meal-read'])]
     private ?string $name = null;
 
     #[Gedmo\SortablePosition]

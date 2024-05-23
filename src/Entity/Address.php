@@ -2,22 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection()
-    ],
-    normalizationContext: ['groups' => ['address-read']],
-    denormalizationContext: ['groups' => ['address-write']],
-)]
 class Address
 {
     #[ORM\Id]
@@ -28,32 +17,32 @@ class Address
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     #[Assert\NotNull]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $lineOne = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $lineTwo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Length(max: 10)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $state = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotNull]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'address-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $country = null;
 
     public function __toString(): string

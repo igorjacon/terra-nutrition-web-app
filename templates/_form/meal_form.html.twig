@@ -148,7 +148,18 @@
 {% block _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}
     <div class="row align-items-end" data-collection-item>
         <div class="col-lg-7">{{ form_row(form.foodItem) }}</div>
-        <div class="col-lg-3">{{ form_row(form.measurement) }}</div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                {{ form_label(form.measurement) }}
+                <div class="input-group">
+                    {{ form_widget(form.measurement) }}
+                    <button onclick="editModal('{{ path('admin_food_measurement_new', {'target_id': form.measurement.vars.id}) }}', 'body', null, addDataToChosen)"
+                            type="button" class="input-group-text">
+                        <i class="ri ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="col">{{ form_row(form.quantity) }}</div>
         <div class="col-auto ps-0">
             <div class="form-group">

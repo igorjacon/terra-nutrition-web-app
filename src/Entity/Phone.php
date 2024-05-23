@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use App\Repository\PhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
@@ -13,14 +10,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection()
-    ],
-    normalizationContext: ['groups' => ['phone-read']],
-    denormalizationContext: ['groups' => ['phone-write']],
-)]
 class Phone
 {
     use TimestampableEntity, BlameableEntity;
@@ -31,13 +20,13 @@ class Phone
 
     #[ORM\Column(length: 5, nullable: true)]
     #[Assert\Length(max: 5)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'phone-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private ?string $prefix = null;
 
     #[ORM\Column(length: 16)]
     #[Assert\Length(max: 16)]
     #[Assert\NotNull]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'phone-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
     private string $number;
 
     #[ORM\Column(nullable: true)]
