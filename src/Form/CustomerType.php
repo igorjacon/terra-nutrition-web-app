@@ -52,10 +52,6 @@ class CustomerType extends AbstractType
                 'class' => Professional::class,
                 'required' => false,
                 'label' => 'form.label.professional',
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
             ]);
         };
     }

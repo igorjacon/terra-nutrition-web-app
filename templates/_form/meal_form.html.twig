@@ -32,7 +32,18 @@
         <div class="card-body collapse show" id="{{ form.vars.id }}">
             <div class="row">
                 <div class="col-lg-3">{{ form_row(form.time) }}</div>
-                <div class="col-lg-4">{{ form_row(form.type) }}</div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        {{ form_label(form.type) }}
+                        <div class="input-group">
+                            {{ form_widget(form.type) }}
+                            <button onclick="editModal('{{ path('admin_meal_type_new', {'target_id': form.type.vars.id}) }}', 'body', null, addDataToChosen)"
+                                    type="button" class="input-group-text">
+                                <i class="ri ri-add-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-content">
                 <div class="tab-pane active show" id="meal-options-{{ form.vars.id }}">

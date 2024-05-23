@@ -1,0 +1,63 @@
+{% if theme is defined %}
+    {% form_theme form theme %}
+{% endif %}
+
+{% set columns = 12 / cols|default(1) %}
+<div {% if modal_id is defined %}id="{{ modal_id }}"{% endif %}
+     class="modal fade" tabindex="-1" role="dialog"
+     {% if not staticModal|default(false) %}data-modal-delete {% endif %}
+     {% if content is not defined and not form.vars.valid %}data-show="true"{% endif %}>
+    <div class="modal-dialog modal-dialog-centered {% if modal_size is defined %}{{ modal_size }}{% else %}modal-lg{% endif %}">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                {% if title is defined %}
+                    <h5 class="modal-title mt-0 float-start">{{ title }}</h5>
+                {% endif %}
+                <button type="button" class="btn btn-sm btn-ghost-secondary btn-icon close float-end" data-dismiss="modal">
+                    <i class="las la-times"></i>
+                </button>
+            </div>
+            {% if warning is defined and warning is not null %}
+                <div class="alert alert-warning">
+                    {{ warning|trans }}
+                </div>
+            {% endif %}
+            {% if form is defined %}
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+            {% endif %}
+            <div class="modal-body">
+                {{ content is defined ? content|raw|nl2br }}
+                {% if form is defined %}
+                    {{ form_errors(form) }}
+                    <div class="row">
+                        {% if field.vars.attr['render']|default(true) %}
+                            {% for field in form.children %}
+                                {% if not field.vars.attr['custom']|default(false) %}
+                                    {% for child in field %}
+                                        {% for grand_child in child %}
+                                            <div class="{{ grand_child.vars.attr['parent-class']|default('col-sm-'~ columns) }}">{{ form_row(grand_child) }}</div>
+                                        {% else %}
+                                            <div class="{{ child.vars.attr['parent-class']|default('col-sm-'~ columns) }}">{{ form_row(child) }}</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="{{ field.vars.attr['parent-class']|default("col-sm-"~columns) }}">{{ form_row(field) }}</div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="{{ field.vars.attr['parent-class']|default("col-sm-"~columns) }}">{{ form_row(field) }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            {% if form is defined %}
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info waves-effect waves-light">
+                        <i class="las la-save" aria-hidden="true"></i> {{ "ui.button.save"|trans }}
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            {% endif %}
+        </div>
+    </div>
+</div>

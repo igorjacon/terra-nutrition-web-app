@@ -37,7 +37,7 @@
         ]
     },
     "doctrine/doctrine-fixtures-bundle": {
-        "version": "3.5",
+        "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -188,6 +188,18 @@
         "files": [
             "config/packages/scheb_2fa.yaml",
             "config/routes/scheb_2fa.yaml"
+        ]
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.2",
+            "ref": "e805aba9eff5372e2d149a9ff56566769e22819d"
+        },
+        "files": [
+            "config/packages/stof_doctrine_extensions.yaml"
         ]
     },
     "symfony/asset-mapper": {

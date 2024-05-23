@@ -4,14 +4,19 @@ import './styles/choices.min.css';
 import './styles/icons.min.css';
 import './styles/app.min.css';
 import './styles/variables.css';
+import './styles/chosen.css';
 import './styles/custom.css';
 import './js/theme/bootstrap.bundle.min.js';
 import './js/theme/simplebar.min.js';
 import './js/libs/choices.min.js';
 import './js/libs/flag-input.init.js';
 import './js/libs/jquery.js';
+import './js/libs/bootstrap.js';
+import './js/libs/chosen.jquery.js';
 import './js/libs/bootstrap-datetimepicker.min.js';
 import swal from "sweetalert2";
+// import jQuery from 'jquery';
+// window.jQuery = jQuery;
 
 /*
  * Welcome to your app's main JavaScript file!
@@ -38,6 +43,71 @@ if (document.querySelector("#customer_user_profileFile_file")) {
         }
     });
 }
+
+let simpleAjax = function simpleAjax(method, url, data,
+                                     target = 'body',
+                                     isReload = false,
+                                     isAppend = true,
+                                     callBack = null,
+                                     contentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+                                     processData = true) {
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        contentType: contentType,
+        processData: processData,
+        beforeSend: function () {
+            $('#preloader').css('opacity', 1).css('visibility', 'visible');
+            $('#status').show();
+        },
+        success: function (response) {
+            $('.modal-backdrop').not('.modal-stack').remove();
+            $('body').removeClass("modal-open");
+            let errorForm = $('.form-error-message', $('<div/>').html(response)).length > 0;
+
+            if (isReload && !errorForm) {
+                $(target).empty();
+            }
+
+            $('[data-modal-delete]').remove();
+
+            if (isAppend || errorForm) {
+                if (errorForm) {
+                    // const myModal = new bootstrap.Modal(response)
+                    $('body').append(response);
+                } else  {
+                    $(target).append(response);
+                }
+            }
+
+            if (callBack && !errorForm) {
+                callBack(response);
+            }
+
+            $('#preloader').css('opacity', 0).css('visibility', 'hidden');
+            $('#status').hide();
+            $('[data-modal-delete]').modal('toggle');
+            $("select.swal2-select:hidden").remove();
+        },
+        error: function (jqXHR) {
+            // called when user session is expired then he's redirect automaticly to /login
+            if (jqXHR.status == 401) {
+                location.reload();
+            } else {
+                $('.modal').modal('hide');
+                $('body').append('<div class="alertify-logs bottom left"><div class="error show">An error occurred, please try again.</div></div>');
+            }
+        },
+        complete: function () {
+            // $('#preloader').hide();
+            $('#preloader').css('opacity', 0).css('visibility', 'hidden');
+            $('#status').hide();
+        }
+    });
+}
+window.simpleAjax = simpleAjax;
+
 $(function (){
     var preloader = document.getElementById("preloader");
     if (preloader) {
@@ -84,6 +154,10 @@ $(function (){
     $('[data-toggle="time"]').datetimepicker({
         format: 'LT'
     });
+    $("select").chosen({
+        allow_single_deselect: true,
+        inherit_select_classes: true
+    });
 });
 
 var datepicker = function (target) {
@@ -115,10 +189,7 @@ let addCollection = function (element, prototypeName = '__name__') {
 
     //append widget
     $(newWidget).appendTo('#' + collectionId);
-    $(newWidget).find('select').each(function() {
-        let id = $(this).attr('id');
-        new Choices('#'+id);
-    });
+    $('select').chosen();
     $('[data-toggle="time"]').datetimepicker({
         format: 'LT'
     });
@@ -142,11 +213,7 @@ let addOptionCollection = function (element, prototypeName = '__name__') {
 
     //append widget
     $(newWidget).appendTo('#' + collectionId);
-
-    $(newWidget).find('select').each(function() {
-        let id = $(this).attr('id');
-        new Choices('#'+id);
-    });
+    $('select').chosen();
     $('[data-toggle="time"]').datetimepicker({
         format: 'LT'
     });
@@ -195,3 +262,46 @@ let removeEntity = function (url) {
     });
 }
 window.removeEntity = removeEntity;
+
+let editModal = function (url, target = 'body', data = null, callBack = null) {
+    if (window.event) window.event.preventDefault();
+    simpleAjax('POST', url, data, target);
+    $(document).off('submit', '.modal form');
+
+    $(document).on("submit", ".modal form", function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var form = $(this)[0];
+        var formData = new FormData(form);
+        simpleAjax('POST', $(this).attr('action'), formData, target, false, true, callBack, false, false);
+    });
+};
+window.editModal = editModal;
+
+let addDataToChosen = function (json) {
+    if (json) {
+        let target = json['form_field_id'].startsWith("#") ? json['form_field_id'] : '#' + json['form_field_id'];
+
+        for (let index = 0; index < json['data'].length; index++) {
+            let optionValues = {
+                value: json['data'][index]['entityId'],
+                text: json['data'][index]['entityName'],
+            };
+            for (let key in json['data'][index]['entityAttr']) {
+                optionValues[key] = json['data'][index]['entityAttr'][key];
+            }
+            $(target).append($('<option>', optionValues));
+
+            if ($(target).attr('multiple')) {
+                let value = $(target).val();
+                value.push(json['data'][index]['entityId']);
+                $(target).val(value);
+            } else {
+                $(target).val(json['data'][index]['entityId']);
+            }
+        }
+
+        $(target).trigger("chosen:updated");
+    }
+};
+window.addDataToChosen = addDataToChosen;

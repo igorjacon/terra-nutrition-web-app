@@ -50,20 +50,12 @@ class RecipeType extends AbstractType
                 'by_reference' => false,
                 'multiple' => true,
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
             ])
         ;
         if (!$professional or $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $builder->add('professional', EntityType::class, [
                 'class' => Professional::class,
                 'label' => 'form.label.professional',
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
             ]);
         }
     }

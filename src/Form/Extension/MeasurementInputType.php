@@ -21,10 +21,6 @@ class MeasurementInputType extends AbstractType
                 'multiple' => false,
                 'label' => false,
                 'choice_translation_domain' => false,
-//                'attr' => [
-//                    'class' => 'form-select',
-//                    'data-choices' => ''
-//                ]
             ])
             ->addModelTransformer(new CallbackTransformer(
                 function ($measurement) {

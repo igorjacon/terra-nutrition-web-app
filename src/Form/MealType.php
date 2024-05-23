@@ -24,8 +24,8 @@ class MealType extends AbstractType
                     'data-toggle' => 'time'
                 ]
             ])
-            ->add('type', TextType::class, [
-//                'error_bubbling' => false
+            ->add('type', EntityType::class, [
+                'class' => \App\Entity\MealType::class
             ])
             ->add('options', CollectionType::class, [
                 'entry_type' => MealOptionType::class,

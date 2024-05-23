@@ -41,11 +41,7 @@ class OptionMealType extends AbstractType
         if (!$professional or $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $builder->add('professional', EntityType::class, [
                 'class' => Professional::class,
-                'label' => 'form.label.professional',
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
+                'label' => 'form.label.professional'
             ]);
         }
     }

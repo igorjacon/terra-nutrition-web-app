@@ -29,6 +29,26 @@ button.border-red {
 .bg-ivory {
     background: var(--ivory) !important;
 }
-#dob .choices__list--dropdown .choices__item {
+.choices {
+    margin-bottom: 0;
+}
+.choices__list--dropdown .choices__item,
+.choices__list--dropdown .choices__item--selectable,
+.choices__list[aria-expanded] .choices__item--selectable {
     padding: 10px;
+    white-space: nowrap;
+}
+.chosen-container.form-control {
+    border: none !important;
+    padding: 0 !important;
+}
+.chosen-container {
+    font-size: 12px !important;
+}
+.input-group .chosen-container {
+    width: auto !important;
+}
+.input-group .chosen-container > a {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }

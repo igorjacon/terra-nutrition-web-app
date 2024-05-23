@@ -17,18 +17,10 @@ class FoodEntryType extends AbstractType
         $builder
             ->add('foodItem', EntityType::class, [
                 'class' => FoodItem::class,
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
             ])
             ->add('measurement', EntityType::class, [
                 'class' => FoodMeasurement::class,
                 'label' => 'form.label.measuring_unit',
-                'attr' => [
-                    'class' => 'form-select',
-                    'data-choices' => ''
-                ]
             ])
             ->add('quantity')
         ;

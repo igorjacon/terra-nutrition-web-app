@@ -39,7 +39,7 @@ class Meal
     #[Groups(['meal-plan-read', 'meal-read'])]
     private ?string $time = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\ManyToOne(targetEntity: MealType::class)]
     #[Assert\NotNull]
     #[Groups(['meal-plan-read', 'meal-read'])]
     private $type;
@@ -97,12 +97,12 @@ class Meal
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?MealType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(?MealType $type): static
     {
         $this->type = $type;
 
