@@ -29,7 +29,7 @@ import swal from "sweetalert2";
 if (document.querySelector("#customer_user_profileFile_file")) {
     document.querySelector("#customer_user_profileFile_file").addEventListener("change", function () {
         var preview = document.querySelector(".user-profile-image");
-        var file = document.querySelector(".profile-img-file-input").files[0];
+        var file = document.querySelector(".custom-file-input").files[0];
         var reader = new FileReader();
         reader.addEventListener(
             "load",
