@@ -10,6 +10,7 @@ use App\Entity\FoodItemEntry;
 use App\Entity\Meal;
 use App\Entity\MealOption;
 use App\Entity\MealPlan;
+use App\Entity\Recipe;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 
@@ -58,11 +59,12 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
                 $queryBuilder->andWhere(':customer MEMBER OF mp.customers');
                 $queryBuilder->setParameter('customer', $user->getCustomer());
             }
-//            if ($user->getProfessional()) {
-//                $rootAlias = $queryBuilder->getRootAliases()[0];
-//                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
-//                $queryBuilder->setParameter('professional', $user->getProfessional());
-//            }
+            if ($user->getProfessional()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->leftJoin(sprintf('%s.mealPlans', $rootAlias), 'mp');
+                $queryBuilder->andWhere('mp.professional = :professional');
+                $queryBuilder->setParameter('professional', $user->getProfessional());
+            }
         }
 
         if (MealOption::class === $resourceClass) {
@@ -73,11 +75,11 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
                 $queryBuilder->andWhere(':customer MEMBER OF mp.customers');
                 $queryBuilder->setParameter('customer', $user->getCustomer());
             }
-//            if ($user->getProfessional()) {
-//                $rootAlias = $queryBuilder->getRootAliases()[0];
-//                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
-//                $queryBuilder->setParameter('professional', $user->getProfessional());
-//            }
+            if ($user->getProfessional()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
+                $queryBuilder->setParameter('professional', $user->getProfessional());
+            }
         }
 
         if (FoodItemEntry::class === $resourceClass) {
@@ -89,11 +91,27 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
                 $queryBuilder->andWhere(':customer MEMBER OF mp.customers');
                 $queryBuilder->setParameter('customer', $user->getCustomer());
             }
-//            if ($user->getProfessional()) {
-//                $rootAlias = $queryBuilder->getRootAliases()[0];
-//                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
-//                $queryBuilder->setParameter('professional', $user->getProfessional());
-//            }
+        }
+
+        if (Recipe::class === $resourceClass) {
+            if ($customer = $user->getCustomer()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $orX = $queryBuilder->expr()->orX();
+                $orX->add(sprintf(':customer MEMBER OF %s.customers', $rootAlias));
+                if ($professional = $customer->getProfessional()) {
+                    $orX->add(sprintf('%s.professional = :professional', $rootAlias));
+                }
+                $queryBuilder->andWhere($orX);
+                $queryBuilder->setParameter('customer', $customer);
+                if ($professional = $customer->getProfessional()) {
+                    $queryBuilder->setParameter('professional', $professional);
+                }
+            }
+            if ($user->getProfessional()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
+                $queryBuilder->setParameter('professional', $user->getProfessional());
+            }
         }
     }
 }
