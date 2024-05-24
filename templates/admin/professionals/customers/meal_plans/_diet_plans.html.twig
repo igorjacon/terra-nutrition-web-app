@@ -21,6 +21,7 @@
                 <table class="table align-middle mb-0">
                     <thead class="text-muted table-light">
                         <th>{{ 'ui.name'|trans }}</th>
+                        <th>{{ 'ui.description'|trans }}</th>
                         <th>{{ 'ui.days'|trans }}</th>
                         <th>{{ 'ui.status'|trans }}</th>
                         <th>{{ 'ui.actions'|trans }}</th>
@@ -29,6 +30,7 @@
                     {% for mealPlan in customer.mealPlans %}
                         <tr>
                             <td>{{ mealPlan.title }}</td>
+                            <td>{{ mealPlan.description }}</td>
                             <td>
                                 {{ include('includes/_meal_plan_days.html.twig') }}
                             </td>
@@ -62,7 +64,7 @@
             </div>
             <h4 class="card-title">{{ 'no_meal_plans'|trans }}</h4>
             <p class="card-text text-muted">{{ 'add_meal_plan_text'|trans }}</p>
-            <a href="#" class="btn btn-success">{{ 'ui.button.create_meal_plan'|trans }}</a>
+            <a href="{{ path('professional_customer_new_meal_plan', {'id': customer.id}) }}" class="btn btn-success">{{ 'ui.button.create_meal_plan'|trans }}</a>
         {% endif %}
     </div>
 </div>

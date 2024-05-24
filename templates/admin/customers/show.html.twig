@@ -104,20 +104,17 @@
     <!-- END HEADERS --->
 
     <!-- TAB CONTENTS -->
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="tab-content text-muted">
-                <div class="tab-pane fade show active" id="client-diet-plans">
-                    {{ include('admin/customers/meal_plans/_diet_plans.html.twig') }}
-                </div>
-                <div class="tab-pane fade" id="measurements">
-                    {{ include('admin/customers/_measurements.html.twig') }}
-                </div>
-                <div class="tab-pane fade" id="goals"></div>
-                <div class="tab-pane fade" id="profile"></div>
-            </div>
+    <div class="tab-content text-muted">
+        <div class="tab-pane fade show active" id="client-diet-plans">
+            {{ include('admin/customers/meal_plans/_diet_plans.html.twig') }}
         </div>
-        {{ include('admin/customers/_personal_information.html.twig') }}
+        <div class="tab-pane fade" id="measurements">
+            {{ include('admin/customers/_measurements.html.twig') }}
+        </div>
+        <div class="tab-pane fade" id="goals"></div>
+        <div class="tab-pane fade" id="profile">
+            {{ include('admin/customers/_personal_information.html.twig') }}
+        </div>
     </div>
     <!-- END TAB CONTENTS -->
 {% endblock %}

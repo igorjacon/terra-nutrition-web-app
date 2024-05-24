@@ -67,6 +67,28 @@ class Address
         return $address;
     }
 
+    public function oneLineAddress()
+    {
+        $address = $this->lineOne;
+        if ($this->lineTwo) {
+            $address .= ", " . $this->lineTwo;
+        }
+        if ($this->city) {
+            $address .= ", " . $this->city;
+        }
+        if ($this->state) {
+            $address .= ", " . $this->state;
+        }
+        if ($this->zipCode) {
+            $address .= ", " . $this->zipCode;
+        }
+        if ($this->country) {
+            $address .= ", " . $this->country;
+        }
+
+        return $address;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
