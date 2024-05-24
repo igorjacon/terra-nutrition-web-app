@@ -26,8 +26,8 @@ import swal from "sweetalert2";
  */
 
 // Profile Foreground Img
-if (document.querySelector("#customer_user_profileFile_file")) {
-    document.querySelector("#customer_user_profileFile_file").addEventListener("change", function () {
+if (document.querySelector(".custom-file-input")) {
+    document.querySelector(".custom-file-input").addEventListener("change", function () {
         var preview = document.querySelector(".user-profile-image");
         var file = document.querySelector(".custom-file-input").files[0];
         var reader = new FileReader();

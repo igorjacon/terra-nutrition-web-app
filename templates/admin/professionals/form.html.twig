@@ -54,12 +54,31 @@
         </div>
         <div class="col-lg-4">
             {# Profile Img #}
+            {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
+            {% if professional and professional.user.profileImg %}
+                {% set avatar = vich_uploader_asset(professional.user, 'profileFile') %}
+            {% endif %}
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">{{ 'ui.profile_pic'|trans }}</h5>
                 </div>
-                <div class="card-body">
-                    {{ form_row(form.user.profileFile) }}
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                            <img src="{{ avatar }}" alt="user profile image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit"></div>
+                            {{ form_widget(form.user.profileFile, {'attr': {'class': 'profile-img-file-input'}}) }}
+                            <label for="{{ form.user.profileFile.file.vars.id }}" class="profile-photo-edit avatar-xs">
+                                <span class="avatar-title rounded-circle bg-light text-body">
+                                    <i class="ri-camera-fill"></i>
+                                </span>
+                            </label>
+                        </div>
+                        {% if professional and professional.user.id %}
+                            <h5 class="fs-16 mb-1">{{ professional.user }}</h5>
+                            <p class="text-muted mb-0">{{ professional.user.username }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 

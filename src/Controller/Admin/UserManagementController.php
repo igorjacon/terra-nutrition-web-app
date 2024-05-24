@@ -61,7 +61,8 @@ class UserManagementController extends AbstractController
 
         return $this->render('admin/professionals/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->translator->trans('ui.new_professional')
+            'title' => $this->translator->trans('ui.new_professional'),
+            'professional' => $professional
         ]);
     }
 
@@ -81,7 +82,8 @@ class UserManagementController extends AbstractController
 
         return $this->render('admin/professionals/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $professional
+            'title' => $professional,
+            'professional' => $professional
         ]);
     }
 
@@ -232,7 +234,8 @@ class UserManagementController extends AbstractController
 
         return $this->render('admin/administrators/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->translator->trans('ui.new_admin')
+            'title' => $this->translator->trans('ui.new_admin'),
+            'user' => $admin
         ]);
     }
 
@@ -254,7 +257,8 @@ class UserManagementController extends AbstractController
 
         return $this->render('admin/administrators/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $admin
+            'title' => $admin,
+            'user' => $admin
         ]);
     }
 

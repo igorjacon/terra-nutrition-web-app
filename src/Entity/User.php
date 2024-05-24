@@ -10,6 +10,7 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Vich\Uploadable]
 #[UniqueEntity('email')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
+class User implements UserInterface, Serializable, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_NUTRITIONIST = 'nutritionist';
@@ -214,7 +215,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Trusted
      *
      * @param File|null|UploadedFile $file
      */
-    public function setProfileFile(?File $file = null): void
+    public function setProfileFile(File|UploadedFile $file = null): void
     {
         $this->profileFile = $file;
 

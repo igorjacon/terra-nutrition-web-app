@@ -4,11 +4,6 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item">
-        <a href="{{ path('admin_user_management_admins') }}">
-            {{ 'ui.administrators'|trans }}
-        </a>
-    </li>
     <li class="breadcrumb-item active">{{ title }}</li>
 {% endblock %}
 
@@ -31,7 +26,7 @@
                     </div>
                     <div class="row">
                         <div class="col">{{ form_row(form.email) }}</div>
-{#                        <div class="col">{{ form_row(form.username) }}</div>#}
+                        {#                        <div class="col">{{ form_row(form.username) }}</div>#}
                     </div>
                     <div class="mb-3">
                         {{ form_row(form.phones) }}
@@ -43,7 +38,7 @@
         <div class="col-lg-4">
             {# Profile Img #}
             {% set avatar = asset('build/images/users/user-dummy-img.jpg') %}
-            {% if user and user.profileImg %}
+            {% if user.profileImg %}
                 {% set avatar = vich_uploader_asset(user, 'profileFile') %}
             {% endif %}
             <div class="card">
@@ -62,26 +57,9 @@
                                 </span>
                             </label>
                         </div>
-                        {% if user and user.id %}
-                            <h5 class="fs-16 mb-1">{{ user }}</h5>
-                            <p class="text-muted mb-0">{{ user.username }}</p>
-                        {% endif %}
+                        <h5 class="fs-16 mb-1">{{ user }}</h5>
+                        <p class="text-muted mb-0">{{ user.username }}</p>
                     </div>
-                </div>
-            </div>
-
-            {# Privacy Info #}
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title align-items-center d-flex mb-0">
-                        <i class="ri-lock-2-line me-1"></i>
-                        {{ 'ui.privacy'|trans }}
-                    </h5>
-                </div>
-                <div class="card-body">
-                    {{ form_row(form.enabled) }}
-                    {{ form_row(form.roles) }}
-                    {{ form_row(form.authCode) }}
                 </div>
             </div>
         </div>
