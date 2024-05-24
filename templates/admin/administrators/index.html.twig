@@ -51,6 +51,10 @@
                                                 <div class="flex-shrink-0">
                                                     <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(user, 'profileFile') }}" alt="profile pic">
                                                 </div>
+                                            {% else %}
+                                                <div class="flex-shrink-0">
+                                                    <img class="avatar-xs rounded-circle" src="{{ asset('build/images/users/user-dummy-img.jpg') }}" alt="profile pic">
+                                                </div>
                                             {% endif %}
                                             <div class="flex-grow-1">
                                                 {{ user }}

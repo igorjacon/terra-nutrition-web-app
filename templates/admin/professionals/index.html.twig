@@ -50,7 +50,11 @@
                                         <div class="d-flex gap-2 align-items-center">
                                             {% if professional.user.profileImg %}
                                                 <div class="flex-shrink-0">
-                                                        <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(professional.user, 'profileFile') }}" alt="{{ professional.user }}">
+                                                    <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(professional.user, 'profileFile') }}" alt="{{ professional.user }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="flex-shrink-0">
+                                                    <img class="avatar-xs rounded-circle" src="{{ asset('build/images/users/user-dummy-img.jpg') }}" alt="{{ professional.user }}">
                                                 </div>
                                             {% endif %}
                                             <div class="flex-grow-1">

@@ -2,7 +2,7 @@
     <div class="row g-0" id="dob">
         {% for key, child in form.children|reverse %}
             <div class="col{{ key == 'month' ? ' px-1' : '' }}">
-                {{ form_row(child, {attr: {'data-choices': '', 'class': 'form-select'}}) }}
+                {{ form_row(child) }}
             </div>
         {% endfor %}
     </div>
