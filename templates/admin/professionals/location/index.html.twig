@@ -1,0 +1,66 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">{{ 'ui.locations'|trans }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for location in locations %}
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header border-bottom-dashed">
+                        <div class="row align-items-center">
+                            <div class="col-sm"><h5 class="card-title mb-0">{{ location }}</h5></div>
+                            <div class="col-auto">
+                                <a href="{{ path('professional_location_edit', {'id': location.id}) }}" class="btn btn-ghost-primary">
+                                    {{ 'ui.button.edit'|trans }}
+                                </a>
+                                <button type="button" class="btn btn-sm btn-ghost-danger"
+                                        onclick="removeEntity('{{ path('professional_location_remove', {'id': location.id}) }}')">
+                                    <i class="ri-delete-bin-5-line align-middle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless table-sm mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.name'|trans }}:</td>
+                                    <td>{{ location.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.phone'|trans }}:</td>
+                                    <td>{{ location.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.address'|trans }}:</td>
+                                    <td>{{ location.address.lineOne }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.city'|trans }}:</td>
+                                    <td>{{ location.address.city }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.zip_code'|trans }}:</td>
+                                    <td>{{ location.address.zipCode }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.state'|trans }}:</td>
+                                    <td>{{ location.address.state }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">{{ 'ui.country'|trans }}:</td>
+                                    <td>{{ location.address.country }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

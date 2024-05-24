@@ -1,0 +1,40 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% form_theme form with ['_form/phone_form.html.twig'] %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('professional_location_index') }}">
+            {{ 'ui.locations'|trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col">
+            <div class="card">
+{#                <div class="card-header">#}
+{#                    <h5 class="card-title align-items-center d-flex mb-0">#}
+{#                        {{ 'ui.basic_info'|trans }}#}
+{#                    </h5>#}
+{#                </div>#}
+                <div class="card-body">
+                    {{ form_row(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-label">
+                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

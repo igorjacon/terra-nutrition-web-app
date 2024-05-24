@@ -47,10 +47,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link menu-link {% if 'professional/locations' in app.request.pathinfo %}active{% endif %}"
-                           href="#">
+                        <a class="nav-link menu-link{% if 'professional/locations' in app.request.pathinfo %} active{% endif %}"
+                           href="#locations" data-bs-toggle="collapse">
                             <i class="ri-building-2-line"></i><span>{{ 'ui.locations'|trans }}
                         </a>
+                        <div class="collapse menu-dropdown{% if 'professional/locations' in app.request.pathinfo %} show{% endif %}" id="locations">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {% if '/professional/locations/' == app.request.pathinfo %}active{% endif %}"
+                                       href="{{ path('professional_location_index') }}">
+                                        {{ 'ui.locations'|trans }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if 'professional/locations/new' in app.request.pathinfo %}active{% endif %}"
+                                        href="{{ path('professional_location_new') }}">
+                                        {{ 'ui.new_location'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 {% endif %}
 
