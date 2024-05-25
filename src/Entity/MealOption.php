@@ -22,7 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection()
     ],
     normalizationContext: ['groups' => ['meal-option-read']],
-    denormalizationContext: ['groups' => ['meal-option-write']],)]
+    denormalizationContext: ['groups' => ['meal-option-write']],
+)]
 class MealOption
 {
     use TimestampableEntity, BlameableEntity;
@@ -55,12 +56,19 @@ class MealOption
     #[ORM\ManyToOne(targetEntity: Professional::class)]
     private $professional;
 
+    /**
+     * @var Collection<int, MealHistory>
+     */
+    #[ORM\OneToMany(mappedBy: 'mealOption', targetEntity: MealHistory::class)]
+    private Collection $mealHistories;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->foodItemEntries = new ArrayCollection();
         $this->meals = new ArrayCollection();
+        $this->mealHistories = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -212,5 +220,35 @@ class MealOption
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return Collection<int, MealHistory>
+     */
+    public function getMealHistories(): Collection
+    {
+        return $this->mealHistories;
+    }
+
+    public function addMealHistory(MealHistory $mealHistory): static
+    {
+        if (!$this->mealHistories->contains($mealHistory)) {
+            $this->mealHistories->add($mealHistory);
+            $mealHistory->setMealOption($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMealHistory(MealHistory $mealHistory): static
+    {
+        if ($this->mealHistories->removeElement($mealHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($mealHistory->getMealOption() === $this) {
+                $mealHistory->setMealOption(null);
+            }
+        }
+
+        return $this;
     }
 }

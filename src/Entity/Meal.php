@@ -46,12 +46,19 @@ class Meal
     #[ORM\ManyToMany(targetEntity: MealPlan::class, mappedBy: 'meals')]
     private Collection $mealPlans;
 
+    /**
+     * @var Collection<int, MealHistory>
+     */
+    #[ORM\OneToMany(mappedBy: 'meal', targetEntity: MealHistory::class)]
+    private Collection $mealHistories;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->options = new ArrayCollection();
         $this->mealPlans = new ArrayCollection();
+        $this->mealHistories = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -153,6 +160,36 @@ class Meal
     {
         if ($this->mealPlans->removeElement($mealPlan)) {
             $mealPlan->removeMeal($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MealHistory>
+     */
+    public function getMealHistories(): Collection
+    {
+        return $this->mealHistories;
+    }
+
+    public function addMealHistory(MealHistory $mealHistory): static
+    {
+        if (!$this->mealHistories->contains($mealHistory)) {
+            $this->mealHistories->add($mealHistory);
+            $mealHistory->setMeal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMealHistory(MealHistory $mealHistory): static
+    {
+        if ($this->mealHistories->removeElement($mealHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($mealHistory->getMeal() === $this) {
+                $mealHistory->setMeal(null);
+            }
         }
 
         return $this;
