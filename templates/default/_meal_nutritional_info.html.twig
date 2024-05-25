@@ -1,0 +1,22 @@
+<table class="table table-sm table-striped">
+    <thead>
+        <th>{{ 'ui.meal'|trans }}</th>
+        <th>{{ 'ui.protein'|trans }}</th>
+        <th>{{ 'ui.carbohydrate'|trans }}</th>
+        <th>{{ 'ui.fat'|trans }}</th>
+        <th>{{ 'ui.calories'|trans }}</th>
+        <th>{{ 'ui.quantity'|trans }}</th>
+    </thead>
+    <tbody>
+        {% for option in meal.options %}
+            <tr>
+                <td>{{ meal ~  ' Option ' ~ loop.index }}</td>
+                <td>{{ option.totalNutritionalValue('protein') }} g</td>
+                <td>{{ option.totalNutritionalValue('carbohydrate') }} g</td>
+                <td>{{ option.totalNutritionalValue('fat') }} g</td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

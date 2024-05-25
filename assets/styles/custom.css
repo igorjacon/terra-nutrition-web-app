@@ -47,6 +47,9 @@ button.border-red {
 }
 .input-group .chosen-container {
     width: auto !important;
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
 }
 .input-group .chosen-container > a {
     border-top-right-radius: 0px;

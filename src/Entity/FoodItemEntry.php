@@ -58,6 +58,20 @@ class FoodItemEntry
         return $this->id;
     }
 
+    public function totalNutritionalValue(?string $nutrient = "")
+    {
+        try {
+            $nutrientValue = $this->getFoodItem()->getFoodItemDetails()->__get($nutrient);
+            $quantity = $this->getQuantity();
+            $gramQuantity = $this->getMeasurement()->getGramQuantity();
+
+            if ($nutrientValue != null) {
+                return (($quantity * $gramQuantity)/100) * $nutrientValue;
+            }
+        } catch (\ErrorException $exception) {}
+
+        return 0;
+    }
     public function getFoodItem(): ?FoodItem
     {
         return $this->foodItem;

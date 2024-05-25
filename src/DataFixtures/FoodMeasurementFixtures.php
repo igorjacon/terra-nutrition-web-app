@@ -12,11 +12,11 @@ class FoodMeasurementFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $measurements = [
-            ['name' => 'grams', 'abbr' => 'g', 'quantity' => 100],
+            ['name' => 'grams', 'abbr' => 'g', 'quantity' => 1],
             ['name' => 'kilograms', 'abbr' => 'kg', 'quantity' => 1000],
             ['name' => 'miligrams', 'abbr' => 'mg', 'quantity' => 1],
             ['name' => 'liters', 'abbr' => 'L', 'quantity' => 1000],
-            ['name' => 'mililiters', 'abbr' => 'mL', 'quantity' => 100],
+            ['name' => 'mililiters', 'abbr' => 'mL', 'quantity' => 1],
             ['name' => 'unit(s)', 'abbr' => null, 'quantity' => 100],
             ['name' => 'cup', 'abbr' => null, 'quantity' => 150],
         ];

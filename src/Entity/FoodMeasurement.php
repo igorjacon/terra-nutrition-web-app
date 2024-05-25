@@ -26,7 +26,11 @@ class FoodMeasurement
 
     public function __toString(): string
     {
-        return $this->abbreviation ?: $this->name;
+        $str = $this->abbreviation ?: $this->name;
+        if ($this->gram_quantity !== 1) {
+            $str .= " (" . $this->gram_quantity . "g)";
+        }
+        return $str;
     }
 
     public function getId(): ?int

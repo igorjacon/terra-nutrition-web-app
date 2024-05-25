@@ -78,6 +78,23 @@ class MealOption
         return $str;
     }
 
+    public function totalNutritionalValue(?string $nutrient = "")
+    {
+        $value = 0;
+        try {
+            foreach ($this->getFoodItemEntries() as $foodItemEntry) {
+                $nutrientValue = $foodItemEntry->getFoodItem()->getFoodItemDetails()->__get($nutrient);
+                $quantity = $foodItemEntry->getQuantity();
+                $gramQuantity = $foodItemEntry->getMeasurement()->getGramQuantity();
+
+                if ($nutrientValue != null) {
+                    $value += (($quantity * $gramQuantity)/100) * $nutrientValue;
+                }
+            }
+        } catch (\ErrorException $exception) {}
+
+        return round($value, 2);
+    }
 
     public function getId(): ?int
     {

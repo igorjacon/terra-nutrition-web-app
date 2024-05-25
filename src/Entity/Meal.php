@@ -56,7 +56,7 @@ class Meal
 
     public function __toString(): string
     {
-        return $this->type;
+        return $this->time . ' - ' . $this->type;
     }
 
     public function getId(): ?int

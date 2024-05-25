@@ -168,6 +168,10 @@ class FoodItemDetails
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'food-item-entry-read', 'food-item-read', 'food-item-detail-read', 'recipe-read'])]
     private ?float $carbohydrate = null;
 
+    public function __get($propertyName) {
+        return $this->{$propertyName};
+    }
+
     public function getFoodItem(): ?FoodItem
     {
         return $this->foodItem;

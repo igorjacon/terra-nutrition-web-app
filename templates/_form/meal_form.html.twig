@@ -53,8 +53,10 @@
                         </div>
                     </div>
                 </div>
-                {# TODO: Display nutritional information #}
                 <div class="tab-pane" id="nutrition-{{ form.vars.id }}">
+                    {% if form.vars.data %}
+                        {% include 'default/_meal_nutritional_info.html.twig' with {'meal': form.vars.data} %}
+                    {% endif %}
                 </div>
             </div>
 
@@ -114,10 +116,24 @@
                         {{ 'ui.free_text'|trans }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#nutritional-value-{{ form.vars.id }}" class="nav-link" data-bs-toggle="tab">
+                        {{ 'ui.nutritional_value'|trans }}
+                    </a>
+                </li>
             </ul>
             <div class="accordion-body">
                 <div class="tab-content">
                     <div class="tab-pane active show" id="food-items-{{ form.vars.id }}">
+                        <div class="row align-items-center">
+                            <div class="col-4">{{ 'ui.food_items'|trans }}</div>
+                            <div class="col-2">{{ 'form.label.measuring_unit'|trans({}, 'form') }}</div>
+                            <div class="col">{{ 'ui.quantity'|trans }}</div>
+                            <div class="col">{{ 'Protein' }}</div>
+                            <div class="col">{{ 'Carbs' }}</div>
+                            <div class="col">{{ 'Fat' }}</div>
+                            <div class="col-auto"></div>
+                        </div>
                         {{ form_row(form.foodItemEntries) }}
                         <div class="d-flex flex-wrap mb-2 justify-content-end">
                             <a href="javascript:void(0)" onclick="addCollection(this, '__foodEntry__')" data-collection-id="{{ form.foodItemEntries.vars.id }}">
@@ -128,6 +144,11 @@
                     </div>
                     <div class="tab-pane" id="rich-text-{{ form.vars.id }}">
                         {{ form_row(form.description) }}
+                    </div>
+                    <div class="tab-pane" id="nutritional-value-{{ form.vars.id }}">
+                        {% if form.vars.data %}
+                            {% include 'default/_nutritional_info.html.twig' with {'mealOption': form.vars.data} %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">
@@ -147,20 +168,38 @@
 
 {% block _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}
     <div class="row align-items-end" data-collection-item>
-        <div class="col-lg-7">{{ form_row(form.foodItem) }}</div>
-        <div class="col-lg-3">
-            <div class="form-group">
-                {{ form_label(form.measurement) }}
-                <div class="input-group">
-                    {{ form_widget(form.measurement) }}
-                    <button onclick="editModal('{{ path('admin_food_measurement_new', {'target_id': form.measurement.vars.id}) }}', 'body', null, addDataToChosen)"
-                            type="button" class="input-group-text">
-                        <i class="ri ri-add-line"></i>
-                    </button>
-                </div>
+        <div class="col-lg-4">{{ form_widget(form.foodItem) }}</div>
+        <div class="col-lg-2">
+            <div class="input-group">
+                {{ form_widget(form.measurement) }}
+                <button onclick="editModal('{{ path('admin_food_measurement_new', {'target_id': form.measurement.vars.id}) }}', 'body', null, addDataToChosen)"
+                        type="button" class="input-group-text">
+                    <i class="ri ri-add-line"></i>
+                </button>
             </div>
         </div>
-        <div class="col">{{ form_row(form.quantity) }}</div>
+        <div class="col">{{ form_widget(form.quantity) }}</div>
+        <div class="col">
+            <div class="protein">
+                {% if form.vars.data %}
+                    {{ form.vars.data.totalNutritionalValue('protein') }} g
+                {% endif %}
+            </div>
+        </div>
+        <div class="col">
+            <div class="carbs">
+                {% if form.vars.data %}
+                    {{ form.vars.data.totalNutritionalValue('carbohydrate') }} g
+                {% endif %}
+            </div>
+        </div>
+        <div class="col">
+            <div class="fat">
+                {% if form.vars.data %}
+                    {{ form.vars.data.totalNutritionalValue('fat') }} g
+                {% endif %}
+            </div>
+        </div>
         <div class="col-auto ps-0">
             <div class="form-group">
                 <button type="button" class="btn btn-icon btn-soft-danger" onclick="removeCollection(this)">
