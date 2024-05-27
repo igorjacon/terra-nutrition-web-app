@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\API\SaveMealOption;
-use App\Attribute\UserAware;
 use App\Filter\MealHistoryDateFilter;
 use App\Repository\MealHistoryRepository;
 use Doctrine\DBAL\Types\Types;
@@ -29,7 +28,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
     denormalizationContext: ['groups' => ['meal-history-write']]
 )]
 #[ORM\Entity(repositoryClass: MealHistoryRepository::class)]
-#[UserAware(userFieldName: "customer_id")]
 class MealHistory
 {
     #[ORM\Id]
