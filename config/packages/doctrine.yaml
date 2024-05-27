@@ -30,6 +30,10 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: false
+        filters:
+            customer_filter:
+                class: App\Filter\CustomerFilter
+                enabled: true
 
 when@test:
     doctrine:

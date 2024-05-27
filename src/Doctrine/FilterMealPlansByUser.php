@@ -8,6 +8,7 @@ use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\FoodItemEntry;
 use App\Entity\Meal;
+use App\Entity\MealHistory;
 use App\Entity\MealOption;
 use App\Entity\MealPlan;
 use App\Entity\Recipe;
@@ -45,11 +46,11 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
                 $queryBuilder->andWhere(sprintf(':customer MEMBER OF %s.customers', $rootAlias));
                 $queryBuilder->setParameter('customer', $user->getCustomer());
             }
-//            if ($user->getProfessional()) {
-//                $rootAlias = $queryBuilder->getRootAliases()[0];
-//                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
-//                $queryBuilder->setParameter('professional', $user->getProfessional());
-//            }
+            if ($user->getProfessional()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
+                $queryBuilder->setParameter('professional', $user->getProfessional());
+            }
         }
 
         if (Meal::class === $resourceClass) {
@@ -111,6 +112,14 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
                 $rootAlias = $queryBuilder->getRootAliases()[0];
                 $queryBuilder->andWhere(sprintf('%s.professional = :professional', $rootAlias));
                 $queryBuilder->setParameter('professional', $user->getProfessional());
+            }
+        }
+
+        if (MealHistory::class === $resourceClass) {
+            if ($user->getCustomer()) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->andWhere(sprintf('%s.customer = :customer', $rootAlias));
+                $queryBuilder->setParameter('customer', $user->getCustomer());
             }
         }
     }

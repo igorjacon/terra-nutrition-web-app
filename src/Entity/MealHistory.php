@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\API\SaveMealOption;
+use App\Attribute\UserAware;
+use App\Filter\MealHistoryDateFilter;
 use App\Repository\MealHistoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,11 +17,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
+        new GetCollection(),
         new Post(
             uriTemplate: '/meal-history/new',
             controller: SaveMealOption::class,
-            normalizationContext: ['groups' => ['meal-history-read']],
-            denormalizationContext: ['groups' => ['meal-history-write']],
             read: false,
             name: 'save_meal_option'
         )
@@ -25,23 +29,28 @@ use Symfony\Component\Serializer\Attribute\Groups;
     denormalizationContext: ['groups' => ['meal-history-write']]
 )]
 #[ORM\Entity(repositoryClass: MealHistoryRepository::class)]
+#[UserAware(userFieldName: "customer_id")]
 class MealHistory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['meal-history-read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ApiFilter(MealHistoryDateFilter::class)]
     #[Groups(['meal-history-read'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'mealHistories')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['meal-history-read'])]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne(targetEntity: Meal::class, inversedBy: 'mealHistories')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['meal-history-read'])]
     private ?Meal $meal = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -50,9 +59,11 @@ class MealHistory
 
     #[ORM\ManyToOne(targetEntity: MealOption::class, inversedBy: 'mealHistories')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['meal-history-read'])]
     private ?MealOption $mealOption = null;
 
     #[ORM\ManyToOne(targetEntity: MealPlan::class)]
+    #[Groups(['meal-history-read'])]
     private ?MealPlan $mealPlan = null;
 
     public function getId(): ?int

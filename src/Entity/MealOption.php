@@ -31,7 +31,7 @@ class MealOption
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read', 'meal-history-read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
