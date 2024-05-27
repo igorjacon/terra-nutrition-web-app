@@ -25,15 +25,28 @@ class FoodEntryType extends AbstractType
                         'data-fat' => $choiceValue->getFoodItemDetails()->__get('fat'),
                     ];
                 },
+                'attr' => [
+                    'onchange' => 'calculateFoodValue(this)',
+                    'class' => 'food-item'
+                ]
             ])
             ->add('measurement', EntityType::class, [
                 'class' => FoodMeasurement::class,
                 'label' => 'form.label.measuring_unit',
                 'choice_attr' => function ($choiceValue, $key, $value) {
-                    return ['data-gram_quantity' => $choiceValue->getGramQuantity()];
+                    return ['data-gram-quantity' => $choiceValue->getGramQuantity()];
                 },
+                'attr' => [
+                    'onchange' => 'calculateFoodValue(this)',
+                    'class' => 'measurement'
+                ]
             ])
-            ->add('quantity', NumberType::class)
+            ->add('quantity', NumberType::class, [
+                'attr' => [
+                    'onchange' => 'calculateFoodValue(this)',
+                    'class' => 'quantity'
+                ]
+            ])
         ;
     }
 

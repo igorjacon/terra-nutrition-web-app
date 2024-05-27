@@ -37,7 +37,7 @@ class MealOption
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: FoodItemEntry::class, mappedBy: 'mealOption', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'mealOption', targetEntity: FoodItemEntry::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     #[Assert\Valid]
     private Collection $foodItemEntries;
@@ -49,6 +49,22 @@ class MealOption
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?string $notes = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    private ?float $totalQuantity = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    private ?float $totalProtein = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    private ?float $totalCarbs = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    private ?float $totalFat = null;
 
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]
     private Collection $meals;
@@ -161,6 +177,70 @@ class MealOption
         $this->notes = $notes;
 
         return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalQuantity(): ?float
+    {
+        return $this->totalQuantity;
+    }
+
+    /**
+     * @param float|null $totalQuantity
+     */
+    public function setTotalQuantity(?float $totalQuantity): void
+    {
+        $this->totalQuantity = $totalQuantity;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalProtein(): ?float
+    {
+        return $this->totalProtein;
+    }
+
+    /**
+     * @param float|null $totalProtein
+     */
+    public function setTotalProtein(?float $totalProtein): void
+    {
+        $this->totalProtein = $totalProtein;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalCarbs(): ?float
+    {
+        return $this->totalCarbs;
+    }
+
+    /**
+     * @param float|null $totalCarbs
+     */
+    public function setTotalCarbs(?float $totalCarbs): void
+    {
+        $this->totalCarbs = $totalCarbs;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalFat(): ?float
+    {
+        return $this->totalFat;
+    }
+
+    /**
+     * @param float|null $totalFat
+     */
+    public function setTotalFat(?float $totalFat): void
+    {
+        $this->totalFat = $totalFat;
     }
 
     /**

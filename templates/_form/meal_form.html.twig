@@ -64,13 +64,13 @@
         <div class="card-footer">
             <div class="row align-items-center">
                 <div class="col-sm">
-                    <div class="d-flex flex-wrap my-n1 justify-content-end">
-                        <a href="javascript:void(0)" class="btn btn-ghost-danger me-2"
+                    <div class="d-flex flex-wrap my-n1 justify-content-start">
+                        <a href="javascript:void(0)" class="btn btn-soft-danger me-2"
                             onclick="removeCollection(this)">
                             <i class="ri-delete-bin-fill align-bottom me-1"></i>
                             {{ 'ui.remove'|trans }}
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-ghost-primary"
+                        <a href="javascript:void(0)" class="btn btn-outline-primary"
                            onclick="addOptionCollection(this, '__option__')" data-collection-id="{{ form.options.vars.id }}">
                             <i class="ri-add-line align-bottom me-1"></i>
                             {{ 'ui.add_meal_option'|trans }}
@@ -135,7 +135,28 @@
                             <div class="col-auto"></div>
                         </div>
                         {{ form_row(form.foodItemEntries) }}
-                        <div class="d-flex flex-wrap mb-2 justify-content-end">
+                        <div class="row align-items-center">
+                            <div class="col-4"></div>
+                            <div class="col-2"></div>
+                            <div class="col total-quantity">
+                                {% if form.vars.data %}{{ form.vars.data.totalQuantity }} g{% endif %}
+                            </div>
+                            <div class="col total-protein">
+                                {% if form.vars.data %}{{ form.vars.data.totalProtein }} g{% endif %}
+                            </div>
+                            <div class="col total-carbs">
+                                {% if form.vars.data %}{{ form.vars.data.totalCarbs }} g{% endif %}
+                            </div>
+                            <div class="col total-fat">
+                                {% if form.vars.data %}{{ form.vars.data.totalFat }} g{% endif %}
+                            </div>
+                            <div class="col-auto mx-4 px-0">&nbsp;</div>
+                            <div class="d-none">{{ form_widget(form.totalQuantity, {attr: {'class': 'option-total-quantity'}}) }}</div>
+                            <div class="d-none">{{ form_widget(form.totalProtein, {attr: {'class': 'option-total-protein'}}) }}</div>
+                            <div class="d-none">{{ form_widget(form.totalCarbs, {attr: {'class': 'option-total-carbs'}}) }}</div>
+                            <div class="d-none">{{ form_widget(form.totalFat, {attr: {'class': 'option-total-fat'}}) }}</div>
+                        </div>
+                        <div class="d-flex flex-wrap mt-4 justify-content-end">
                             <a href="javascript:void(0)" onclick="addCollection(this, '__foodEntry__')" data-collection-id="{{ form.foodItemEntries.vars.id }}">
                                 <i class="ri-add-circle-line align-bottom"></i>
                                 {{ 'ui.add_food_entry'|trans }}

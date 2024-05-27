@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\FoodItemEntry;
 use App\Entity\MealOption;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,10 +22,15 @@ class MealOptionType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__foodEntry__',
                 'error_bubbling' => false,
-                'default' => []
+                'by_reference' => false,
+//                'default' => []
             ])
             ->add('description')
             ->add('notes')
+            ->add('totalQuantity')
+            ->add('totalProtein')
+            ->add('totalCarbs')
+            ->add('totalFat')
         ;
     }
 
