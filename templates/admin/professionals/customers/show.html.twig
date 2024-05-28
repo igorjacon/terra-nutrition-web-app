@@ -110,9 +110,21 @@
             {{ include('admin/professionals/customers/meal_plans/_diet_plans.html.twig') }}
         </div>
         <div class="tab-pane fade" id="measurements">
-            {{ include('admin/professionals/customers/_measurements.html.twig') }}
+            {{ include('admin/professionals/customers/measurements/index.html.twig') }}
         </div>
-        <div class="tab-pane fade" id="goals"></div>
+        <div class="tab-pane fade" id="goals">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="avatar-lg mx-auto mb-3">
+                        <div class="avatar-title bg-warning-subtle text-warning fs-48 rounded">
+                            <i class="bx bx-bullseye"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title">{{ 'no_goals'|trans }}</h4>
+                    <p class="card-text text-muted">{{ 'coming_soon'|trans }}</p>
+                </div>
+            </div>
+        </div>
         <div class="tab-pane fade" id="profile">
             {{ include('admin/professionals/customers/_personal_information.html.twig') }}
         </div>

@@ -6,6 +6,7 @@ use App\Repository\MeasurementRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MeasurementRepository::class)]
 class CustomerMeasurement
@@ -17,13 +18,16 @@ class CustomerMeasurement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotNull]
+    private string $description;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $height = null;
+    #[Assert\NotNull]
+    private ?string $height;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotNull]
     private ?string $currWeight = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -48,10 +52,10 @@ class CustomerMeasurement
     private ?string $leftForearm = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $rightFist = null;
+    private ?string $rightWrist = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $leftFist = null;
+    private ?string $leftWrist = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $neck = null;
@@ -93,14 +97,14 @@ class CustomerMeasurement
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $customer;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function __toString(): string
     {
         return $this->description;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getDescription(): ?string
@@ -221,26 +225,26 @@ class CustomerMeasurement
         return $this;
     }
 
-    public function getRightFist(): ?string
+    public function getRightWrist(): ?string
     {
-        return $this->rightFist;
+        return $this->rightWrist;
     }
 
-    public function setRightFist(?string $rightFist): static
+    public function setRightWrist(?string $rightWrist): static
     {
-        $this->rightFist = $rightFist;
+        $this->rightWrist = $rightWrist;
 
         return $this;
     }
 
-    public function getLeftFist(): ?string
+    public function getLeftWrist(): ?string
     {
-        return $this->leftFist;
+        return $this->leftWrist;
     }
 
-    public function setLeftFist(?string $leftFist): static
+    public function setLeftWrist(?string $leftWrist): static
     {
-        $this->leftFist = $leftFist;
+        $this->leftWrist = $leftWrist;
 
         return $this;
     }

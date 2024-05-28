@@ -3,9 +3,11 @@
 namespace App\Controller\Professional;
 
 use App\Entity\Customer;
+use App\Entity\CustomerMeasurement;
 use App\Entity\MealPlan;
 use App\Entity\Professional;
 use App\Entity\User;
+use App\Form\CustomerMeasurementType;
 use App\Form\CustomerType;
 use App\Form\MealPlanType;
 use App\Repository\CustomerRepository;
@@ -190,6 +192,76 @@ class CustomerController extends AbstractController
             if ($this->isCsrfTokenValid('delete' . $mealPlan->getId(), $request->get('_token'))) {
                 $em = $this->doctrine->getManager();
                 $em->remove($mealPlan);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('professional_customer_show', [
+                'id' => $customer->getId()
+            ]);
+        }
+    }
+
+    #[Route('/new/measurement/{id}', name: 'new_measurement', methods: ['GET', 'POST'])]
+    public function newMeasurement(Request $request, Customer $customer): Response
+    {
+        $measurement = new CustomerMeasurement();
+        $measurement->setCustomer($customer);
+
+        $form = $this->createForm(CustomerMeasurementType::class, $measurement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em = $this->doctrine->getManager();
+            $em->persist($measurement);
+            $em->flush();
+
+            return $this->redirectToRoute('professional_customer_show', [
+                'id' => $customer->getId()
+            ]);
+        }
+
+        return $this->render('admin/professionals/customers/measurements/form.html.twig', [
+            'title' => $this->translator->trans('ui.new_measurement'),
+            'customer' => $customer,
+            'form'  => $form->createView()
+        ]);
+    }
+
+    #[Route('/measurement/{id}', name: 'edit_measurement', methods: ['GET', 'POST'])]
+    public function editMeasurement(Request $request, CustomerMeasurement $customerMeasurement): Response
+    {
+        $form = $this->createForm(CustomerMeasurementType::class, $customerMeasurement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em = $this->doctrine->getManager();
+            $em->persist($customerMeasurement);
+            $em->flush();
+
+            return $this->redirectToRoute('professional_customer_show', [
+                'id' => $customerMeasurement->getCustomer()->getId()
+            ]);
+        }
+
+        return $this->render('admin/professionals/customers/measurements/form.html.twig', [
+            'title' => substr($customerMeasurement->getDescription(),0, 50) . '...',
+            'customer' => $customerMeasurement->getCustomer(),
+            'form'  => $form->createView()
+        ]);
+    }
+
+    #[Route('/remove/measurement/{id}', name: 'remove_measurement', methods: ['GET', 'DELETE'])]
+    public function removeMeasurement(Request $request, CustomerMeasurement $customerMeasurement): Response
+    {
+        $customer = $customerMeasurement->getCustomer();
+        if ($request->isMethod('GET')) {
+            return $this->render('admin/professionals/customers/measurements/delete_form.html.twig', [
+                'measurement' => $customerMeasurement,
+            ]);
+        } else {
+            if ($this->isCsrfTokenValid('delete' . $customerMeasurement->getId(), $request->get('_token'))) {
+                $em = $this->doctrine->getManager();
+                $em->remove($customerMeasurement);
                 $em->flush();
             }
 

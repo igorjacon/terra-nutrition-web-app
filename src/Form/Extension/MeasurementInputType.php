@@ -21,6 +21,7 @@ class MeasurementInputType extends AbstractType
                 'multiple' => false,
                 'label' => false,
                 'choice_translation_domain' => false,
+                'attr' => $options['choice_attr']
             ])
             ->addModelTransformer(new CallbackTransformer(
                 function ($measurement) {
@@ -52,7 +53,8 @@ class MeasurementInputType extends AbstractType
     {
         return $resolver->setDefaults([
             'compound' => true,
-            'choices' => []
+            'choices' => [],
+            'choice_attr' => []
         ]);
     }
 

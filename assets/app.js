@@ -154,9 +154,16 @@ $(function (){
     $('[data-toggle="time"]').datetimepicker({
         format: 'LT'
     });
-    $("select").chosen({
+    $("select").not('[data-disabled]').chosen({
         allow_single_deselect: true,
         inherit_select_classes: true
+    });
+    $('[data-toggle="datetimepicker"]').datetimepicker({
+        sideBySide: true,
+        format: 'L LT',
+        locale: 'en',
+        stepping: 15,
+        useCurrent: 'day'
     });
 });
 

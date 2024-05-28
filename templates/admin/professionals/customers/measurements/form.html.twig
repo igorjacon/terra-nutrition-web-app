@@ -1,0 +1,97 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('professional_customer_show', {'id': customer.id}) }}">
+            {{ customer }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title align-items-center d-flex mb-0">
+                        {{ 'ui.basic_info'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">{{ form_row(form.description) }}</div>
+                        <div class="col-4">{{ form_row(form.createdAt) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.height) }}</div>
+                        <div class="col">{{ form_row(form.currWeight) }}</div>
+                        <div class="col">{{ form_row(form.idealWeight) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+{#                <div class="card-header">#}
+{#                    <h5 class="card-title align-items-center d-flex mb-0">#}
+{#                        {{ 'ui.nutritional_info'|trans }}#}
+{#                    </h5>#}
+{#                </div>#}
+                <div class="card-body">
+                    <div class="row">
+                        <h4 class="fw-medium mb-3">{{ 'Upper Body' }}</h4>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.rightArmRelax) }}</div>
+                            <div class="col">{{ form_row(form.leftArmRelax) }}</div>
+                            <div class="col">{{ form_row(form.rightArmContracted) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.leftArmContracted) }}</div>
+                            <div class="col">{{ form_row(form.rightForearm) }}</div>
+                            <div class="col">{{ form_row(form.leftForearm) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.rightWrist) }}</div>
+                            <div class="col">{{ form_row(form.leftWrist) }}</div>
+                            <div class="col"></div>
+                        </div>
+                        <h4 class="fw-medium mb-3">{{ 'Middle Body' }}</h4>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.neck) }}</div>
+                            <div class="col">{{ form_row(form.shoulder) }}</div>
+                            <div class="col">{{ form_row(form.breastplate) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.waist) }}</div>
+                            <div class="col">{{ form_row(form.abs) }}</div>
+                            <div class="col">{{ form_row(form.hip) }}</div>
+                        </div>
+                        <h4 class="fw-medium mb-3">{{ 'Lower Body' }}</h4>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.rightCalf) }}</div>
+                            <div class="col">{{ form_row(form.leftCalf) }}</div>
+                            <div class="col">{{ form_row(form.rightThigh) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.leftThigh) }}</div>
+                            <div class="col">{{ form_row(form.rightProximalThigh) }}</div>
+                            <div class="col">{{ form_row(form.leftProximalThigh) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-label">
+                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

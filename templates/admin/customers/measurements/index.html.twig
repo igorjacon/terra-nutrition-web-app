@@ -1,0 +1,60 @@
+<div class="card">
+    <div class="card-header border-bottom-dashed">
+        <div class="row g-4 align-items-center">
+            <div class="col-sm">
+                <h5 class="card-title mb-0 d-flex align-items-center">
+                    <i class="ri-ruler-line fs-4 me-1"></i>
+                    {{ 'ui.measurements'|trans }}
+                </h5>
+            </div>
+            <div class="col-auto">
+                <a href="{{ path('professional_customer_new_measurement', {'id': customer.id}) }}"
+                   class="btn btn-sm btn-primary">
+                    {{ 'ui.new_measurement'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body text-center">
+        {% if customer.measurements|length %}
+            <div class="table-responsive table-card text-start">
+                <table class="table align-middle mb-0">
+                    <thead class="text-muted table-light">
+                        <th>{{ 'ui.create_date'|trans }}</th>
+                        <th>{{ 'ui.description'|trans }}</th>
+                        <th>{{ 'ui.actions'|trans }}</th>
+                    </thead>
+                    <tbody>
+                    {% for measurement in customer.measurements %}
+                        <tr>
+                            <td>{{ measurement.createdAt|format_date }}</td>
+                            <td>{{ measurement.description }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary"
+                                   href="{{ path('professional_customer_edit_measurement', {'id': measurement.id}) }}">
+                                    {{ 'ui.details'|trans }}
+                                </a>
+                                <button type="button" class="btn btn-sm btn-soft-danger"
+                                        onclick="removeEntity('{{ path('professional_customer_remove_measurement', {'id': measurement.id}) }}')">
+                                    <i class="ri-delete-bin-5-line align-middle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="avatar-lg mx-auto mb-3">
+                <div class="avatar-title bg-warning-subtle text-warning fs-48 rounded">
+                    <i class="bx bx-clipboard"></i>
+                </div>
+            </div>
+            <h4 class="card-title">{{ 'no_measurements'|trans }}</h4>
+            <p class="card-text text-muted">{{ 'add_measurement_text'|trans }}</p>
+            <a href="{{ path('professional_customer_new_measurement', {'id': customer.id}) }}" class="btn btn-success">
+                {{ 'ui.button.create_measurement'|trans }}
+            </a>
+        {% endif %}
+    </div>
+</div>
