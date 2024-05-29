@@ -26,14 +26,21 @@
                         </div>
                     </div>
                 </div>
-{#                <div class="card-body border-bottom-dashed border-bottom">#}
-{#                    <div class="row g-3">#}
-{#                        <div class="col">Col 1</div>#}
-{#                        <div class="col">Col 2 - Filter</div>#}
-{#                    </div>#}
-{#                </div>#}
+                <div class="card-body border-bottom-dashed border-bottom">
+                    <div class="row g-3">
+                        <div class="col">
+                            <div class="search-box">
+                                <input type="text" class="form-control search bg-light border-light" data-target="#customers-table"
+                                       onkeyup="search(this)" data-url="{{ path('admin_user_management_customers') }}"
+                                       placeholder="search..." value="{{ app.request.get('search') }}">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <div class="table-responsive table-card">
+                    <div class="table-responsive table-card" id="customers-table">
                         <table class="table align-middle mb-0">
                             <thead class="text-muted table-light">
                             <th>{{ 'ui.name'|trans }}</th>

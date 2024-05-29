@@ -29,26 +29,40 @@ class MealOptionController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, MealOptionRepository $mealOptionRepository, PaginatorInterface $paginator): Response
     {
+        $text = $request->get('search');
         $professional = $this->getUser()->getProfessional();
         if ($professional) {
-            $mealPlansQuery = $mealOptionRepository->createQueryBuilder('o')
+            $mealsQuery = $mealOptionRepository->createQueryBuilder('o')
                 ->leftJoin('o.meals', 'meals')
                 ->leftJoin('meals.mealPlans', 'mealPlans')
                 ->where('mealPlans.professional = :professional')
                 ->orWhere('o.professional = :professional')
                 ->setParameter('professional', $professional);
         } else {
-            $mealPlansQuery = $mealOptionRepository->createQueryBuilder('o');
+            $mealsQuery = $mealOptionRepository->createQueryBuilder('o');
+        }
+        if ($text) {
+            $mealsQuery
+                ->leftJoin('o.foodItemEntries', 'fe')
+                ->leftJoin('fe.foodItem', 'fi')
+                ->andWhere('o.name LIKE :searchText OR fi.name LIKE :searchText')
+                ->setParameter('searchText', '%' . $text . '%');
         }
         $pagination = $paginator->paginate(
-            $mealPlansQuery, /* query NOT result */
+            $mealsQuery, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             Pagination::PAGE_LIMIT /*limit per page*/
         );
-        return $this->render('admin/meal_option/index.html.twig', [
-            'pagination' => $pagination,
-            'title' => $this->translator->trans('ui.meals')
-        ]);
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin/meal_option/_search_result.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
+            return $this->render('admin/meal_option/index.html.twig', [
+                'pagination' => $pagination,
+                'title' => $this->translator->trans('ui.meals')
+            ]);
+        }
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]

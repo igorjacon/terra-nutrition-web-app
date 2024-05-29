@@ -31,16 +31,30 @@ class FoodController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, FoodItemRepository $foodItemRepository, PaginatorInterface $paginator): Response
     {
+        $text = $request->get('search');
         $foods = $foodItemRepository->createQueryBuilder('o');
+        if ($text) {
+            $foods->where('o.name LIKE :searchText')
+                ->orWhere('o.description LIKE :searchText')
+                ->orWhere('o.classificationName LIKE :searchText')
+                ->setParameter('searchText', '%' . $text . '%');
+        }
         $pagination = $paginator->paginate(
             $foods, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             Pagination::PAGE_LIMIT /*limit per page*/
         );
-        return $this->render('admin/foods/index.html.twig', [
-            'pagination' => $pagination,
-            'title' => $this->translator->trans('ui.food_items')
-        ]);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin/foods/_search_result.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
+            return $this->render('admin/foods/index.html.twig', [
+                'pagination' => $pagination,
+                'title' => $this->translator->trans('ui.food_items')
+            ]);
+        }
     }
 
     #[Route('/new', name: 'new_food', methods: ['GET', 'POST'])]

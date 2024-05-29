@@ -29,6 +29,7 @@ class RecipeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, RecipeRepository $recipeRepository, PaginatorInterface $paginator): Response
     {
+        $text = $request->get('search');
         $professional = $this->getUser()->getProfessional();
         if ($professional) {
             $recipeQuery = $recipeRepository->createQueryBuilder('o')
@@ -37,15 +38,27 @@ class RecipeController extends AbstractController
         } else {
             $recipeQuery = $recipeRepository->createQueryBuilder('o');
         }
+        if ($text) {
+            $recipeQuery
+                ->andWhere('o.name LIKE :searchText')
+                ->setParameter('searchText', '%' . $text . '%');
+        }
         $pagination = $paginator->paginate(
             $recipeQuery, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             Pagination::PAGE_LIMIT /*limit per page*/
         );
-        return $this->render('admin/recipe/index.html.twig', [
-            'pagination' => $pagination,
-            'title' => $this->translator->trans('ui.recipes')
-        ]);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin/recipe/_search_result.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
+            return $this->render('admin/recipe/index.html.twig', [
+                'pagination' => $pagination,
+                'title' => $this->translator->trans('ui.recipes')
+            ]);
+        }
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]

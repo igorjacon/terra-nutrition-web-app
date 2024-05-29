@@ -26,14 +26,21 @@
                         </div>
                     </div>
                 </div>
-                {#                <div class="card-body border-bottom-dashed border-bottom">#}
-                {#                    <div class="row g-3">#}
-                {#                        <div class="col">Col 1</div>#}
-                {#                        <div class="col">Col 2 - Filter</div>#}
-                {#                    </div>#}
-                {#                </div>#}
+                <div class="card-body border-bottom-dashed border-bottom">
+                    <div class="row g-3">
+                        <div class="col">
+                            <div class="search-box">
+                                <input type="text" class="form-control search bg-light border-light" data-target="#meals-table"
+                                       onkeyup="search(this)" data-url="{{ path('professional_meal_option_index') }}"
+                                       placeholder="search..." value="{{ app.request.get('search') }}">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <div class="table-responsive table-card">
+                    <div class="table-responsive table-card" id="meals-table">
                         <table class="table align-middle table-striped mb-0">
                             <thead class="text-muted table-light">
                                 <th class="text-nowrap">
@@ -41,7 +48,6 @@
                                     {{ knp_pagination_sortable(pagination, 'ui.create_date'|trans, 'o.createdAt') }}
                                 </th>
                                 <th>{{ 'ui.name'|trans }}</th>
-                                <th>{{ 'ui.status'|trans }}</th>
                                 <th>{{ 'ui.action'|trans }}</th>
                             </thead>
                             <tbody>
@@ -52,13 +58,6 @@
                                         <a href="{{ path('professional_meal_option_edit', {'id': meal.id}) }}">
                                             {{ meal }}
                                         </a>
-                                    </td>
-                                    <td>
-{#                                        {% if meal.active %}#}
-{#                                            <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>#}
-{#                                        {% else %}#}
-{#                                            <span class="badge bg-danger-subtle text-danger">{{ 'ui.inactive'|trans }}</span>#}
-{#                                        {% endif %}#}
                                     </td>
                                     <td nowrap>
                                         <a class="btn btn-sm btn-light"

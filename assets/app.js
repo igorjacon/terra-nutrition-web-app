@@ -167,6 +167,25 @@ $(function (){
     });
 });
 
+let search = function(element) {
+    const value = $(element).val();
+    const url = $(element).data('url');
+    const target = $(element).data('target');
+
+    $.ajax({
+        method: 'GET',
+        url: url,
+        data: {'search': value},
+        success: function (response) {
+            $(target).replaceWith(response);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+};
+window.search = search;
+
 var datepicker = function (target) {
     let datetimepicker = $(target).datetimepicker({
         format: 'L',

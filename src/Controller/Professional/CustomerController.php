@@ -12,7 +12,10 @@ use App\Form\CustomerType;
 use App\Form\MealPlanType;
 use App\Repository\CustomerRepository;
 use App\Service\Mailer;
+use App\Utils\Pagination;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,14 +36,39 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(CustomerRepository $customerRepository): Response
+    public function index(Request $request, CustomerRepository $customerRepository, PaginatorInterface $paginator): Response
     {
+        $text = $request->get('search');
         $professional = $this->getUser()->getProfessional();
-        $customers = $customerRepository->findBy(['professional' => $professional]);
-        return $this->render('admin/professionals/customers/index.html.twig', [
-            'customers' => $customers,
-            'title' => $this->translator->trans('ui.customers')
-        ]);
+        $customerQuery = $customerRepository->createQueryBuilder('o')
+            ->leftJoin('o.user', 'u')
+            ->leftJoin('u.phones', 'p')
+            ->where('o.professional = :professional')
+            ->setParameter('professional', $professional);
+
+        if ($text) {
+            $customerQuery
+                ->andWhere('u.firstName LIKE :searchText OR u.lastName LIKE :searchText OR u.email LIKE :searchText OR p.number LIKE :searchText')
+                ->setParameter('searchText', '%' . $text . '%');
+        }
+
+        $pagination = $paginator->paginate(
+            $customerQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            Pagination::PAGE_LIMIT, /*limit per page*/
+            ['wrap-queries' => true]
+        );
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin/professionals/customers/_search_result.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
+            return $this->render('admin/professionals/customers/index.html.twig', [
+                'pagination' => $pagination,
+                'title' => $this->translator->trans('ui.customers')
+            ]);
+        }
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]

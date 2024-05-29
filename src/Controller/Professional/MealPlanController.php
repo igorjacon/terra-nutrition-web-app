@@ -30,6 +30,7 @@ class MealPlanController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, MealPlanRepository $mealPlanRepository, PaginatorInterface $paginator): Response
     {
+        $text = $request->get('search');
         $professional = $this->getUser()->getProfessional();
         if ($professional) {
             $mealPlansQuery = $mealPlanRepository->createQueryBuilder('o')
@@ -38,15 +39,27 @@ class MealPlanController extends AbstractController
         } else {
             $mealPlansQuery = $mealPlanRepository->createQueryBuilder('o');
         }
+        if ($text) {
+            $mealPlansQuery
+                ->andWhere('o.title LIKE :searchText OR o.description LIKE :searchText')
+                ->setParameter('searchText', '%' . $text . '%');
+        }
         $pagination = $paginator->paginate(
             $mealPlansQuery, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             Pagination::PAGE_LIMIT /*limit per page*/
         );
-        return $this->render('admin/meal_plans/index.html.twig', [
-            'pagination' => $pagination,
-            'title' => $this->translator->trans('ui.meal_plans')
-        ]);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin/meal_plans/_search_result.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
+            return $this->render('admin/meal_plans/index.html.twig', [
+                'pagination' => $pagination,
+                'title' => $this->translator->trans('ui.meal_plans')
+            ]);
+        }
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]

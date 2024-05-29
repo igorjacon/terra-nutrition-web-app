@@ -1,0 +1,52 @@
+<div class="table-responsive table-card" id="food-table">
+    <table class="table align-middle table-striped mb-0">
+        <thead class="text-muted table-light">
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.key'|trans, 'o.foodKey') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.name'|trans, 'o.name') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.description'|trans, 'o.description') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.category'|trans, 'o.classificationName') }}
+        </th>
+        <th>{{ 'ui.action'|trans }}</th>
+        </thead>
+        <tbody>
+        {% for food in pagination %}
+            <tr>
+                <td>
+                    <a class="fw-medium" href="{{ path('professional_food_edit_food', {'foodKey': food.foodKey}) }}">
+                        {{ food.foodKey }}
+                    </a>
+                </td>
+                <td>{{ food.name }}</td>
+                <td>{{ food.description|nl2br }}</td>
+                <td>{{ food.classificationName }}</td>
+                <td nowrap>
+                    <a class="btn btn-sm btn-light"
+                       href="{{ path('professional_food_edit_food', {'foodKey': food.foodKey}) }}">
+                        {{ 'ui.edit'|trans }}
+                    </a>
+                    <button type="button" class="btn btn-sm btn-soft-danger"
+                            onclick="removeEntity('{{ path('professional_food_remove_food', {'foodKey': food.foodKey}) }}')">
+                        <i class="ri-delete-bin-5-line align-middle"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {# display navigation #}
+    <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>

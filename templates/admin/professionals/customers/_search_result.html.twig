@@ -1,0 +1,76 @@
+<div class="table-responsive table-card" id="customers-table">
+    <table class="table align-middle mb-0">
+        <thead class="text-muted table-light">
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.name'|trans, 'u.lastName') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.email'|trans, 'u.email') }}
+        </th>
+        {% if is_granted('ROLE_ADMIN') %}
+            <th>{{ 'ui.professional'|trans }}</th>
+        {% endif %}
+        <th>{{ 'ui.phone'|trans }}</th>
+        <th>{{ 'ui.dob'|trans }}</th>
+        <th>{{ 'ui.active'|trans }}</th>
+        <th>{{ 'ui.action'|trans }}</th>
+        </thead>
+        <tbody>
+        {% for customer in pagination %}
+            <tr>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        {% if customer.user.profileImg %}
+                            <div class="flex-shrink-0">
+                                <img class="avatar-xs rounded-circle" src="{{ vich_uploader_asset(customer.user, 'profileFile')|imagine_filter('squared_thumbnail') }}" alt="{{ customer.user.firstName }}">
+                            </div>
+                        {% else %}
+                            <div class="flex-shrink-0">
+                                <img class="avatar-xs rounded-circle" src="{{ asset('build/images/users/user-dummy-img.jpg') }}" alt="{{ customer.user.firstName }}">
+                            </div>
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            {{ customer }}
+                        </div>
+                    </div>
+                </td>
+                <td>{{ customer.user.email }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>{{ customer.professional }}</td>
+                {% endif %}
+                <td>{{ customer.user.phones|first }}</td>
+                <td>
+                    {{ customer.dob|format_date }}
+                </td>
+                <td>
+                    {% if customer.user.enabled %}
+                        <span class="badge bg-success-subtle text-success">{{ 'ui.active'|trans }}</span>
+                    {% else %}
+                        <span class="badge bg-danger-subtle text-danger">{{ 'ui.disabled'|trans }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-light"
+                       href="{{ path('professional_customer_show', {'id': customer.id}) }}">
+                        {{ 'ui.view'|trans }}
+                    </a>
+                    <a class="btn btn-sm btn-soft-info" href="{{ path('professional_customer_edit', {'id': customer.id}) }}">
+                        <i class="ri-settings-3-line"></i>
+                    </a>
+                    <button type="button" class="btn btn-sm btn-soft-danger"
+                            onclick="removeEntity('{{ path('professional_customer_remove', {'id': customer.id}) }}')">
+                        <i class="ri-delete-bin-5-line"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {# display navigation #}
+    <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>

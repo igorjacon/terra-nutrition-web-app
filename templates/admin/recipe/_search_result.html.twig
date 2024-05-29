@@ -1,0 +1,47 @@
+<div class="table-responsive table-card" id="recipe-table">
+    <table class="table align-middle table-striped mb-0">
+        <thead class="text-muted table-light">
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.create_date'|trans, 'o.createdAt') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.name'|trans, 'o.name') }}
+        </th>
+        <th>
+            <i class="bx bx-sort-alt-2 align-middle"></i>
+            {{ knp_pagination_sortable(pagination, 'ui.portion'|trans, 'o.description') }}
+        </th>
+        <th>{{ 'ui.action'|trans }}</th>
+        </thead>
+        <tbody>
+        {% for recipe in pagination %}
+            <tr>
+                <td>{{ recipe.createdAt|format_date }}</td>
+                <td>
+                    <a href="{{ path('professional_recipe_edit', {'id': recipe.id}) }}">
+                        {{ recipe.name }}
+                    </a>
+                </td>
+                <td>{{ recipe.portion }}</td>
+                <td nowrap>
+                    <a class="btn btn-sm btn-light"
+                       href="{{ path('professional_recipe_edit', {'id': recipe.id}) }}">
+                        {{ 'ui.edit'|trans }}
+                    </a>
+                    <button type="button" class="btn btn-sm btn-soft-danger"
+                            onclick="removeEntity('{{ path('professional_recipe_remove', {'id': recipe.id}) }}')">
+                        <i class="ri-delete-bin-5-line align-middle"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {# display navigation #}
+    <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
