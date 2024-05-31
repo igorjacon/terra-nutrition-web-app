@@ -31,6 +31,7 @@ class MealOptionType extends AbstractType
             ->add('totalProtein')
             ->add('totalCarbs')
             ->add('totalFat')
+            ->add('totalCalories')
         ;
     }
 

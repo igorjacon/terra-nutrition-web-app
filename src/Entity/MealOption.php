@@ -66,6 +66,10 @@ class MealOption
     #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
     private ?float $totalFat = null;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['meal-plan-read', 'meal-read', 'meal-option-read'])]
+    private ?float $totalCalories = null;
+
     #[ORM\ManyToMany(targetEntity: Meal::class, mappedBy: 'options')]
     private Collection $meals;
 
@@ -330,5 +334,21 @@ class MealOption
         }
 
         return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalCalories(): ?float
+    {
+        return $this->totalCalories;
+    }
+
+    /**
+     * @param float|null $totalCalories
+     */
+    public function setTotalCalories(?float $totalCalories): void
+    {
+        $this->totalCalories = $totalCalories;
     }
 }

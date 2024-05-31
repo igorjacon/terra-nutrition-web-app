@@ -23,6 +23,7 @@ class FoodEntryType extends AbstractType
                         'data-protein' => $choiceValue->getFoodItemDetails()->__get('protein'),
                         'data-carbs' => $choiceValue->getFoodItemDetails()->__get('carbohydrate'),
                         'data-fat' => $choiceValue->getFoodItemDetails()->__get('fat'),
+                        'data-energy-kj' => $choiceValue->getFoodItemDetails()->__get('energyWithFibreKj')
                     ];
                 },
                 'attr' => [

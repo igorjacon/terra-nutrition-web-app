@@ -72,6 +72,23 @@ class FoodItemEntry
 
         return 0;
     }
+
+    public function totalCalories() {
+        try {
+            $kj = $this->getFoodItem()->getFoodItemDetails()->__get("energyWithFibreKj");
+            $quantity = $this->getQuantity();
+            $gramQuantity = $this->getMeasurement()->getGramQuantity();
+
+            if ($kj != null) {
+                $kjTotal = (($quantity * $gramQuantity)/100) * $kj;
+                $calories = $kjTotal * 0.239;
+                return round($calories, 2);
+            }
+        } catch (\ErrorException $exception) {}
+
+        return 0;
+    }
+
     public function getFoodItem(): ?FoodItem
     {
         return $this->foodItem;

@@ -125,14 +125,15 @@
             <div class="accordion-body">
                 <div class="tab-content">
                     <div class="tab-pane active show" id="food-items-{{ form.vars.id }}">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center mb-2">
                             <div class="col-4">{{ 'ui.food_items'|trans }}</div>
                             <div class="col-2">{{ 'form.label.measuring_unit'|trans({}, 'form') }}</div>
-                            <div class="col">{{ 'ui.quantity'|trans }}</div>
-                            <div class="col">{{ 'Protein' }}</div>
-                            <div class="col">{{ 'Carbs' }}</div>
-                            <div class="col">{{ 'Fat' }}</div>
-                            <div class="col-auto"></div>
+                            <div class="col pe-0">{{ 'ui.quantity'|trans }}</div>
+                            <div class="col px-0">{{ 'ui.protein'|trans }}</div>
+                            <div class="col px-0">{{ 'ui.carbs'|trans }}</div>
+                            <div class="col px-0">{{ 'ui.fat'|trans }}</div>
+                            <div class="col px-0">{{ 'ui.calories'|trans }}</div>
+                            <div class="col-auto mx-2"></div>
                         </div>
                         {{ form_row(form.foodItemEntries) }}
                         <div class="row align-items-center py-2 bg-light">
@@ -150,11 +151,15 @@
                             <div class="col total-fat">
                                 {% if form.vars.data %}{{ form.vars.data.totalFat }} g{% endif %}
                             </div>
+                            <div class="col total-calories">
+                                {% if form.vars.data %}{{ form.vars.data.totalCalories }} kcal{% endif %}
+                            </div>
                             <div class="col-auto mx-4 px-0">&nbsp;</div>
                             <div class="d-none">{{ form_widget(form.totalQuantity, {attr: {'class': 'option-total-quantity'}}) }}</div>
                             <div class="d-none">{{ form_widget(form.totalProtein, {attr: {'class': 'option-total-protein'}}) }}</div>
                             <div class="d-none">{{ form_widget(form.totalCarbs, {attr: {'class': 'option-total-carbs'}}) }}</div>
                             <div class="d-none">{{ form_widget(form.totalFat, {attr: {'class': 'option-total-fat'}}) }}</div>
+                            <div class="d-none">{{ form_widget(form.totalCalories, {attr: {'class': 'option-total-calories'}}) }}</div>
                         </div>
                         <div class="d-flex flex-wrap mt-4 justify-content-end">
                             <a href="javascript:void(0)" onclick="addCollection(this, '__foodEntry__')" data-collection-id="{{ form.foodItemEntries.vars.id }}">
@@ -188,7 +193,7 @@
 {% endblock _meal_plan_meals_entry_options_entry_row %}
 
 {% block _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}
-    <div class="row align-items-end" data-collection-item>
+    <div class="row align-items-center mb-3" data-collection-item>
         <div class="col-lg-4">{{ form_widget(form.foodItem) }}</div>
         <div class="col-lg-2">
             <div class="input-group">
@@ -221,12 +226,17 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-auto ps-0">
-            <div class="form-group">
-                <button type="button" class="btn btn-icon btn-soft-danger" onclick="removeCollection(this)">
-                    <i class="ri-delete-bin-5-line"></i>
-                </button>
+        <div class="col">
+            <div class="calories">
+                {% if form.vars.data %}
+                    {{ form.vars.data.totalCalories }} kcal
+                {% endif %}
             </div>
+        </div>
+        <div class="col-auto ps-0">
+            <button type="button" class="btn btn-icon btn-soft-danger" onclick="removeCollection(this)">
+                <i class="ri-delete-bin-5-line"></i>
+            </button>
         </div>
     </div>
 {% endblock _meal_plan_meals_entry_options_entry_foodItemEntries_entry_row %}

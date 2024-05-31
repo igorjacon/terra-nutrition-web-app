@@ -337,21 +337,27 @@ let calculateFoodValue = function(element) {
     let proteinValue = $(row).find('.food-item :selected').data('protein');
     let carbValue = $(row).find('.food-item :selected').data('carbs');
     let fatValue = $(row).find('.food-item :selected').data('fat');
+    let kjValue = $(row).find('.food-item :selected').data('energy-kj');
     let gram_quantity = $(row).find('.measurement :selected').data('gram-quantity');
     let quantity = $(row).find('.quantity').val();
 
     // calculate protein
     if (quantity !== "") {
-        let protein = ((quantity * parseFloat(gram_quantity) / 100) * parseFloat(proteinValue)).toFixed(2);
+        let protein = (((quantity * parseFloat(gram_quantity)) / 100) * parseFloat(proteinValue)).toFixed(2);
         $(row).find('.protein').text(protein + " g");
 
         // calculate carbs
-        let carbs = ((quantity * parseFloat(gram_quantity) / 100) * parseFloat(carbValue)).toFixed(2);
+        let carbs = (((quantity * parseFloat(gram_quantity)) / 100) * parseFloat(carbValue)).toFixed(2);
         $(row).find('.carbs').text(carbs + " g");
 
         // calculate fat
-        let fat = ((quantity * parseFloat(gram_quantity) / 100) * parseFloat(fatValue)).toFixed(2);
+        let fat = (((quantity * parseFloat(gram_quantity)) / 100) * parseFloat(fatValue)).toFixed(2);
         $(row).find('.fat').text(fat + " g");
+
+        // calculate calories
+        let kj = (((quantity * parseFloat(gram_quantity)) / 100) * parseFloat(kjValue)).toFixed(2);
+        let calories = (parseFloat(kj) * 0.239).toFixed(2);
+        $(row).find('.calories').text(calories + " kcal");
 
         calculateTotals($(row).parent());
     }
@@ -363,6 +369,7 @@ let calculateTotals = function(foodContainer) {
     let totalProtein = 0;
     let totalCarbs = 0;
     let totalFat = 0;
+    let totalCalories = 0;
 
     $(foodContainer).find('.protein').each(function () {
         let amountString = $.trim($(this).text());
@@ -379,6 +386,11 @@ let calculateTotals = function(foodContainer) {
         let amount = amountString.substring(0, amountString.indexOf(' '));
         totalFat = totalFat + parseFloat(amount);
     });
+    $(foodContainer).find('.calories').each(function () {
+        let amountString = $.trim($(this).text());
+        let amount = amountString.substring(0, amountString.indexOf(' '));
+        totalCalories = totalCalories + parseFloat(amount);
+    });
     $(foodContainer).find('.quantity').each(function () {
         let gQuantity = $(this).closest('[data-collection-item]').find('.measurement :selected').data('gram-quantity');
         totalQuantity = totalQuantity + (parseFloat($(this).val()) * parseFloat(gQuantity));
@@ -388,16 +400,19 @@ let calculateTotals = function(foodContainer) {
     let totalProteinRounded = totalProtein.toFixed(2);
     let totalCarbsRounded = totalCarbs.toFixed(2);
     let totalFatRounded = totalFat.toFixed(2);
+    let totalCaloriesRounded = totalCalories.toFixed(2);
 
     $(foodContainer).closest('.tab-pane').find('.total-quantity').text(totalQuantityRounded + " g");
     $(foodContainer).closest('.tab-pane').find('.total-protein').text(totalProteinRounded + " g");
     $(foodContainer).closest('.tab-pane').find('.total-carbs').text(totalCarbsRounded + " g");
     $(foodContainer).closest('.tab-pane').find('.total-fat').text(totalFatRounded + " g");
+    $(foodContainer).closest('.tab-pane').find('.total-calories').text(totalCaloriesRounded + " kcal");
 
     // Save totals
     $(foodContainer).closest('.tab-pane').find('.option-total-quantity').val(totalQuantityRounded);
     $(foodContainer).closest('.tab-pane').find('.option-total-protein').val(totalProteinRounded);
     $(foodContainer).closest('.tab-pane').find('.option-total-carbs').val(totalCarbsRounded);
     $(foodContainer).closest('.tab-pane').find('.option-total-fat').val(totalFatRounded);
+    $(foodContainer).closest('.tab-pane').find('.option-total-calories').val(totalCaloriesRounded);
 }
 window.calculateTotals = calculateTotals;
