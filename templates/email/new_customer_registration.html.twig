@@ -1,0 +1,66 @@
+{% extends "email/base.html.twig" %}
+
+{% block body %}
+    <h1>
+        New Customer Registration
+    </h1>
+    <p>
+        Please see below the customer details.
+    </p>
+    <table class="table align-middle mb-0" border="0" cellspacing="5" cellpadding="5">
+        <tbody>
+            <tr>
+                <th align="right">{{ 'ui.name'|trans }}</th>
+                <td>{{ data['user']['firstName'] ~ ' ' ~ data['user']['lastName'] }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.email'|trans }}</th>
+                <td>{{ customer.user.email }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.phone'|trans }}</th>
+                <td>{{ customer.user.phones|first }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.address'|trans }}</th>
+                <td>{{ customer.user.address.oneLineAddress }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.dob'|trans }}</th>
+                <td>{{ customer.dob|format_date('long') }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.height'|trans }}</th>
+                <td>{{ data['height'] }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.weight'|trans }}</th>
+                <td>{{ data['weight'] }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.goal_weight'|trans }}</th>
+                <td>{{ data['goalWeight'] }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.occupation'|trans }}</th>
+                <td>{{ customer.occupation }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.dieteray_preference'|trans }}</th>
+                <td>{{ customer.dietaryPreference }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.goals'|trans }}</th>
+                <td>{{ data['goals'] }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.reason_for_seeking_profession'|trans }}</th>
+                <td>{{ customer.reasonSeekProfessional }}</td>
+            </tr>
+            <tr>
+                <th align="right">{{ 'ui.medical_info'|trans }}</th>
+                <td>{{ customer.medicalInfo }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -98,7 +98,7 @@ class Mailer implements AuthCodeMailerInterface
             if(isset($subject[2])){
                 $translatingSubject = $subject[2];
             }
-            $subject = $subject[0];
+            $subject = $this->translator->trans($subject[0], $subjectParams, 'messages');
         }
 
         $user = $this->userRepository->findOneByEmail($toEmail);
