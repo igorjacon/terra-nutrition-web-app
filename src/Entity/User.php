@@ -45,17 +45,17 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'customer-write'])]
     private ?string $firstName;
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'customer-write'])]
     private ?string $lastName;
 
     #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     #[Assert\Valid]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'customer-write'])]
     private $phones;
 
     #[ORM\Column(length: 180)]
@@ -65,7 +65,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
 
     #[ORM\Column(unique: true, nullable: true)]
     #[Assert\NotNull]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'customer-write'])]
     private ?string $email;
 
     #[ORM\Column(type: 'boolean')]
@@ -87,7 +87,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
     private ?string $password = null;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'customer-write'])]
     private $address;
 
     #[ORM\Column(type: 'datetime', nullable: true)]

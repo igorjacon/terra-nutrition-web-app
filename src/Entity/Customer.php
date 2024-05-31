@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\CustomerRepository;
 use App\State\CustomerProvider;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(provider: CustomerProvider::class),
-        new GetCollection()
+        new GetCollection(),
+        new Post()
     ],
     normalizationContext: ['groups' => ['customer-read']],
     denormalizationContext: ['groups' => ['customer-write']],
@@ -35,47 +37,47 @@ class Customer
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Valid]
     #[ApiProperty(identifier: false)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private $user;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $height = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $weight = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?\DateTime $dob = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $goalWeight = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $occupation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $dietaryPreference = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $goals = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $reasonSeekProfessional = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $currExerciseRoutine = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['customer-read'])]
+    #[Groups(['customer-read', 'customer-write'])]
     private ?string $medicalInfo = null;
 
     #[ORM\Column(type: 'boolean')]

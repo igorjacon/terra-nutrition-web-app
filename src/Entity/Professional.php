@@ -160,7 +160,7 @@ class Professional
         return $this->customers;
     }
 
-    public function AddCustomer(Customer $customer): static
+    public function addCustomer(Customer $customer): static
     {
         if (!$this->customers->contains($customer)) {
             $this->customers->add($customer);

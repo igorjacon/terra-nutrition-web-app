@@ -38,7 +38,8 @@ class PhoneType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Phone::class,
             'label' => false,
-            'translation_domain' => 'form'
+            'translation_domain' => 'form',
+            'validation_groups' => ['Default', 'web']
         ]);
     }
 }

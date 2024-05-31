@@ -17,32 +17,32 @@ class Address
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     #[Assert\NotNull]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $lineOne = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $lineTwo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Length(max: 10)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $state = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotNull]
-    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read'])]
+    #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
     private ?string $country = null;
 
     public function __toString(): string

@@ -65,6 +65,7 @@ security:
         - { path: '^/admin', roles: ROLE_NUTRITIONIST }
         # API
         - { path: '^/api/(login|token)', roles: PUBLIC_ACCESS }
+        - { path: '^/api/customers', roles: PUBLIC_ACCESS }
         - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }
         - { path: '^/docs', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI
         - { path: '^/api/login_check', roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI
