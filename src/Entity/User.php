@@ -93,7 +93,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
     private $profileFile;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer-read', 'professional-read'])]
+    #[Groups(['customer-read', 'professional-read', 'user-read'])]
     private ?string $profileImg = null;
 
     #[ORM\Column]
