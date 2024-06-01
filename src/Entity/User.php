@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +24,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Vich\Uploadable]
+#[ApiResource(
+    operations: [
+        new Post(
+            uriTemplate: '/users/profile-image/{id}',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            outputFormats: ['jsonld' => ['application/ld+json']],
+            requirements: ['id' => '\d+'],
+            validationContext: ['groups' => ['file-upload']],
+        )
+    ],
+    normalizationContext: ['groups' => ['user-read']],
+    denormalizationContext: ['groups' => ['user-write']],
+)]
 #[UniqueEntity('email')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, Serializable, PasswordAuthenticatedUserInterface, TrustedDeviceInterface, TwoFactorInterface
@@ -74,6 +89,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'user_files', fileNameProperty: 'profileImg')]
+    #[Groups(['user-write'])]
     private $profileFile;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -226,10 +242,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
         }
     }
 
-    /**
-     * @return File|UploadedFile
-     */
-    public function getProfileFile(): ?UploadedFile
+    public function getProfileFile()
     {
         return $this->profileFile;
     }

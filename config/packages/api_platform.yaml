@@ -4,10 +4,10 @@ api_platform:
     version: 1.0.0
     show_webby: false
     formats:
-        json: [ 'application/json' ]
+        json: ['application/json']
         jsonld: ['application/ld+json']
-        html: [ 'text/html' ]
-        multipart: [ 'multipart/form-data' ]
+        html: ['text/html']
+        multipart: ['multipart/form-data']
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
@@ -23,7 +23,7 @@ api_platform:
             rfc_7807_compliant_errors: true
     event_listeners_backward_compatibility_layer: false
     keep_legacy_inflector: false
-    use_symfony_listeners: true
+#    use_symfony_listeners: true
 
     swagger:
         versions: [3]
