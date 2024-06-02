@@ -1,0 +1,4 @@
+#kreait_firebase:
+#  projects:
+#    terra_nutri_app:
+#      credentials: '%kernel.project_dir%/config/terra_nutri_app_credentials.json'

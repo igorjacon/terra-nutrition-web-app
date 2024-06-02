@@ -98,6 +98,10 @@ class Customer
     #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'customers')]
     private Collection $recipes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer-read', 'customer-write'])]
+    private ?string $deviceToken = null;
+
     /**
      * @var Collection<int, MealHistory>
      */
@@ -395,5 +399,21 @@ class Customer
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDeviceToken(): ?string
+    {
+        return $this->deviceToken;
+    }
+
+    /**
+     * @param string|null $deviceToken
+     */
+    public function setDeviceToken(?string $deviceToken): void
+    {
+        $this->deviceToken = $deviceToken;
     }
 }
