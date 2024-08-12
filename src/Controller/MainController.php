@@ -13,4 +13,10 @@ class MainController extends AbstractController
     {
         return $this->redirectToRoute('admin_dashboard');
     }
+
+    #[Route('/privacy-policy', name: 'privacy_policy', methods: ['GET'])]
+    public function viewPrivacyPolicy(): Response
+    {
+        return $this->render('privacy_policy.html.twig');
+    }
 }

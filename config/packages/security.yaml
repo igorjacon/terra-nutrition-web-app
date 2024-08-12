@@ -61,6 +61,7 @@ security:
         - { path: '^/resetting/*', roles: PUBLIC_ACCESS }
         - { path: '/customer/registration/*', roles: PUBLIC_ACCESS }
         - { path: '/translations', roles: PUBLIC_ACCESS }
+        - { path: '/privacy-policy', roles: PUBLIC_ACCESS }
         # ADMIN
         - { path: '^/admin', roles: ROLE_NUTRITIONIST }
         # API

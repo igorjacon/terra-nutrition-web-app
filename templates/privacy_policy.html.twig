@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}horizontal{% endblock %}
+
+{% block title %}{{ 'ui.seo.title.privacy_policy'|trans }} {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="auth-page-wrapper pt-5 m-t-40">
+    <div class="auth-page-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h1 class="text-center my-4">{{ 'ui.privacy_policy'|trans }}</h1>
+                            <p class="text-muted px-3">Effective date: 23/05/2024</p>
+                            <div class="p-3">
+                                <h2>Introduction</h2>
+
+                                <p>Welcome to Terra Nutrition. We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy or our practices with regards to your personal information, please contact us at camila.ferraz&#64;terranutri.net or 0480187909.</p>
+
+                                <h2>Information We Collect</h2>
+                                <p>We collect personal information that you voluntarily provide to us when you register on the Terra Nutrition app, express an interest in obtaining information about us or our products and services, or otherwise when you contact us. The personal information we collect includes:</p>
+                                <ul>
+                                    <li>User Information: First Name, Last Name, Email Address, Username, Phone Numbers, Address (Line One, Line Two, City)</li>
+                                    <li>Physical Attributes: Height, Weight, Date of Birth, Goal Weight</li>
+                                    <li>Personal Preferences: Occupation, Dietary Preference, Goals, Reason for Seeking Professional Guidance</li>
+                                    <li>Medical Information: Any relevant medical information you choose to share</li>
+                                    <li>Professional Information: Job Title, Website (if applicable)</li>
+                                </ul>
+
+                                <h2>How We Use Your Information</h2>
+                                <p>We use the information we collect or receive to:</p>
+                                <ul>
+                                    <li>Develop personalized meal plans</li>
+                                    <li>Connect you with a professional nutritionist</li>
+                                    <li>Improve overall fitness and health outcomes based on your goals</li>
+                                </ul>
+
+                                <h2>Sharing Your Information</h2>
+                                <p>We do not share your personal information with any third parties. Your information is solely used by Terra Nutrition for the purposes stated above.</p>
+
+                                <h2>Data Storage and Security</h2>
+                                <p>We store your data securely in Sydney, Australia, using Amazon Web Services (AWS). We implement appropriate technical and organizational measures to ensure the security of your personal information.</p>
+
+                                <h2>User Rights</h2>
+                                <p>You have rights concerning your data under Australian law, including the right to access, update, or delete your personal information. If you wish to exercise these rights, please contact us at camila.ferraz&#64;terranutri.net or 0480187909.</p>
+
+                                <h2>Cookies and Tracking Technologies</h2>
+                                <p>We do not use cookies or any other tracking technologies on our app.</p>
+
+                                <h2>Contact Us</h2>
+                                <p>If you have questions or comments about this policy, you may contact our Data Protection Officer (DPO), Camilla Ferraz, by email at camila.ferraz&#64;terranutri.net, by phone at 0480187909, or by mail to:</p>
+                                <p>Terra Nutrition<br>4/20 Bay St<br>Tweed Heads, NSW, 2485</p>
+
+                                <h2>Changes to This Privacy Policy</h2>
+                                <p>We may update this privacy policy from time to time. The updated version will be indicated by an updated "Effective Date" and the updated version will be effective as soon as it is accessible. We encourage you to review this privacy policy frequently to be informed of how we are protecting your information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
