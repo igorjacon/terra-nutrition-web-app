@@ -36,6 +36,10 @@ class FilterMealPlansByUser implements QueryCollectionExtensionInterface, QueryI
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         $user = $this->security->getUser();
+        if (!$user) {
+            return;
+        }
+
         if (!$user->getCustomer() or $this->security->isGranted('ROLE_ADMIN')) {
             return;
         }

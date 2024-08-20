@@ -97,6 +97,12 @@ class CustomerMeasurement
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $customer;
 
+    public function __construct()
+    {
+//        $this->createdAt = new \DateTime();
+    }
+
+
     public function __toString(): string
     {
         return $this->description;

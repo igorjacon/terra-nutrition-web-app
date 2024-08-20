@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -23,7 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(provider: CustomerProvider::class),
         new GetCollection(),
-        new Post()
+        new Post(),
+        new Delete(provider: CustomerProvider::class)
     ],
     normalizationContext: ['groups' => ['customer-read']],
     denormalizationContext: ['groups' => ['customer-write']],
