@@ -27,7 +27,7 @@ class Phone
     #[Assert\Length(max: 16)]
     #[Assert\NotNull]
     #[Groups(['user-read', 'customer-read', 'professional-read', 'location-read', 'customer-write'])]
-    private string $number;
+    private ?string $number;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotNull(groups: ['web'])]
@@ -69,7 +69,7 @@ class Phone
         return $this->number;
     }
 
-    public function setNumber(string $number): static
+    public function setNumber(?string $number): static
     {
         $this->number = $number;
 
