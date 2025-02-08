@@ -35,7 +35,8 @@ class CustomerType extends AbstractType
                 'choices' => Measurements::WEIGHT_CHOICES
             ])
             ->add('dob', BirthdayType::class, [
-                'label' => 'form.label.dob'
+                'label' => 'form.label.dob',
+                'required' => false
             ])
             ->add('goalWeight', MeasurementInputType::class, [
                 'choices' => Measurements::WEIGHT_CHOICES
