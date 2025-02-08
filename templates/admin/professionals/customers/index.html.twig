@@ -83,7 +83,7 @@
                                     {% endif %}
                                     <td>{{ customer.user.phones|first }}</td>
                                     <td>
-                                        {{ customer.dob|format_date }}
+                                        {{ customer.dob ? customer.dob|format_date }}
                                     </td>
                                     <td>
                                         {% if customer.user.enabled %}
