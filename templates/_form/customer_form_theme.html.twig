@@ -1,7 +1,7 @@
 {% block _customer_dob_row %}
     <div class="row g-0" id="dob">
         {% for key, child in form.children|reverse %}
-            <div class="col{{ key == 'month' ? ' px-1' : '' }}">
+            <div class="col-4{{ key == 'month' ? ' px-1' : '' }}">
                 {{ form_row(child) }}
             </div>
         {% endfor %}
