@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td class="fw-medium" scope="row">{{ 'ui.dob'|trans }}</td>
-                    <td>{{ customer.dob|format_date('long') }}</td>
+                    <td>{{ customer.dob ? customer.dob|format_date('long') }}</td>
                 </tr>
                 <tr>
                     <td class="fw-medium" scope="row">{{ 'ui.dieteray_preference'|trans }}</td>

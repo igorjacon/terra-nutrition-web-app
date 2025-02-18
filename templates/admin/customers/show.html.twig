@@ -31,7 +31,7 @@
                                             <div class="hstack gap-3 flex-wrap">
                                                 <div>
                                                     <i class="ri-cake-2-line align-bottom me-1"></i>
-                                                    <span class="fw-medium">{{ customer.dob|format_date('medium') }}</span>
+                                                    <span class="fw-medium">{{ customer.dob ? customer.dob|format_date('medium') }}</span>
                                                 </div>
                                                 <div class="vr"></div>
                                                 <div>
