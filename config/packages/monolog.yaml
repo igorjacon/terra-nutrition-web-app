@@ -47,3 +47,13 @@ when@prod:
                 channels: [deprecation]
                 path: php://stderr
                 formatter: monolog.formatter.json
+            symfony_mailer:
+                type: symfony_mailer
+                from_email: 'noreply@tms.peterandclark.com'
+                to_email: 'igorjacon90@gmail.com'
+                # or list of recipients
+                # to_email:   ['dev1@example.com', 'dev2@example.com', ...]
+                subject: 'An Error Occurred! %%message%%'
+                level: debug
+                formatter: monolog.formatter.html
+                content_type: text/html
