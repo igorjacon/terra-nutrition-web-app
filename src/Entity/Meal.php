@@ -49,7 +49,7 @@ class Meal
     /**
      * @var Collection<int, MealHistory>
      */
-    #[ORM\OneToMany(mappedBy: 'meal', targetEntity: MealHistory::class)]
+    #[ORM\OneToMany(mappedBy: 'meal', targetEntity: MealHistory::class, cascade: ['persist', 'remove'])]
     private Collection $mealHistories;
 
     public function __construct()
