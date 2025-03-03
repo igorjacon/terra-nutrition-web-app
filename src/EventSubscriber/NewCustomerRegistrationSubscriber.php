@@ -42,7 +42,7 @@ class NewCustomerRegistrationSubscriber implements EventSubscriberInterface
         $this->mailer->sendEmail(
             ['email.new_api_customer_registration'],
             null,
-            'igorjacon90@gmail.com',
+            'camila.ferraz@terranutri.net',
             'email/new_customer_registration.html.twig',
             ['customer' => $customer, 'data' => $data]
         );
