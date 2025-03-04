@@ -2,12 +2,12 @@ when@prod:
     framework:
         mailer:
             dsn: '%env(MAILER_DSN)%'
-            envelope:
-                recipients:
-                    - igorjacon90@gmail.com
-                    - itsmajestic34@gmail.com
-                    - m.waheed.12@student.scu.edu.au
-                    - d.champion.10@student.scu.edu.au
+#            envelope:
+#                recipients:
+#                    - igorjacon90@gmail.com
+#                    - itsmajestic34@gmail.com
+#                    - m.waheed.12@student.scu.edu.au
+#                    - d.champion.10@student.scu.edu.au
 
 when@dev:
     framework:
