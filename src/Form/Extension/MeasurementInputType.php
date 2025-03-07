@@ -14,7 +14,7 @@ class MeasurementInputType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('measurement', TextType::class)
+            ->add('measurement', TextType::class, ['attr' => $options['attr']])
             ->add('measurementType', ChoiceType::class, [
                 'choices' => $options['choices'],
                 'expanded' => false,

@@ -108,6 +108,110 @@ let simpleAjax = function simpleAjax(method, url, data,
 }
 window.simpleAjax = simpleAjax;
 
+let toggleContainer = function toggleContainer(element) {
+    let container = element.dataset.container;
+    if ($('#' + container).is(':visible')) {
+        $(element).children('i').removeClass('las la-angle-up').addClass('las la-angle-down');
+        $('#' + container).slideUp('fast');
+    } else {
+        $(element).children('i').removeClass('las la-angle-down').addClass('las la-angle-up');
+        $('#' + container).slideDown('fast');
+    }
+};
+
+window.toggleContainer = toggleContainer;
+
+let updateBmiResults = function updateBmiResults(gender, age) {
+    let collectionId = '#customer_measurement';
+    let method = $(collectionId + '_method').val();
+
+    // Height and Weight
+    let weight = $(collectionId + '_currWeight_measurement').val();
+    let heightValue = $(collectionId + '_height_measurement').val();
+    let height = parseFloat(heightValue.replace(",", "."));
+
+    // Skinfold measurements
+    let chest = parseFloat($(collectionId + '_chest').val().replace(",", "."));
+    let abdomen = parseFloat($(collectionId + '_abdomen').val().replace(",", "."));
+    let thigh = parseFloat($(collectionId + '_thigh').val().replace(",", "."));
+    let triceps = parseFloat($(collectionId + '_triceps').val().replace(",", "."));
+    let suprailiac = parseFloat($(collectionId + '_suprailiac').val().replace(",", "."));
+    let subscapular = parseFloat($(collectionId + '_subscapular').val().replace(",", "."));
+    let midaxillary = parseFloat($(collectionId + '_midaxillary').val().replace(",", "."));
+
+    // Recommendations
+    // let recommendedBFP = recommendedBFP(gender, age);
+
+    if (method === 'jackson_pollock_3') {
+        if (gender == 'male') { // Male BMI
+            if (!isNaN(chest) && !isNaN(abdomen) && !isNaN(thigh)) {
+                let sum_skinfold = chest+abdomen+thigh;
+                let body_density = (1.10938 - (0.0008267 * sum_skinfold) + (0.0000016 * (sum_skinfold**2)) - (0.0002574 * parseInt(age))).toFixed(6); // Body Density
+                let bfp = ((495/body_density) - 450).toFixed(2); // Body fat percentage
+                let lfp = (100-bfp).toFixed(2); // Lean fat percentage
+                let bf = ((bfp/100)*weight).toFixed(2); // Body fat
+                let lm = (weight-bf).toFixed(2); // Lean mass
+
+                $('#bfp').text(bfp + "%");
+                $('#lfp').text(lfp + "%");
+                $('#bf').text(bf + "kg");
+                $('#lm').text(lm + "kg");
+                $('#bd').text(body_density);
+                $('#sum_sf').text(sum_skinfold);
+
+                $(collectionId + '_bfp').val(bfp);
+                $(collectionId + '_lfp').val(lfp);
+                $(collectionId + '_bf').val(bf);
+                $(collectionId + '_lm').val(lm);
+                $(collectionId + '_bodyDensity').val(body_density);
+                $(collectionId + '_sumSkinfolds').val(sum_skinfold);
+            }
+
+            if (weight !== "" && heightValue !== "") {
+                let bmi = (weight/(height**2)).toFixed(2) // BMI
+                $('#bmi').text(bmi);
+                $(collectionId + '_bmi').val(bmi);
+            }
+        } else { // Female BMI
+
+        }
+    }
+}
+window.updateBmiResults = updateBmiResults;
+
+function recommendedBFP(gender, age) {
+    let bodyFatRanges = {
+        "male": [
+            { min: 18, max: 24, low: 10, high: 15 },
+            { min: 25, max: 34, low: 12, high: 18 },
+            { min: 35, max: 44, low: 14, high: 20 },
+            { min: 45, max: 54, low: 16, high: 22 },
+            { min: 55, max: 64, low: 18, high: 24 },
+            { min: 65, max: 100, low: 20, high: 26 }
+        ],
+        "female": [
+            { min: 18, max: 24, low: 18, high: 22 },
+            { min: 25, max: 34, low: 20, high: 24 },
+            { min: 35, max: 44, low: 22, high: 26 },
+            { min: 45, max: 54, low: 24, high: 28 },
+            { min: 55, max: 64, low: 26, high: 30 },
+            { min: 65, max: 100, low: 28, high: 32 }
+        ]
+    };
+
+    if (!bodyFatRanges[gender]) {
+        return null;
+    }
+
+    for (let range of bodyFatRanges[gender]) {
+        if (age >= range.min && age <= range.max) {
+            return [range.low, range.high];
+        }
+    }
+
+    return null;
+}
+
 $(function (){
     var preloader = document.getElementById("preloader");
     if (preloader) {

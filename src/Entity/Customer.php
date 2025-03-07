@@ -34,6 +34,11 @@ class Customer
 {
     use TimestampableEntity, BlameableEntity;
 
+    const GENDERS = [
+        'male' => 'form.gender.male',
+        'female' => 'form.gender.female',
+    ];
+
     #[ORM\Id]
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'customer', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -53,6 +58,10 @@ class Customer
     #[ORM\Column(type: 'date', nullable: true)]
     #[Groups(['customer-read', 'customer-write'])]
     private ?\DateTime $dob = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['customer-read', 'customer-write'])]
+    private ?string $gender = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['customer-read', 'customer-write'])]
@@ -417,5 +426,21 @@ class Customer
     public function setDeviceToken(?string $deviceToken): void
     {
         $this->deviceToken = $deviceToken;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param string|null $gender
+     */
+    public function setGender(?string $gender): void
+    {
+        $this->gender = $gender;
     }
 }

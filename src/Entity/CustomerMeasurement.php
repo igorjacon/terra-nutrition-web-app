@@ -93,15 +93,45 @@ class CustomerMeasurement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $leftProximalThigh = null;
 
+    // BMI REQUIRED FIELDS
+    #[ORM\Column(nullable: true)]
+    private ?float $chest = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $abdomen = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $thigh = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $triceps = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $suprailiac = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $subscapular = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $midaxillary = null;
+
+    // BMI results
+    #[ORM\Column(nullable: true)]
+    private ?float $bmi = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $bfp = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $lfp = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $bf = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $lm = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $body_density = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $sum_skinfolds = null;
+
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'measurements')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $customer;
-
-    public function __construct()
-    {
-//        $this->createdAt = new \DateTime();
-    }
-
 
     public function __toString(): string
     {
@@ -407,5 +437,229 @@ class CustomerMeasurement
     public function setCustomer($customer): void
     {
         $this->customer = $customer;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getChest(): ?float
+    {
+        return $this->chest;
+    }
+
+    /**
+     * @param float|null $chest
+     */
+    public function setChest(?float $chest): void
+    {
+        $this->chest = $chest;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getAbdomen(): ?float
+    {
+        return $this->abdomen;
+    }
+
+    /**
+     * @param float|null $abdomen
+     */
+    public function setAbdomen(?float $abdomen): void
+    {
+        $this->abdomen = $abdomen;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getThigh(): ?float
+    {
+        return $this->thigh;
+    }
+
+    /**
+     * @param float|null $thigh
+     */
+    public function setThigh(?float $thigh): void
+    {
+        $this->thigh = $thigh;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTriceps(): ?float
+    {
+        return $this->triceps;
+    }
+
+    /**
+     * @param float|null $triceps
+     */
+    public function setTriceps(?float $triceps): void
+    {
+        $this->triceps = $triceps;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getSuprailiac(): ?float
+    {
+        return $this->suprailiac;
+    }
+
+    /**
+     * @param float|null $suprailiac
+     */
+    public function setSuprailiac(?float $suprailiac): void
+    {
+        $this->suprailiac = $suprailiac;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getSubscapular(): ?float
+    {
+        return $this->subscapular;
+    }
+
+    /**
+     * @param float|null $subscapular
+     */
+    public function setSubscapular(?float $subscapular): void
+    {
+        $this->subscapular = $subscapular;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMidaxillary(): ?float
+    {
+        return $this->midaxillary;
+    }
+
+    /**
+     * @param float|null $midaxillary
+     */
+    public function setMidaxillary(?float $midaxillary): void
+    {
+        $this->midaxillary = $midaxillary;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getBmi(): ?float
+    {
+        return $this->bmi;
+    }
+
+    /**
+     * @param float|null $bmi
+     */
+    public function setBmi(?float $bmi): void
+    {
+        $this->bmi = $bmi;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getBfp(): ?float
+    {
+        return $this->bfp;
+    }
+
+    /**
+     * @param float|null $bfp
+     */
+    public function setBfp(?float $bfp): void
+    {
+        $this->bfp = $bfp;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getLfp(): ?float
+    {
+        return $this->lfp;
+    }
+
+    /**
+     * @param float|null $lfp
+     */
+    public function setLfp(?float $lfp): void
+    {
+        $this->lfp = $lfp;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getBf(): ?float
+    {
+        return $this->bf;
+    }
+
+    /**
+     * @param float|null $bf
+     */
+    public function setBf(?float $bf): void
+    {
+        $this->bf = $bf;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getLm(): ?float
+    {
+        return $this->lm;
+    }
+
+    /**
+     * @param float|null $lm
+     */
+    public function setLm(?float $lm): void
+    {
+        $this->lm = $lm;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getBodyDensity(): ?float
+    {
+        return $this->body_density;
+    }
+
+    /**
+     * @param float|null $body_density
+     */
+    public function setBodyDensity(?float $body_density): void
+    {
+        $this->body_density = $body_density;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getSumSkinfolds(): ?float
+    {
+        return $this->sum_skinfolds;
+    }
+
+    /**
+     * @param float|null $sum_skinfolds
+     */
+    public function setSumSkinfolds(?float $sum_skinfolds): void
+    {
+        $this->sum_skinfolds = $sum_skinfolds;
     }
 }

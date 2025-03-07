@@ -47,6 +47,17 @@
                                                 <div>
                                                     {{ customer.weight }}
                                                 </div>
+                                                {% if customer.gender %}
+                                                    <div class="vr"></div>
+                                                    <div>
+                                                        {% if customer.gender == 'male' %}
+                                                            <i class="las la-mars"></i>
+                                                        {% else %}
+                                                            <i class="las la-venus"></i>
+                                                        {% endif %}
+                                                        {{ constant('App\\Entity\\Customer::GENDERS')[customer.gender]|trans({}, 'form') }}
+                                                    </div>
+                                                {% endif %}
                                                 {% if customer.dietaryPreference %}
                                                     <div class="vr"></div>
                                                     <div>
@@ -76,12 +87,12 @@
                         </div>
                         <ul class="nav nav-tabs-custom border-bottom-0">
                             <li class="nav-item">
-                                <a href="#client-diet-plans" class="nav-link active fw-semibold" data-bs-toggle="tab">
+                                <a href="#client-diet-plans" class="nav-link fw-semibold {{ (not app.request.get('view') or app.request.get('view') == 'diet_plans') ? 'active' }}" data-bs-toggle="tab">
                                     {{ 'ui.diet_plans'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#measurements" class="nav-link fw-semibold" data-bs-toggle="tab">
+                                <a href="#measurements" class="nav-link fw-semibold {{ app.request.get('view') == 'measurement' ? 'active' }}" data-bs-toggle="tab">
                                     {{ 'ui.measurements'|trans }}
                                 </a>
                             </li>
@@ -105,10 +116,10 @@
 
     <!-- TAB CONTENTS -->
     <div class="tab-content text-muted">
-        <div class="tab-pane fade show active" id="client-diet-plans">
+        <div class="tab-pane fade {{ (not app.request.get('view') or app.request.get('view') == 'diet_plans') ? 'active show' }}" id="client-diet-plans">
             {{ include('admin/customers/meal_plans/_diet_plans.html.twig') }}
         </div>
-        <div class="tab-pane fade" id="measurements">
+        <div class="tab-pane fade {{ app.request.get('view') == 'measurement' ? 'active show' }}" id="measurements">
             {{ include('admin/customers/measurements/index.html.twig') }}
         </div>
         <div class="tab-pane fade" id="goals">

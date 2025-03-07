@@ -127,7 +127,7 @@ class CustomerController extends AbstractController
             $em = $this->doctrine->getManager();
             $em->flush();
 
-            return $this->redirectToRoute('professional_customer_index');
+            return $this->redirectToRoute('professional_customer_show', ['id' => $customer->getId()]);
         }
 
         return $this->render('admin/professionals/customers/form.html.twig', [
@@ -244,7 +244,8 @@ class CustomerController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('professional_customer_show', [
-                'id' => $customer->getId()
+                'id' => $customer->getId(),
+                'view' => $request->get('view', 'measurement')
             ]);
         }
 
@@ -267,7 +268,8 @@ class CustomerController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('professional_customer_show', [
-                'id' => $customerMeasurement->getCustomer()->getId()
+                'id' => $customerMeasurement->getCustomer()->getId(),
+                'view' => $request->get('view', 'measurement')
             ]);
         }
 
@@ -294,7 +296,8 @@ class CustomerController extends AbstractController
             }
 
             return $this->redirectToRoute('professional_customer_show', [
-                'id' => $customer->getId()
+                'id' => $customer->getId(),
+                'view' => $request->get('view', 'measurement')
             ]);
         }
     }

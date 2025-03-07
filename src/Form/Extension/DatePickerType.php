@@ -5,7 +5,6 @@ namespace App\Form\Extension;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeImmutableToDateTimeTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToArrayTransformer;
-use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,6 +13,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ReversedTransformer;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\DataTransformer\DateTimeToLocalizedStringTransformer;
 
 class DatePickerType extends AbstractType
 {
@@ -159,10 +159,15 @@ class DatePickerType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        if (\Locale::getDefault() == 'en') {
+            $locale = mb_strtolower(str_replace('_', '-', \Locale::getDefault())) . '-gb';
+        } else {
+            $locale = mb_strtolower(str_replace('_', '-', \Locale::getDefault()));
+        }
         $view->vars['widget'] = $options['widget'];
         $view->vars['attr']['data-toggle'] = 'datetimepicker';
         $view->vars['attr']['data-date-format'] = 'L';
-        $view->vars['attr']['data-date-locale'] = \Locale::getDefault() == 'de' ? 'fr' : mb_strtolower(str_replace('_', '-', \Locale::getDefault()));
+        $view->vars['attr']['data-date-locale'] = $locale;
     }
 
     /**
@@ -170,11 +175,7 @@ class DatePickerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        if (\Locale::getDefault() == 'en') {
-            $pattern = 'm/d/Y';
-        } else {
-            $pattern = 'd/m/Y';
-        }
+        $pattern = 'd/m/Y';
 
         $resolver->setDefaults([
             'widget' => 'single_text',

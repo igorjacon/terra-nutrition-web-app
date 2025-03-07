@@ -34,15 +34,24 @@
                     </div>
                 </div>
             </div>
+
+            {# Body Measurement #}
             <div class="card">
-{#                <div class="card-header">#}
-{#                    <h5 class="card-title align-items-center d-flex mb-0">#}
-{#                        {{ 'ui.nutritional_info'|trans }}#}
-{#                    </h5>#}
-{#                </div>#}
-                <div class="card-body">
+                <div class="card-header align-items-center d-flex">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                        {{ 'ui.body_measurements'|trans }}
+                    </h5>
+                    <div class="btn-group-sm flex-shrink-0">
+                        <div class="btn btn-ghost-primary btn-sm"
+                             data-container="measurement-container"
+                             onclick="toggleContainer(this)">
+                            <i class="las la-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="measurement-container" style="display: none">
                     <div class="row">
-                        <h4 class="fw-medium mb-3">{{ 'Upper Body' }}</h4>
+                        <h6 class="fw-medium mb-3">{{ 'Upper Body' }}</h6>
                         <div class="row">
                             <div class="col">{{ form_row(form.rightArmRelax) }}</div>
                             <div class="col">{{ form_row(form.leftArmRelax) }}</div>
@@ -58,7 +67,7 @@
                             <div class="col">{{ form_row(form.leftWrist) }}</div>
                             <div class="col"></div>
                         </div>
-                        <h4 class="fw-medium mb-3">{{ 'Middle Body' }}</h4>
+                        <h6 class="fw-medium mb-3">{{ 'Middle Body' }}</h6>
                         <div class="row">
                             <div class="col">{{ form_row(form.neck) }}</div>
                             <div class="col">{{ form_row(form.shoulder) }}</div>
@@ -69,7 +78,7 @@
                             <div class="col">{{ form_row(form.abs) }}</div>
                             <div class="col">{{ form_row(form.hip) }}</div>
                         </div>
-                        <h4 class="fw-medium mb-3">{{ 'Lower Body' }}</h4>
+                        <h6 class="fw-medium mb-3">{{ 'Lower Body' }}</h6>
                         <div class="row">
                             <div class="col">{{ form_row(form.rightCalf) }}</div>
                             <div class="col">{{ form_row(form.leftCalf) }}</div>
@@ -83,14 +92,109 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-primary btn-label">
-                    <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
-                </button>
+            {# BMI information #}
+            <div class="card">
+                <div class="card-header align-items-center d-flex">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                        {{ 'ui.bmi_info'|trans }}
+                    </h5>
+                    <div class="btn-group-sm flex-shrink-0">
+                        <div class="btn btn-ghost-primary btn-sm"
+                             data-container="bmi-container"
+                             onclick="toggleContainer(this)">
+                            <i class="las la-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="bmi-container" style="display: none">
+                    <div class="mb-3">
+                        <div class="col-4">{{ form_row(form.method) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.chest) }}</div>
+                        <div class="col">{{ form_row(form.abdomen) }}</div>
+                        <div class="col">{{ form_row(form.triceps) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.thigh) }}</div>
+                        <div class="col">{{ form_row(form.suprailiac) }}</div>
+                        <div class="col">{{ form_row(form.subscapular) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">{{ form_row(form.midaxillary) }}</div>
+                    </div>
+                </div>
             </div>
+
+            {# BMI Results #}
+            <div class="card">
+                <div class="card-header align-items-center d-flex">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                        {{ 'ui.bmi_results'|trans }}
+                    </h5>
+                    <div class="btn-group-sm flex-shrink-0">
+                        <div class="btn btn-ghost-primary btn-sm"
+                             data-container="results-container"
+                             onclick="toggleContainer(this)">
+                            <i class="las la-angle-up"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="results-container">
+                    <div class="table-responsive table-card" id="bmi-results-table">
+                        <table class="table align-middle mb-0">
+                            <thead class="text-muted table-light">
+                                <th></th>
+                                <th>{{ 'BMI' }}</th>
+                                <th>{{ 'Body fat %' }}</th>
+                                <th>{{ 'Lean body mass %' }}</th>
+                                <th>{{ 'Body fat' }}</th>
+                                <th>{{ 'Lean muscle mass' }}</th>
+                                <th>{{ 'Body Density' }}</th>
+                                <th>{{ 'Sum of skinfold' }}</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td id="bmi">{{ form.bmi.vars.data ?? '-' }}</td>
+                                    <td id="bfp">{{ form.bfp.vars.data ?? '-' }}</td>
+                                    <td id="lfp">{{ form.lfp.vars.data ?? '-' }}</td>
+                                    <td id="bf">{{ form.bf.vars.data ?? '-' }}</td>
+                                    <td id="lm">{{ form.lm.vars.data ?? '-' }}</td>
+                                    <td id="bd">{{ form.bodyDensity.vars.data ?? '-' }}</td>
+                                    <td id="sum_sf">{{ form.sumSkinfolds.vars.data ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recommendations</td>
+                                    <td>18.50 - 25.00</td>
+                                    <td>{{ customer_manager.recommendedBFP(form.vars.data) }}</td>
+                                    <td id="recommended_lfp">{{ customer_manager.recommendedLFP(form.vars.data) }}</td>
+                                    <td id="recommended_bf">{{ customer_manager.recommendedBf(form.vars.data) }}</td>
+                                    <td id="recommended_lm">{{ customer_manager.recommendedLm(form.vars.data) }}</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{ form_row(form.bmi) }}
+                        {{ form_row(form.bfp) }}
+                        {{ form_row(form.lfp) }}
+                        {{ form_row(form.bf) }}
+                        {{ form_row(form.lm) }}
+                        {{ form_row(form.bodyDensity) }}
+                        {{ form_row(form.sumSkinfolds) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-label">
+                <i class="las la-save label-icon"></i> {{ "ui.button.save"|trans }}
+            </button>
         </div>
     </div>
     {{ form_end(form) }}

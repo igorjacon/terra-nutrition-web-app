@@ -9,6 +9,7 @@ use App\Utils\Measurements;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -37,6 +38,11 @@ class CustomerType extends AbstractType
             ->add('dob', BirthdayType::class, [
                 'label' => 'form.label.dob',
                 'required' => false
+            ])
+            ->add('gender', ChoiceType::class, [
+                'label' => 'form.label.gender',
+                'choices' => array_flip(Customer::GENDERS),
+                'placeholder' => 'form.label.gender_none'
             ])
             ->add('goalWeight', MeasurementInputType::class, [
                 'choices' => Measurements::WEIGHT_CHOICES

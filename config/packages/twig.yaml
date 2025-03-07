@@ -9,6 +9,7 @@ twig:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
     globals:
         settings_manager: '@App\Manager\SiteSettingsManager'
+        customer_manager: '@App\Manager\CustomerManager'
         locales: "%locales%"
         domain: "%domain%"
         supportEmail: '%supportEmail%'
