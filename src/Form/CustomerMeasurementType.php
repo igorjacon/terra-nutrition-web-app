@@ -9,6 +9,7 @@ use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +22,19 @@ class CustomerMeasurementType extends AbstractType
         $gender = $customer->getGender();
         $age = $this->getAge($customer->getDob());
 
+        $customerHeight = $customer->getHeight();
+        if ($customer->getHeight()) {
+            $heightMeasurement = explode(" ", $customerHeight, 2);
+
+            $height = floatval(str_replace(",", ".", $heightMeasurement[0]));
+            if ($heightMeasurement[1] === "cm") {
+                if ($height > 100) {
+                    $height = $height/100;
+                    $customerHeight = $height . " m";
+                }
+            }
+        }
+
         $builder
             ->add('description')
             ->add('createdAt', DatePickerType::class, [
@@ -31,7 +45,7 @@ class CustomerMeasurementType extends AbstractType
                 'choice_attr' => [
                     'data-disabled' => ''
                 ],
-                'default' => $customer->getHeight(),
+                'default' => $customerHeight,
                 'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
             ])
             ->add('currWeight', MeasurementInputType::class, [
@@ -198,42 +212,82 @@ class CustomerMeasurementType extends AbstractType
                     'faulkner_4'        => '4 prong - Faulkner',
                     'jackson_pollock_7' => '7 prong - Jackson, Pollock & Ward'
                 ]),
-                'mapped' => false
+                'mapped' => false,
+                'attr' => [
+                    'onchange' => 'updateBmiResults("'. $gender .'",' . $age . ')'
+                ]
             ])
-            ->add('chest', null, [
+            ->add('chest', NumberType::class, [
                 'label' => 'form.label.chest',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('abdomen', null, [
+            ->add('abdomen', NumberType::class, [
                 'label' => 'form.label.abdomen',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('thigh', null, [
+            ->add('thigh', NumberType::class, [
                 'label' => 'form.label.thigh',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('triceps', null, [
+            ->add('triceps', NumberType::class, [
                 'label' => 'form.label.triceps',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('suprailiac', null, [
+            ->add('biceps', NumberType::class, [
+                'label' => 'form.label.biceps',
+                'required' => false,
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
+            ])
+            ->add('suprailiac', NumberType::class, [
                 'label' => 'form.label.suprailiac',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('subscapular', null, [
+            ->add('subscapular', NumberType::class, [
                 'label' => 'form.label.subscapular',
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'html5' => true,
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
-            ->add('midaxillary', null, [
+            ->add('midaxillary', NumberType::class, [
                 'label' => 'form.label.midaxillary',
+                'html5' => true,
                 'required' => false,
-                'attr' => ['onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')']
+                'attr' => [
+                    'onblur' => 'updateBmiResults("'. $gender .'",' . $age . ')',
+                    'data-append' => 'mm'
+                ]
             ])
             ->add('bmi', HiddenType::class)
             ->add('bfp', HiddenType::class)

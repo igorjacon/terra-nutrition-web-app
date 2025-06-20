@@ -36,7 +36,7 @@ class CustomerManager
         $range = $this->recommendedBfpRange($customer);
         if ($range === null) return "-";
 
-        $weightKgs = $this->getWeightInKg($customerMeasurement->getCurrWeight());
+        $weightKgs = $this->getWeightInKg($customerMeasurement->getCurrWeight() ?? $customer->getWeight());
         if ($weightKgs) {
             $min = ($range[0]/100) * $weightKgs;
             $max = ($range[1]/100) * $weightKgs;
@@ -53,7 +53,7 @@ class CustomerManager
         $range = $this->recommendedBfpRange($customer);
         if ($range === null) return "-";
 
-        $weightKgs = $this->getWeightInKg($customerMeasurement->getCurrWeight());
+        $weightKgs = $this->getWeightInKg($customerMeasurement->getCurrWeight() ?? $customer->getWeight());
         if ($weightKgs) {
             $min = $weightKgs - (($range[1]/100) * $weightKgs);
             $max = $weightKgs - (($range[0]/100) * $weightKgs);
@@ -66,8 +66,8 @@ class CustomerManager
 
     function getWeightInKg($weightString) {
         // Use regex to match weight followed by 'kg'
-        if (preg_match('/^(\d+)\s*kg$/i', trim($weightString), $matches)) {
-            return (int)$matches[1]; // Return the numeric weight as an integer
+        if (preg_match('/^([\d.]+)\s*kg$/i', trim($weightString), $matches)) {
+            return (float)$matches[1]; // Return the numeric weight as an integer
         }
         return null; // Return null if not in kg
     }

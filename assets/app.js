@@ -123,7 +123,7 @@ window.toggleContainer = toggleContainer;
 
 let updateBmiResults = function updateBmiResults(gender, age) {
     let collectionId = '#customer_measurement';
-    let method = $(collectionId + '_method').val();
+    let method = $(collectionId + '_method :selected').val();
 
     // Height and Weight
     let weight = $(collectionId + '_currWeight_measurement').val();
@@ -135,49 +135,166 @@ let updateBmiResults = function updateBmiResults(gender, age) {
     let abdomen = parseFloat($(collectionId + '_abdomen').val().replace(",", "."));
     let thigh = parseFloat($(collectionId + '_thigh').val().replace(",", "."));
     let triceps = parseFloat($(collectionId + '_triceps').val().replace(",", "."));
+    let biceps = parseFloat($(collectionId + '_biceps').val().replace(",", "."));
     let suprailiac = parseFloat($(collectionId + '_suprailiac').val().replace(",", "."));
     let subscapular = parseFloat($(collectionId + '_subscapular').val().replace(",", "."));
     let midaxillary = parseFloat($(collectionId + '_midaxillary').val().replace(",", "."));
 
+    let folds = {
+        "chest": chest,
+        "abdomen": abdomen,
+        "thigh": thigh,
+        "triceps": triceps,
+        "biceps": biceps,
+        "suprailiac": suprailiac,
+        "subscapular": subscapular,
+        "midaxillary": midaxillary
+    }
+
     // Recommendations
     // let recommendedBFP = recommendedBFP(gender, age);
 
+    let density = 0;
+    let bodyFat = 0;
+    let sum_skinfolds = 0;
+
     if (method === 'jackson_pollock_3') {
-        if (gender == 'male') { // Male BMI
-            if (!isNaN(chest) && !isNaN(abdomen) && !isNaN(thigh)) {
-                let sum_skinfold = chest+abdomen+thigh;
-                let body_density = (1.10938 - (0.0008267 * sum_skinfold) + (0.0000016 * (sum_skinfold**2)) - (0.0002574 * parseInt(age))).toFixed(6); // Body Density
-                let bfp = ((495/body_density) - 450).toFixed(2); // Body fat percentage
-                let lfp = (100-bfp).toFixed(2); // Lean fat percentage
-                let bf = ((bfp/100)*weight).toFixed(2); // Body fat
-                let lm = (weight-bf).toFixed(2); // Lean mass
+        ({density, sum_skinfolds } = jacksonPollockDensity(gender, folds, age));
+    } else if (method === 'guedes_3') {
+        ({density, sum_skinfolds } = guedesDensity(gender, folds));
+    } else if (method === 'durin_womersley_4') {
+        ({density, sum_skinfolds } = durinWomersleyDensity(gender, folds, age));
+    } else if (method === 'faulkner_4') {
+        ({bodyFat, sum_skinfolds } = faulknerBodyFat(folds));
+    } else if (method === 'jackson_pollock_7') {
+        ({density, sum_skinfolds } = jacksonPollock7Density(gender, folds, age));
+    }
 
-                $('#bfp').text(bfp + "%");
-                $('#lfp').text(lfp + "%");
-                $('#bf').text(bf + "kg");
-                $('#lm').text(lm + "kg");
-                $('#bd').text(body_density);
-                $('#sum_sf').text(sum_skinfold);
-
-                $(collectionId + '_bfp').val(bfp);
-                $(collectionId + '_lfp').val(lfp);
-                $(collectionId + '_bf').val(bf);
-                $(collectionId + '_lm').val(lm);
-                $(collectionId + '_bodyDensity').val(body_density);
-                $(collectionId + '_sumSkinfolds').val(sum_skinfold);
-            }
-
-            if (weight !== "" && heightValue !== "") {
-                let bmi = (weight/(height**2)).toFixed(2) // BMI
-                $('#bmi').text(bmi);
-                $(collectionId + '_bmi').val(bmi);
-            }
-        } else { // Female BMI
-
+    if ((density !== 0 || bodyFat !== 0) && sum_skinfolds > 0) {
+        if (bodyFat === 0) {
+            bodyFat = ((495 / density) - 450).toFixed(2); // Body fat percentage
         }
+        let lfp = (100-bodyFat).toFixed(2); // Lean fat percentage
+        let bf = ((bodyFat/100)*weight).toFixed(2); // Body fat
+        let lm = (weight-bf).toFixed(2); // Lean mass
+
+        $('#bfp').text(bodyFat + "%");
+        $('#lfp').text(lfp + "%");
+        $('#bf').text(bf + "kg");
+        $('#lm').text(lm + "kg");
+        $('#bd').text(density);
+        $('#sum_sf').text(sum_skinfolds);
+
+        $(collectionId + '_bfp').val(bodyFat);
+        $(collectionId + '_lfp').val(lfp);
+        $(collectionId + '_bf').val(bf);
+        $(collectionId + '_lm').val(lm);
+        $(collectionId + '_bodyDensity').val(density);
+        $(collectionId + '_sumSkinfolds').val(sum_skinfolds);
+    }
+
+    if (weight !== "" && heightValue !== "") {
+        let bmi = (weight/(height**2)).toFixed(2) // BMI
+        $('#bmi').text(bmi);
+        $(collectionId + '_bmi').val(bmi);
     }
 }
 window.updateBmiResults = updateBmiResults;
+
+function jacksonPollockDensity(gender, folds, age) {
+    let density = 0;
+    let sum_skinfolds = 0;
+
+    if (gender === "male") {
+        if (!isNaN(folds['chest']) && !isNaN(folds['abdomen']) && !isNaN(folds['thigh'])) {
+            sum_skinfolds = folds['chest']+folds['abdomen']+folds['thigh'];
+            density = (1.10938 - (0.0008267 * sum_skinfolds) + (0.0000016 * (sum_skinfolds**2)) - (0.0002574 * parseInt(age))).toFixed(6); // Body Density
+        }
+    } else if (gender === "female") {
+        if (!isNaN(folds['triceps']) && !isNaN(folds['suprailiac']) && !isNaN(folds['thigh'])) {
+            sum_skinfolds = folds['triceps']+folds['suprailiac']+folds['thigh'];
+            density = (1.0994921 - (0.0009929 * sum_skinfolds) + (0.0000023 * (sum_skinfolds**2)) - (0.0001392 * parseInt(age))).toFixed(6); // Body Density
+        }
+    }
+    return { density, sum_skinfolds };
+}
+
+function guedesDensity(gender, folds) {
+    let density = 0;
+    let sum_skinfolds = 0;
+
+    if (gender === "male") {
+        if (!isNaN(folds['triceps']) && !isNaN(folds['suprailiac']) && !isNaN(folds['abdomen'])) {
+            sum_skinfolds = folds['triceps']+folds['suprailiac']+folds['abdomen'];
+            let logSum = Math.log10(sum_skinfolds);
+            density = (1.17136 - (0.06706 * logSum)).toFixed(6);
+        }
+    } else if (gender === "female") {
+        if (!isNaN(folds['subscapular']) && !isNaN(folds['suprailiac']) && !isNaN(folds['thigh'])) {
+            sum_skinfolds = folds['subscapular']+folds['suprailiac']+folds['thigh'];
+            let logSum = Math.log10(sum_skinfolds);
+            density = (1.16650 - (0.07063 * logSum)).toFixed(6);
+        }
+    }
+    return { density, sum_skinfolds };
+}
+
+function durinWomersleyDensity(gender, folds, age) {
+    let density = 0;
+    let sum_skinfolds = 0;
+
+    if (!isNaN(folds['biceps']) && !isNaN(folds['triceps']) && !isNaN(folds['suprailiac']) && !isNaN(folds['subscapular'])) {
+        sum_skinfolds = folds['biceps']+folds['triceps']+folds['suprailiac']+folds['subscapular'];
+        let logSum = Math.log10(sum_skinfolds);
+
+        if (gender === "male") {
+            if (age < 17) density = (1.1533 - 0.0643 * logSum).toFixed(6);
+            else if (age < 20) density = (1.1620 - 0.0630 * logSum).toFixed(6);
+            else if (age < 30) density = (1.1631 - 0.0632 * logSum).toFixed(6);
+            else if (age < 40) density = (1.1422 - 0.0544 * logSum).toFixed(6);
+            else if (age < 50) density = (1.1620 - 0.0700 * logSum).toFixed(6);
+            else density = (1.1715 - 0.0779 * logSum).toFixed(6);
+        } else if (gender === "female") {
+            if (age < 17) density = (1.1369 - 0.0598 * logSum).toFixed(6);
+            else if (age < 20) density = (1.1549 - 0.0678 * logSum).toFixed(6);
+            else if (age < 30) density = (1.1599 - 0.0717 * logSum).toFixed(6);
+            else if (age < 40) density = (1.1423 - 0.0632 * logSum).toFixed(6);
+            else if (age < 50) density = (1.1333 - 0.0612 * logSum).toFixed(6);
+            else density = (1.1339 - 0.0645 * logSum).toFixed(6);
+        }
+    }
+
+    return { density, sum_skinfolds };
+}
+
+function faulknerBodyFat(folds) {
+    let bodyFat = 0;
+    let sum_skinfolds = 0;
+
+    if (!isNaN(folds['abdomen']) && !isNaN(folds['triceps']) && !isNaN(folds['suprailiac']) && !isNaN(folds['subscapular'])) {
+        sum_skinfolds = folds['abdomen']+folds['triceps']+folds['suprailiac']+folds['subscapular'];
+        bodyFat = ((sum_skinfolds * 0.153) + 5.783).toFixed(2);
+    }
+
+    return { bodyFat, sum_skinfolds };
+}
+
+function jacksonPollock7Density(gender, folds, age) {
+    let density = 0;
+    let sum_skinfolds = 0;
+
+    if (!isNaN(folds['chest']) && !isNaN(folds['abdomen']) && !isNaN(folds['thigh']) && !isNaN(folds['triceps'])
+        && !isNaN(folds['subscapular']) && !isNaN(folds['suprailiac']) && !isNaN(folds['midaxillary'])) {
+        sum_skinfolds = folds['chest']+folds['abdomen']+folds['thigh']+folds['triceps']+folds['subscapular']+folds['suprailiac']+folds['midaxillary'];
+        if (gender === "male") {
+            density = (1.112 - (0.00043499 * sum_skinfolds) + (0.00000055 * (sum_skinfolds**2)) - (0.00028826 * parseInt(age))).toFixed(6); // Body Density
+        } else if (gender === "female") {
+            density = (1.097 - (0.00046971 * sum_skinfolds) + (0.00000056 * (sum_skinfolds**2)) - (0.00012828 * parseInt(age))).toFixed(6); // Body Density
+        }
+    }
+
+    return { density, sum_skinfolds };
+}
 
 function recommendedBFP(gender, age) {
     let bodyFatRanges = {

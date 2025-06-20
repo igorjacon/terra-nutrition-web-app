@@ -22,6 +22,9 @@
                     <thead class="text-muted table-light">
                         <th>{{ 'ui.create_date'|trans }}</th>
                         <th>{{ 'ui.description'|trans }}</th>
+                        <th>{{ 'ui.weight'|trans }}</th>
+                        <th>{{ 'ui.bmi'|trans }}</th>
+                        <th>{{ 'ui.body_fat'|trans }}</th>
                         <th>{{ 'ui.actions'|trans }}</th>
                     </thead>
                     <tbody>
@@ -29,6 +32,9 @@
                         <tr>
                             <td>{{ measurement.createdAt|format_date }}</td>
                             <td>{{ measurement.description }}</td>
+                            <td>{{ measurement.currWeight }}</td>
+                            <td>{{ measurement.bmi }}</td>
+                            <td>{{ measurement.bfp|number_format ~ "%" }}</td>
                             <td>
                                 <a class="btn btn-sm btn-primary"
                                    href="{{ path('professional_customer_edit_measurement', {'id': measurement.id}) }}">

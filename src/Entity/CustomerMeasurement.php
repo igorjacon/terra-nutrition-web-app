@@ -103,6 +103,8 @@ class CustomerMeasurement
     #[ORM\Column(nullable: true)]
     private ?float $triceps = null;
     #[ORM\Column(nullable: true)]
+    private ?float $biceps = null;
+    #[ORM\Column(nullable: true)]
     private ?float $suprailiac = null;
     #[ORM\Column(nullable: true)]
     private ?float $subscapular = null;
@@ -661,5 +663,21 @@ class CustomerMeasurement
     public function setSumSkinfolds(?float $sum_skinfolds): void
     {
         $this->sum_skinfolds = $sum_skinfolds;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getBiceps(): ?float
+    {
+        return $this->biceps;
+    }
+
+    /**
+     * @param float|null $biceps
+     */
+    public function setBiceps(?float $biceps): void
+    {
+        $this->biceps = $biceps;
     }
 }
